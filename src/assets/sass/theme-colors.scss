@@ -1,0 +1,28 @@
+:root {
+  --app-background-color: #1C1C1E;
+  --dynamic-title-color: #ffffff;
+  --dynamic-subtitle-color: #D1D1D6;
+  --input-color: #3A3A3C;
+  --card-color: #3A3A3C;
+  --font-color: #ffffff;
+  --border-color: #525252;
+  --search-icon: url("~@/assets/icons/search.svg");
+  --dark-mode-icon: url("~@/assets/icons/light-off.svg");
+  --card-body-color: #8E8E93;
+  --link-color: #0A84FF;
+}
+
+[theme="light"] {
+  --app-background-color: #F2F2F7;
+  --dynamic-title-color: #000000;
+  --dynamic-subtitle-color: #595959;
+  --input-color: #E5E5EA;
+  --card-color: #FFFFFF;
+  --font-color: #000000;
+  --border-color: #E1E1E1;
+  --search-icon: url("~@/assets/icons/search-dark.svg");
+  --dark-mode-icon: url("~@/assets/icons/light-on.svg");
+  --card-body-color: #D1D1D6;
+  --link-color: #0A84FF;
+}
+
