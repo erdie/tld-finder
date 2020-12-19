@@ -19,6 +19,7 @@ export default {
       { charset: 'utf-8' },
       { hid: 'description', name: 'description', content: 'Find the top-level domains in the world and the organizations who manage it.' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { rel: 'shortcut icon', type: 'image/png', href: '/favicon.png' },
       {
         property: 'og:type',
         content: 'website',
