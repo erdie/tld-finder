@@ -13,7 +13,11 @@ const tldlist = {
   actions: {
     loadTld({commit}) {
       axios
-        .get(process.env.VUE_APP_BASE_URL + 'iana-tld.json')
+        .get(process.env.VUE_APP_BASE_URL + 'iana-tld.json', {
+            headers: {
+                'Access-Control-Allow-Origin': '*'
+            }
+        })
         .then(res =>{
           commit('SET_ALL_TLD_DATA', res.data)
         })
