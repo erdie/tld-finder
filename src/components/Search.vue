@@ -19,10 +19,10 @@
         <img v-if="this.lightMode === false" src="@/assets/img/tld-finder.svg" alt="tld finder">
         <img v-else src="@/assets/img/tld-finder-dark.svg" alt="tld finder">
         <p>Find the top-level domains in the world and the organizations who manage it.</p>
-        <small>({{ this.tldlist.length}} domain registered in <a href="https://www.iana.org/domains/root/db" target="_blank" rel="noreferrer noopener">IANA</a>)</small>
+        <small>({{ this.tldlist.length}} domain extension registered in <a href="https://www.iana.org/domains/root/db" target="_blank" rel="noreferrer noopener">IANA</a>)</small>
       </div>
       <div class="header__search">
-        <input type="text" class="input__search" v-model="searchQuery" name="header__search" id="header__search" placeholder="Search something">
+        <input type="text" class="input__search" v-model="searchQuery" name="header__search" id="header__search" placeholder="Search domain extension">
       </div>
     </section>
     <section class="result">
@@ -180,7 +180,7 @@ export default {
     position: relative
     input
       padding: 10px 15px 10px 40px
-      font-size: 18px
+      font-size: 16px
       outline: none
       border-radius: 5px
       border: none
