@@ -11,10 +11,14 @@ got(url).then(response => {
     const selectTldManager = dom.window.document.querySelectorAll('table tr td:nth-child(3)')
 
     const compileData = Array.from(selectDomain).map((item, index) => {
+        const domain = item.textContent
+        const type = selectType[index].textContent
+        const manager = selectTldManager[index].textContent
+        console.log('Scraping tld:'+ domain + ', type:' + type + ', manager:' + manager)
         return {
-            'domain': item.textContent,
-            'type': selectType[index].textContent,
-            'tldManager' : selectTldManager[index].textContent
+            'domain': domain,
+            'type': type,
+            'tldManager' : manager
         }
     })
 
