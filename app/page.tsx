@@ -8,18 +8,18 @@ const mono = JetBrains_Mono({ subsets: ["latin"] })
 export default function Home() {
     return (
         <div className="min-h-screen bg-background">
-            <main className="container py-8 md:py-12">
-                <div className="mx-auto max-w-[800px] space-y-8">
+            <main className="container py-8 md:py-12 mx-auto">
+                <div className="mx-auto max-w-[800px] space-y-8 px-4">
                     <div className="flex justify-end">
                         <ThemeToggle />
                     </div>
-                    <div className="space-y-4 text-center">
-                        <h1 className={`text-4xl font-bold ${mono.className}`}>.tld-finder</h1>
-                        <p className="text-muted-foreground">
-                            Explore the world's top-level domains and uncover the organizations that manage them!
+                    <div className="space-y-2 text-center pb-1 md:pb-4">
+                        <p className="text-xs text-muted-foreground font-normal bg-muted-foreground/15 rounded-full py-1.5 space-y-2 block w-72 mx-auto border-muted-foreground/20 border">
+                            <strong>{tlds.length}</strong> domain extensions registered in <a href="https://www.iana.org/" className="text-blue-500 hover:underline">IANA</a>
                         </p>
-                        <p className="text-sm text-muted-foreground">
-                            ({tlds.length} domain extension registered in <a href="https://www.iana.org/" className="text-blue-500 hover:underline">IANA</a>)
+                        <h1 className={`text-4xl md:text-6xl font-extrabold pb-2 pt-6 ${mono.className}`}>.tld-finder</h1>
+                        <p className="text-muted-foreground font-light text-lg">
+                            Explore the world's top-level domains and uncover the organizations that manage them!
                         </p>
                     </div>
                     <SearchForm />
