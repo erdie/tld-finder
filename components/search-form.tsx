@@ -41,11 +41,11 @@ export function SearchForm() {
     return (
         <div className="space-y-6">
             <div className="relative">
-                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
                 <Input
                     type="search"
                     placeholder="Search domain extension"
-                    className="pl-9 bg-muted/50"
+                    className="pl-10 bg-muted/50 text-base font-light py-3"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                 />
