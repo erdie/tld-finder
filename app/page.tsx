@@ -10,6 +10,9 @@ export default function Home() {
         <div className="min-h-screen bg-background">
             <main className="container py-8 md:py-12">
                 <div className="mx-auto max-w-[800px] space-y-8">
+                    <div className="flex justify-end">
+                        <ThemeToggle />
+                    </div>
                     <div className="space-y-4 text-center">
                         <h1 className={`text-4xl font-bold ${mono.className}`}>.tld-finder</h1>
                         <p className="text-muted-foreground">
