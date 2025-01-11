@@ -1,5 +1,6 @@
 
 # TLD Finder
+[![Netlify Status](https://api.netlify.com/api/v1/badges/2780d267-7fd3-42b0-b8d0-5005e2f3932d/deploy-status)](https://app.netlify.com/sites/hilarious-biscuit-90e43f/deploys)
 
 Explore the world's top-level domains and uncover the organizations that manage them!
 
