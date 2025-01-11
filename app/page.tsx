@@ -16,7 +16,7 @@ export default function Home() {
                     <div className="space-y-4 text-center">
                         <h1 className={`text-4xl font-bold ${mono.className}`}>.tld-finder</h1>
                         <p className="text-muted-foreground">
-                            Find the top-level domains in the world and the organizations who manage it.
+                            Explore the world's top-level domains and uncover the organizations that manage them!
                         </p>
                         <p className="text-sm text-muted-foreground">
                             ({tlds.length} domain extension registered in <a href="https://www.iana.org/" className="text-blue-500 hover:underline">IANA</a>)
