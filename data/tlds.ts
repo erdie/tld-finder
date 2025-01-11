@@ -1,4 +1,4 @@
-import tldData from './tld.json'
+import tldData from './iana-tld.json'
 
 export interface TLD {
     domain: string
