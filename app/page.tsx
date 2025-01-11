@@ -1,5 +1,6 @@
 import { SearchForm } from "@/components/search-form"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { GithubStarButton } from "@/components/github-star"
 import { JetBrains_Mono } from 'next/font/google'
 import { tlds } from "@/data/tlds"
 
@@ -8,9 +9,10 @@ const mono = JetBrains_Mono({ subsets: ["latin"] })
 export default function Home() {
     return (
         <div className="min-h-screen bg-background">
-            <main className="container py-8 md:py-12 mx-auto">
+            <main className="container py-6 md:py-8 mx-auto">
                 <div className="mx-auto max-w-[800px] space-y-8 px-4">
-                    <div className="flex justify-end">
+                    <div className="flex justify-end gap-1">
+                        <GithubStarButton />
                         <ThemeToggle />
                     </div>
                     <div className="space-y-2 text-center pb-1 md:pb-4">
