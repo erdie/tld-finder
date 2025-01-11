@@ -7,7 +7,22 @@ import { Button } from "@/components/ui/button"
 
 export function ThemeToggle() {
     const { theme, setTheme } = useTheme()
-    
+    const [mounted, setMounted] = React.useState(false)
+
+    // Prevent hydration mismatch by only rendering after mount
+    React.useEffect(() => {
+        setMounted(true)
+    }, [])
+
+    // Render a placeholder with the same dimensions to prevent layout shift
+    if (!mounted) {
+        return (
+            <Button variant="ghost" size="icon" className="relative">
+                <div className="h-5 w-5" />
+            </Button>
+        )
+    }
+
     return (
         <Button
             variant="ghost"
