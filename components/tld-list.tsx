@@ -36,6 +36,19 @@ export function TldList({ results, query, isLoading }: TldListProps) {
         )
     }
 
+    const getBadgeStyles = (type: string) => {
+        switch (type.toLowerCase()) {
+            case 'country-code':
+                return 'bg-green-500/20 text-green-500 hover:bg-green-500/30'
+            case 'generic':
+                return 'bg-blue-500/20 text-blue-500 hover:bg-blue-500/30'
+            case 'sponsored':
+                return 'bg-yellow-500/20 text-yellow-500 hover:bg-yellow-500/30'
+            default:
+                return 'bg-gray-500/20 text-gray-500 hover:bg-gray-500/30'
+        }
+    }
+
     return (
         <div className="space-y-4">
             {results.map((tld) => (
@@ -45,7 +58,10 @@ export function TldList({ results, query, isLoading }: TldListProps) {
                 >
                     <div className="flex items-center gap-3">
                         <h3 className="text-lg font-mono">{tld.domain}</h3>
-                        <Badge variant="secondary" className="bg-blue-500/20 text-blue-500 hover:bg-blue-500/30">
+                        <Badge 
+                            variant="secondary" 
+                            className={getBadgeStyles(tld.type)}
+                        >
                             {tld.type}
                         </Badge>
                     </div>
