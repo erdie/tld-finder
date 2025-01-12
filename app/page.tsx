@@ -21,7 +21,7 @@ export default function Home() {
                         </p>
                         <h1 className={`text-4xl md:text-6xl font-extrabold pb-2 pt-6 ${mono.className}`}>.tld-finder</h1>
                         <p className="text-muted-foreground font-light text-lg">
-                            Explore the world's top-level domains and uncover the organizations that manage them!
+                            Explore the world&apos;s top-level domains and uncover the organizations that manage them!
                         </p>
                     </div>
                     <SearchForm />
