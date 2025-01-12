@@ -7,7 +7,7 @@ interface TldListProps {
     isLoading: boolean
 }
 
-export function TldList({ results, query, isLoading }: TldListProps) {
+export function TldList({ results, isLoading }: TldListProps) {
     if (isLoading) {
         return (
             <div className="space-y-4">
@@ -24,14 +24,10 @@ export function TldList({ results, query, isLoading }: TldListProps) {
         )
     }
 
-    if (!query) {
-        return null
-    }
-
     if (!results.length) {
         return (
             <div className="text-center text-muted-foreground">
-                No results found. Try searching for something else.
+                No results found. Try adjusting your search criteria.
             </div>
         )
     }
