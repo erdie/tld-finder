@@ -87,7 +87,7 @@ export function SearchForm() {
                                     <SelectItem value="sponsored">Sponsored</SelectItem>
                                 </SelectContent>
                             </Select>
-                            <div className="flex items-center space-x-2">
+                            <div className="flex items-center space-x-2 justify-center">
                                 <Checkbox
                                     id="byExtensions"
                                     checked={byExtensions}
@@ -95,7 +95,7 @@ export function SearchForm() {
                                 />
                                 <Label htmlFor="byExtensions">By Extensions</Label>
                             </div>
-                            <div className="flex items-center space-x-2">
+                            <div className="flex items-center space-x-2 justify-center">
                                 <Checkbox
                                     id="byManagers"
                                     checked={byManagers}
