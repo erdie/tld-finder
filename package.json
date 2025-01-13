@@ -10,6 +10,7 @@
     "scrape": "node ./scripts/scrape.js"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.21.0",
     "@radix-ui/react-checkbox": "^1.1.3",
     "@radix-ui/react-label": "^2.1.1",
     "@radix-ui/react-select": "^2.1.4",
