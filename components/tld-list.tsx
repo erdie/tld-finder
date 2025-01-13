@@ -1,5 +1,4 @@
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Sparkles } from 'lucide-react'
 import type { TLD } from "@/data/tlds"
@@ -11,7 +10,7 @@ interface TldListProps {
     isLoading: boolean
 }
 
-export function TldList({ results, query, isLoading }: TldListProps) {
+export function TldList({ results, isLoading }: TldListProps) {
     const [aiInfo, setAiInfo] = useState<{ [key: string]: { text: string, loading: boolean } }>({})
 
     if (isLoading) {
