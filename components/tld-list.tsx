@@ -1,5 +1,9 @@
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { Sparkles } from 'lucide-react'
 import type { TLD } from "@/data/tlds"
+import { useState } from "react"
 
 interface TldListProps {
     results: TLD[]
@@ -7,7 +11,9 @@ interface TldListProps {
     isLoading: boolean
 }
 
-export function TldList({ results, isLoading }: TldListProps) {
+export function TldList({ results, query, isLoading }: TldListProps) {
+    const [aiInfo, setAiInfo] = useState<{ [key: string]: { text: string, loading: boolean } }>({})
+
     if (isLoading) {
         return (
             <div className="space-y-4">
@@ -45,7 +51,33 @@ export function TldList({ results, isLoading }: TldListProps) {
         }
     }
 
+    const handleAIQuery = async (tldManager: string) => {
+        if (aiInfo[tldManager] && !aiInfo[tldManager].loading) return
+        setAiInfo(prev => ({ ...prev, [tldManager]: { text: '', loading: true } }))
+        
+        try {
+            const response = await fetch('/api/ai-info', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ tldManager }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch AI info');
+            }
+
+            const data = await response.json();
+            setAiInfo(prev => ({ ...prev, [tldManager]: { text: data.aiInfo, loading: false } }))
+        } catch (error) {
+            console.error("Error fetching AI info:", error);
+            setAiInfo(prev => ({ ...prev, [tldManager]: { text: "Error fetching information", loading: false } }))
+        }
+    }
+
     return (
+        <TooltipProvider>
         <div className="space-y-4">
             {results.map((tld) => (
                 <div
@@ -61,12 +93,33 @@ export function TldList({ results, isLoading }: TldListProps) {
                             {tld.type}
                         </Badge>
                     </div>
-                    <p className="text-sm text-muted-foreground">
-                        {tld.tldManager}
-                    </p>
+                    <div className="flex items-center justify-between">
+                        <p className="text-sm text-muted-foreground flex gap-2 items-center">
+                            {tld.tldManager}
+                            {tld.tldManager !== "Not assigned" && (
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <span
+                                            onMouseOver={() => handleAIQuery(tld.tldManager)}
+                                            className="cursor-pointer"
+                                        >
+                                            <Sparkles className="h-4 w-4" />
+                                            <span className="sr-only">Get AI Info</span>
+                                        </span>
+                                    </TooltipTrigger>
+                                    <TooltipContent side="top" className="max-w-[300px] break-words">
+                                        {aiInfo[tld.tldManager]?.loading ? (
+                                            "Loading..."
+                                        ) : aiInfo[tld.tldManager]?.text || "No information available."}
+                                    </TooltipContent>
+                                </Tooltip>
+                            )}
+                        </p>
+                    </div>
                 </div>
             ))}
         </div>
+        </TooltipProvider>
     )
 }
 
