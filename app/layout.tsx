@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
     title: "TLD Finder",
-    description: "Find the perfect domain extension for your website",
+    description: "Explore the world's top-level domains and uncover the organizations that manage them!",
 }
 
 export default function RootLayout({
