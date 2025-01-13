@@ -100,7 +100,7 @@ export function TldList({ results, query, isLoading }: TldListProps) {
                                 <Tooltip>
                                     <TooltipTrigger asChild>
                                         <span
-                                            onMouseOver={() => handleAIQuery(tld.tldManager)}
+                                            onMouseEnter={() => handleAIQuery(tld.tldManager)}
                                             className="cursor-pointer"
                                         >
                                             <Sparkles className="h-4 w-4" />
