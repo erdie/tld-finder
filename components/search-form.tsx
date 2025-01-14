@@ -75,7 +75,7 @@ export function SearchForm() {
                 </div>
                 {showAdvanced && (
                     <div className="border rounded-lg p-4 bg-card text-card-foreground shadow-sm">
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <Select value={type} onValueChange={setType}>
                                 <SelectTrigger>
                                     <SelectValue placeholder="Type" />
@@ -87,21 +87,23 @@ export function SearchForm() {
                                     <SelectItem value="sponsored">Sponsored</SelectItem>
                                 </SelectContent>
                             </Select>
-                            <div className="flex items-center space-x-2 justify-center">
-                                <Checkbox
-                                    id="byExtensions"
-                                    checked={byExtensions}
-                                    onCheckedChange={(checked) => setByExtensions(checked as boolean)}
-                                />
-                                <Label htmlFor="byExtensions">By Extensions</Label>
-                            </div>
-                            <div className="flex items-center space-x-2 justify-center">
-                                <Checkbox
-                                    id="byManagers"
-                                    checked={byManagers}
-                                    onCheckedChange={(checked) => setByManagers(checked as boolean)}
-                                />
-                                <Label htmlFor="byManagers">By Managers</Label>
+                            <div className="grid grid-cols-2 w-full justify-center">
+                                <div className="flex items-center space-x-2 justify-center">
+                                    <Checkbox
+                                        id="byExtensions"
+                                        checked={byExtensions}
+                                        onCheckedChange={(checked) => setByExtensions(checked as boolean)}
+                                    />
+                                    <Label htmlFor="byExtensions">By Extensions</Label>
+                                </div>
+                                <div className="flex items-center space-x-2 justify-center">
+                                    <Checkbox
+                                        id="byManagers"
+                                        checked={byManagers}
+                                        onCheckedChange={(checked) => setByManagers(checked as boolean)}
+                                    />
+                                    <Label htmlFor="byManagers">By Managers</Label>
+                                </div>
                             </div>
                         </div>
                     </div>
