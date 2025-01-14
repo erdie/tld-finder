@@ -18,7 +18,7 @@ export function GithubStarButton() {
                 size="default"
                 className="flex items-center space-x-1 gap-0.5"
             >
-                <Github className="h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                <Github className="h-[1.2rem] w-[1.2rem]" />
                 <span className="text-sm">Star on Github</span>
             </Button>
         </a>
