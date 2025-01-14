@@ -27,10 +27,23 @@ git add data/iana-tld.json
 git commit -m "your commit message"
 ```
 
-## To do
+## For production
 
-- Implement a filter by domain extension, type, or TLD manager.
-- Add an AI button next to the TLD manager to search for information about the registrar or company managing the domain extension.
+Update your allowedOrigins in middleware.ts
+
+```
+const allowedOrigins = [
+    'https://tld-finder.erdiawan.com',
+    'http://localhost:3000',
+]
+```
+
+Run for production
+
+```bash
+pnpm build
+```
+
 
 ## Learn more about Next.js
 
