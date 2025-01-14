@@ -22,7 +22,8 @@ export function TldList({ results, query, isLoading }: TldListProps) {
     const [visibleTlds, setVisibleTlds] = useState<TLD[]>([]);
     const [itemsToLoad, setItemsToLoad] = useState(10);
     const [isLoadingMore, setIsLoadingMore] = useState(false);
-    const [allItemsLoaded, setAllItemsLoaded] = useState(false); // Added state variable
+    const [allItemsLoaded, setAllItemsLoaded] = useState(false);
+    const [openTooltip, setOpenTooltip] = useState<string | null>(null);
     const observer = useRef<IntersectionObserver | null>(null);
     const loadMoreRef = useRef<HTMLDivElement>(null);
 
@@ -75,13 +76,13 @@ export function TldList({ results, query, isLoading }: TldListProps) {
             setVisibleTlds(results.slice(0, newItemsToLoad));
             setItemsToLoad(newItemsToLoad);
             setIsLoadingMore(false);
-        }, 500); // Simulate network delay
+        }, 500);
     }, [itemsToLoad, results, visibleTlds]);
 
     useEffect(() => {
         setVisibleTlds(results.slice(0, 10));
         setItemsToLoad(10);
-        setAllItemsLoaded(false); // Reset allItemsLoaded when results change
+        setAllItemsLoaded(false);
     }, [results, query]);
 
     useEffect(() => {
@@ -147,13 +148,20 @@ export function TldList({ results, query, isLoading }: TldListProps) {
                             </Badge>
                         </div>
                         <div className="flex items-center justify-between">
-                            <p className="text-sm text-muted-foreground flex gap-2 items-center">
+                            <div className="text-sm text-muted-foreground flex gap-2 items-center">
                                 {tld.tldManager}
                                 {tld.tldManager !== "Not assigned" && (
-                                    <Tooltip>
+                                    <Tooltip open={openTooltip === tld.domain}>
                                         <TooltipTrigger asChild>
                                             <span
-                                                onMouseEnter={() => handleAIQuery(tld.tldManager)}
+                                                onClick={() => {
+                                                    if (openTooltip === tld.domain) {
+                                                        setOpenTooltip(null);
+                                                    } else {
+                                                        setOpenTooltip(tld.domain);
+                                                        handleAIQuery(tld.tldManager);
+                                                    }
+                                                }}
                                                 className="cursor-pointer hover:opacity-80 transition duration-300"
                                             >
                                                 <Sparkles className="h-4 w-4" />
@@ -167,11 +175,11 @@ export function TldList({ results, query, isLoading }: TldListProps) {
                                         </TooltipContent>
                                     </Tooltip>
                                 )}
-                            </p>
+                            </div>
                         </div>
                     </div>
                 ))}
-                {!allItemsLoaded && isLoadingMore && ( // Updated loading skeletons rendering
+                {!allItemsLoaded && isLoadingMore && (
                     <div className="space-y-4">
                         {[...Array(3)].map((_, i) => (
                             <TldSkeleton key={i} />
