@@ -46,39 +46,41 @@ export async function POST(request: Request) {
 
         const prompt = `Provide a brief, one-sentence description of the company or organization "${tldManager}" in the context of domain name management or internet infrastructure. If it's not a well-known entity in this field, provide general information about its type of organization or industry.`;
 
+        const aiType = "gemini"; // "gemini" or "openai" or any other supported type
+
         let aiInfo: string;
         let source: string;
 
-        try {
-            // Try Gemini first
-            aiInfo = await getGeminiResponse(prompt);
-            source = "gemini";
-
-            // Check if Gemini returned empty or invalid response
-            if (!aiInfo || aiInfo.trim() === "" || aiInfo.toLowerCase().includes("i cannot provide")) {
-                throw new Error("Gemini response was empty or invalid");
-            }
-        } catch (geminiError) {
-            console.warn("Gemini API failed, falling back to OpenAI:", geminiError);
-            
-            try {
-                // Fallback to OpenAI
+        switch (aiType) {
+            case "gemini":
+                aiInfo = await getGeminiResponse(prompt);
+                source = "gemini";
+                break;
+            case "openai":
                 aiInfo = await getOpenAIResponse(prompt) || "No information available.";
                 source = "openai";
-            } catch (openaiError) {
-                console.error("Both APIs failed:", openaiError);
-                return NextResponse.json({ 
-                    error: "Unable to fetch information from any available service." 
+                break;
+            default:
+                console.error("Unsupported AI type:", aiType);
+                return NextResponse.json({
+                    error: "Unsupported AI type or API key not set."
                 }, { status: 500 });
-            }
+        }
+
+        // Check if the response is valid
+        if (!aiInfo || aiInfo.trim() === "" || aiInfo.toLowerCase().includes("i cannot provide")) {
+            console.warn(`${source} response was empty or invalid, falling back to openai`);
+            aiInfo = await getOpenAIResponse(prompt) || "No information available.";
+            source = "openai";
         }
 
         return NextResponse.json({ aiInfo, source });
 
     } catch (error) {
         console.error("Error in API route:", error);
-        return NextResponse.json({ 
-            error: "An unexpected error occurred while processing your request." 
+        return NextResponse.json({
+            error: "An unexpected error occurred while processing your request."
         }, { status: 500 });
     }
 }
+
