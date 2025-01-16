@@ -44,9 +44,10 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: 'TLD Manager is required' }, { status: 400 });
         }
 
-        const prompt = `Provide a brief, one-sentence description of the company or organization "${tldManager}" in the context of domain name management or internet infrastructure. If it's not a well-known entity in this field, provide general information about its type of organization or industry.`;
-
-        const aiType = "gemini"; // "gemini" or "openai" or any other supported type
+        // const prompt = `Provide a brief, one-sentence description of the company or organization "${tldManager}" in the context of domain name management or internet infrastructure. If it's not a well-known entity in this field, provide general information about its type of organization or industry.`;
+        const prompt = `Provide a concise, one-sentence description of the company or organization '${tldManager}' within the domain name management or internet infrastructure industry, including its role or focus. If it’s not widely recognized in this field, provide a general overview of its type and industry.`;
+        
+        const aiType = "openai"; // "gemini" or "openai" or any other supported type
 
         let aiInfo: string;
         let source: string;
