@@ -2,6 +2,9 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import OpenAI from 'openai';
 import { NextResponse } from "next/server";
 
+const AI_TYPES = ["gemini", "openai"] as const;
+type AIType = typeof AI_TYPES[number];
+
 // Initialize Gemini API
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
@@ -46,26 +49,23 @@ export async function POST(request: Request) {
 
         // const prompt = `Provide a brief, one-sentence description of the company or organization "${tldManager}" in the context of domain name management or internet infrastructure. If it's not a well-known entity in this field, provide general information about its type of organization or industry.`;
         const prompt = `Provide a concise, one-sentence description of the company or organization '${tldManager}' within the domain name management or internet infrastructure industry, including its role or focus. If it’s not widely recognized in this field, provide a general overview of its type and industry.`;
-        
-        const aiType = "openai"; // "gemini" or "openai" or any other supported type
+
+        // Set the desired AI type here
+        const aiType: AIType = "gemini";
 
         let aiInfo: string;
         let source: string;
 
-        switch (aiType) {
-            case "gemini":
-                aiInfo = await getGeminiResponse(prompt);
-                source = "gemini";
-                break;
-            case "openai":
-                aiInfo = await getOpenAIResponse(prompt) || "No information available.";
-                source = "openai";
-                break;
-            default:
-                console.error("Unsupported AI type:", aiType);
-                return NextResponse.json({
-                    error: "Unsupported AI type or API key not set."
-                }, { status: 500 });
+        if (!AI_TYPES.includes(aiType as any)) {
+            throw new Error(`Unsupported AI type: ${aiType}`);
+        }
+
+        if (aiType === "gemini") {
+            aiInfo = await getGeminiResponse(prompt);
+            source = "gemini";
+        } else {
+            aiInfo = await getOpenAIResponse(prompt) || "No information available.";
+            source = "openai";
         }
 
         // Check if the response is valid
