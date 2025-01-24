@@ -74,7 +74,7 @@ export function SearchForm() {
                     </Button>
                 </div>
                 {showAdvanced && (
-                    <div className="border rounded-lg p-4 bg-card text-card-foreground shadow-sm">
+                    <div className="border rounded-lg p-4 bg-card text-card-foreground shadow-xs">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <Select value={type} onValueChange={setType}>
                                 <SelectTrigger>
