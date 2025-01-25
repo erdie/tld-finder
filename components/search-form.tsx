@@ -77,14 +77,14 @@ export function SearchForm() {
                     <div className="border rounded-lg p-4 bg-card text-card-foreground shadow-xs animate-fade-in">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <Select value={type} onValueChange={setType}>
-                                <SelectTrigger>
+                                <SelectTrigger className="cursor-pointer">
                                     <SelectValue placeholder="Type" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="all">All Types</SelectItem>
-                                    <SelectItem value="generic">Generic</SelectItem>
-                                    <SelectItem value="country-code">Country Code</SelectItem>
-                                    <SelectItem value="sponsored">Sponsored</SelectItem>
+                                    <SelectItem value="all" className="cursor-pointer">All Types</SelectItem>
+                                    <SelectItem value="generic" className="cursor-pointer">Generic</SelectItem>
+                                    <SelectItem value="country-code" className="cursor-pointer">Country Code</SelectItem>
+                                    <SelectItem value="sponsored" className="cursor-pointer">Sponsored</SelectItem>
                                 </SelectContent>
                             </Select>
                             <div className="grid grid-cols-2 w-full justify-center">
@@ -93,6 +93,7 @@ export function SearchForm() {
                                         id="byExtensions"
                                         checked={byExtensions}
                                         onCheckedChange={(checked) => setByExtensions(checked as boolean)}
+                                        className="cursor-pointer"
                                     />
                                     <Label htmlFor="byExtensions">By Extensions</Label>
                                 </div>
@@ -101,6 +102,7 @@ export function SearchForm() {
                                         id="byManagers"
                                         checked={byManagers}
                                         onCheckedChange={(checked) => setByManagers(checked as boolean)}
+                                        className="cursor-pointer"
                                     />
                                     <Label htmlFor="byManagers">By Managers</Label>
                                 </div>
