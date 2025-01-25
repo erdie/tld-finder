@@ -28,7 +28,7 @@ export function ThemeToggle() {
             variant="ghost"
             size="icon"
             onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-            className="relative"
+            className="relative cursor-pointer"
         >
             <Sun 
                 className={`h-5 w-5 transition-all ${
