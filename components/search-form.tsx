@@ -51,7 +51,7 @@ export function SearchForm() {
     return (
         <div className="space-y-6">
             <div className="flex flex-col gap-4">
-                <div className="relative">
+                <div className="relative flex items-center gap-2">
                     <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
                     <Input
                         type="search"
@@ -61,20 +61,20 @@ export function SearchForm() {
                         onChange={(e) => setQuery(e.target.value)}
                     />
                     <Button
-                        variant="ghost"
+                        variant="outline"
                         size="icon"
                         onClick={() => setShowAdvanced(!showAdvanced)}
-                        className="absolute right-2 top-1/2 -translate-y-1/2"
+                        className="cursor-pointer bg-muted/50"
                     >
                         {showAdvanced ? (
-                            <FilterX className="h-5 w-5" />
+                            <FilterX className="h-4 w-4" />
                         ) : (
-                            <Filter className="h-5 w-5" />
+                            <Filter className="h-4 w-4" />
                         )}
                     </Button>
                 </div>
                 {showAdvanced && (
-                    <div className="border rounded-lg p-4 bg-card text-card-foreground shadow-xs">
+                    <div className="border rounded-lg p-4 bg-card text-card-foreground shadow-xs animate-fade-in">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <Select value={type} onValueChange={setType}>
                                 <SelectTrigger>
