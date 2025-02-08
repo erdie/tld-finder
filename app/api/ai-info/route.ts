@@ -15,7 +15,7 @@ const openai = new OpenAI({
 
 async function getGeminiResponse(prompt: string) {
     const model = genAI.getGenerativeModel({ 
-        model: "gemini-1.5-flash",
+        model: "gemini-2.0-flash",
         generationConfig: {
             temperature: 0.4,
             topP: 0.8,
@@ -46,11 +46,9 @@ export async function POST(request: Request) {
         if (!tldManager) {
             return NextResponse.json({ error: 'TLD Manager is required' }, { status: 400 });
         }
+        const geminiPrompt = `Describe '${tldManager}' in one concise sentence, specifying its role or focus within the domain name management or internet infrastructure industry (or its general type and industry if not widely recognized in that field)`;
+        const openaiPrompt = `Provide a concise, one-sentence description of '${tldManager}' within the domain name management or internet infrastructure industry, highlighting its role or focus. If the company is not widely recognized in this field, briefly describe its industry and primary activities.`;
 
-        // const prompt = `Provide a brief, one-sentence description of the company or organization "${tldManager}" in the context of domain name management or internet infrastructure. If it's not a well-known entity in this field, provide general information about its type of organization or industry.`;
-        const prompt = `Provide a concise, one-sentence description of the company or organization '${tldManager}' within the domain name management or internet infrastructure industry, including its role or focus. If it’s not widely recognized in this field, provide a general overview of its type and industry.`;
-
-        // Set the desired AI type here
         const aiType: AIType = "gemini";
 
         let aiInfo: string;
@@ -61,17 +59,17 @@ export async function POST(request: Request) {
         }
 
         if (aiType === "gemini") {
-            aiInfo = await getGeminiResponse(prompt);
+            aiInfo = await getGeminiResponse(geminiPrompt);
             source = "gemini";
         } else {
-            aiInfo = await getOpenAIResponse(prompt) || "No information available.";
+            aiInfo = await getOpenAIResponse(openaiPrompt) || "No information available.";
             source = "openai";
         }
 
         // Check if the response is valid
         if (!aiInfo || aiInfo.trim() === "" || aiInfo.toLowerCase().includes("i cannot provide")) {
             console.warn(`${source} response was empty or invalid, falling back to openai`);
-            aiInfo = await getOpenAIResponse(prompt) || "No information available.";
+            aiInfo = await getOpenAIResponse(openaiPrompt) || "No information available.";
             source = "openai";
         }
 
