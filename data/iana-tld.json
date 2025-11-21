@@ -302,7 +302,7 @@
   {
     "domain": ".anquan",
     "type": "generic",
-    "tldManager": "QIHOO 360 TECHNOLOGY CO. LTD."
+    "tldManager": "Beijing Qihu Keji Co., Ltd."
   },
   {
     "domain": ".anz",
@@ -642,7 +642,7 @@
   {
     "domain": ".bentley",
     "type": "generic",
-    "tldManager": "Bentley Motors Limited"
+    "tldManager": "Not assigned"
   },
   {
     "domain": ".berlin",
@@ -1162,7 +1162,7 @@
   {
     "domain": ".cc",
     "type": "country-code",
-    "tldManager": "eNIC Cocos (Keeling) Islands Pty.\nLtd. d/b/a Island Internet Services"
+    "tldManager": "eNIC Cocos (Keeling) Islands Pty. Ltd. d/b/a Island Internet Services"
   },
   {
     "domain": ".cd",
@@ -1532,7 +1532,7 @@
   {
     "domain": ".cr",
     "type": "country-code",
-    "tldManager": "National Academy of Sciences\nAcademia Nacional de Ciencias"
+    "tldManager": "National Academy of Sciences (Academia Nacional de Ciencias)"
   },
   {
     "domain": ".credit",
@@ -1582,7 +1582,7 @@
   {
     "domain": ".cu",
     "type": "country-code",
-    "tldManager": "CENIAInternet\nIndustria y San Jose\nCapitolio Nacional"
+    "tldManager": "CENIAInternet"
   },
   {
     "domain": ".cuisinella",
@@ -1822,7 +1822,7 @@
   {
     "domain": ".do",
     "type": "country-code",
-    "tldManager": "Pontificia Universidad Catolica Madre y Maestra\nRecinto Santo Tomas de Aquino"
+    "tldManager": "Pontificia Universidad Catolica Madre y Maestra, Recinto Santo Tomas de Aquino"
   },
   {
     "domain": ".docs",
@@ -1892,7 +1892,7 @@
   {
     "domain": ".dunlop",
     "type": "generic",
-    "tldManager": "The Goodyear Tire & Rubber Company"
+    "tldManager": "Not assigned"
   },
   {
     "domain": ".duns",
@@ -1967,7 +1967,7 @@
   {
     "domain": ".eg",
     "type": "country-code",
-    "tldManager": "Egyptian Universities Network (EUN)\nSupreme Council of Universities"
+    "tldManager": "Egyptian Universities Network (EUN), Supreme Council of Universities"
   },
   {
     "domain": ".eh",
@@ -1983,6 +1983,11 @@
     "domain": ".emerck",
     "type": "generic",
     "tldManager": "Merck KGaA"
+  },
+  {
+    "domain": ".emerson",
+    "type": "generic",
+    "tldManager": "Not assigned"
   },
   {
     "domain": ".energy",
@@ -3082,7 +3087,7 @@
   {
     "domain": ".ie",
     "type": "country-code",
-    "tldManager": "University College Dublin\nComputing Services\nComputer Centre"
+    "tldManager": "University College Dublin, Computing Services, Computer Centre"
   },
   {
     "domain": ".ieee",
@@ -3237,7 +3242,7 @@
   {
     "domain": ".is",
     "type": "country-code",
-    "tldManager": "ISNIC - Internet Iceland ltd."
+    "tldManager": "ISNIC - Internet á Íslandi hf."
   },
   {
     "domain": ".iselect",
@@ -3427,7 +3432,7 @@
   {
     "domain": ".kerrylogistics",
     "type": "generic",
-    "tldManager": "Kerry Trading Co. Limited"
+    "tldManager": "Not assigned"
   },
   {
     "domain": ".kerryproperties",
@@ -3572,7 +3577,7 @@
   {
     "domain": ".la",
     "type": "country-code",
-    "tldManager": "Lao National Internet Center (LANIC),\nMinistry of Technology and Communications"
+    "tldManager": "Lao National Internet Center (LANIC), Ministry of Technology and Communications"
   },
   {
     "domain": ".lacaixa",
@@ -3597,7 +3602,7 @@
   {
     "domain": ".lancaster",
     "type": "generic",
-    "tldManager": "LANCASTER"
+    "tldManager": "Not assigned"
   },
   {
     "domain": ".lancia",
@@ -3777,7 +3782,7 @@
   {
     "domain": ".lipsy",
     "type": "generic",
-    "tldManager": "Lipsy Ltd"
+    "tldManager": "Not assigned"
   },
   {
     "domain": ".live",
@@ -3922,12 +3927,12 @@
   {
     "domain": ".lv",
     "type": "country-code",
-    "tldManager": "University of Latvia\nInstitute of Mathematics and Computer Science\nDepartment of Network Solutions (DNS)"
+    "tldManager": "University of Latvia, Institute of Mathematics and Computer Science, Department of Network Solutions (DNS)"
   },
   {
     "domain": ".ly",
     "type": "country-code",
-    "tldManager": "General Post and Telecommunication Company"
+    "tldManager": "General Authority of Communications and Informatics (GACI)"
   },
   {
     "domain": ".ma",
@@ -4012,7 +4017,7 @@
   {
     "domain": ".mattel",
     "type": "generic",
-    "tldManager": "Mattel Sites, Inc."
+    "tldManager": "Mattel IT Services, Inc."
   },
   {
     "domain": ".mba",
@@ -4372,7 +4377,7 @@
   {
     "domain": ".mw",
     "type": "country-code",
-    "tldManager": "Malawi Sustainable Development Network Programme\n(Malawi SDNP)"
+    "tldManager": "Malawi Sustainable Development Network Programme (Malawi SDNP)"
   },
   {
     "domain": ".mx",
@@ -4617,7 +4622,7 @@
   {
     "domain": ".nra",
     "type": "generic",
-    "tldManager": "NRA Holdings Company, INC."
+    "tldManager": "National Rifle Association of America"
   },
   {
     "domain": ".nrw",
@@ -4717,7 +4722,7 @@
   {
     "domain": ".online",
     "type": "generic",
-    "tldManager": "Radix Technologies Inc."
+    "tldManager": "Radix Technologies Inc. SEZC"
   },
   {
     "domain": ".onyourside",
@@ -4872,7 +4877,7 @@
   {
     "domain": ".pg",
     "type": "country-code",
-    "tldManager": "PNG DNS Administration\nVice Chancellors Office\nThe Papua New Guinea University of Technology"
+    "tldManager": "PNG DNS Administration, Vice Chancellors Office, The Papua New Guinea University of Technology"
   },
   {
     "domain": ".ph",
@@ -4932,7 +4937,7 @@
   {
     "domain": ".pictet",
     "type": "generic",
-    "tldManager": "Pictet Europe S.A."
+    "tldManager": "Banque Pictet & Cie SA"
   },
   {
     "domain": ".pictures",
@@ -5052,7 +5057,7 @@
   {
     "domain": ".pramerica",
     "type": "generic",
-    "tldManager": "Prudential Financial, Inc."
+    "tldManager": "Not assigned"
   },
   {
     "domain": ".praxi",
@@ -5127,7 +5132,7 @@
   {
     "domain": ".ps",
     "type": "country-code",
-    "tldManager": "Ministry Of Telecommunications &\nInformation Technology,\nGovernment Computer Center."
+    "tldManager": "Ministry of Telecommunications & Information Technology, Government Computer Center"
   },
   {
     "domain": ".pt",
@@ -5232,7 +5237,7 @@
   {
     "domain": ".redstone",
     "type": "generic",
-    "tldManager": "Redstone Haute Couture Co., Ltd."
+    "tldManager": "Not assigned"
   },
   {
     "domain": ".redumbrella",
@@ -5742,7 +5747,7 @@
   {
     "domain": ".shouji",
     "type": "generic",
-    "tldManager": "QIHOO 360 TECHNOLOGY CO. LTD."
+    "tldManager": "Beijing Qihu Keji Co., Ltd."
   },
   {
     "domain": ".show",
@@ -5782,7 +5787,7 @@
   {
     "domain": ".site",
     "type": "generic",
-    "tldManager": "Radix Technologies Inc."
+    "tldManager": "Radix Technologies Inc. SEZC"
   },
   {
     "domain": ".sj",
@@ -6042,7 +6047,7 @@
   {
     "domain": ".su",
     "type": "country-code",
-    "tldManager": "Russian Institute for Development of Public Networks\n(ROSNIIROS)"
+    "tldManager": "Russian Institute for Development of Public Networks (ROSNIIROS)"
   },
   {
     "domain": ".sucks",
@@ -6107,7 +6112,7 @@
   {
     "domain": ".sy",
     "type": "country-code",
-    "tldManager": "National Agency for Network Services (NANS)"
+    "tldManager": "National Authority for Information Technology Services (NAITS)"
   },
   {
     "domain": ".sydney",
@@ -6357,7 +6362,7 @@
   {
     "domain": ".to",
     "type": "country-code",
-    "tldManager": "Government of the Kingdom of Tonga\nH.R.H. Crown Prince Tupouto'a\nc/o Consulate of Tonga"
+    "tldManager": "Government of the Kingdom of Tonga, H.R.H. Crown Prince Tupouto'a, c/o Consulate of Tonga"
   },
   {
     "domain": ".today",
@@ -6472,7 +6477,7 @@
   {
     "domain": ".tt",
     "type": "country-code",
-    "tldManager": "University of the West Indies\nFaculty of Engineering"
+    "tldManager": "University of the West Indies, Faculty of Engineering"
   },
   {
     "domain": ".tube",
@@ -6497,7 +6502,7 @@
   {
     "domain": ".tv",
     "type": "country-code",
-    "tldManager": "Ministry of Justice, Communications and Foreign Affairs"
+    "tldManager": "Ministry of Transport, Energy, Communications and Innovations"
   },
   {
     "domain": ".tvs",
@@ -6977,7 +6982,7 @@
   {
     "domain": ".xihuan",
     "type": "generic",
-    "tldManager": "QIHOO 360 TECHNOLOGY CO. LTD."
+    "tldManager": "Beijing Qihu Keji Co., Ltd."
   },
   {
     "domain": ".xin",
@@ -7647,7 +7652,7 @@
   {
     "domain": "‏.سورية‎",
     "type": "country-code",
-    "tldManager": "National Agency for Network Services (NANS)"
+    "tldManager": "National Authority for Information Technology Services (NAITS)"
   },
   {
     "domain": ".招聘",
@@ -7862,7 +7867,7 @@
   {
     "domain": ".yandex",
     "type": "generic",
-    "tldManager": "Yandex Europe B.V."
+    "tldManager": "YANDEX LLC"
   },
   {
     "domain": ".ye",
@@ -7902,7 +7907,7 @@
   {
     "domain": ".yun",
     "type": "generic",
-    "tldManager": "QIHOO 360 TECHNOLOGY CO. LTD."
+    "tldManager": "Beijing Qihu Keji Co., Ltd."
   },
   {
     "domain": ".za",
