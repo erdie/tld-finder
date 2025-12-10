@@ -7032,7 +7032,7 @@
   {
     "domain": ".在线",
     "type": "generic",
-    "tldManager": "Beijing Tld Registry Technology Limited"
+    "tldManager": "Beijing TLD Registry Technology Limited"
   },
   {
     "domain": ".한국",
@@ -7083,6 +7083,11 @@
     "domain": "‏.موقع‎",
     "type": "generic",
     "tldManager": "Helium TLDs Ltd"
+  },
+  {
+    "domain": ".一号店",
+    "type": "generic",
+    "tldManager": "Not assigned"
   },
   {
     "domain": ".বাংলা",
@@ -7292,7 +7297,7 @@
   {
     "domain": ".中文网",
     "type": "generic",
-    "tldManager": "TLD REGISTRY LIMITED"
+    "tldManager": "Beijing TLD Registry Technology Limited"
   },
   {
     "domain": ".中信",
