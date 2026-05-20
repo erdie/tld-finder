@@ -17,11 +17,11 @@ export default function Home() {
                     </div>
                     <div className="space-y-2 text-center pb-1 md:pb-4">
                         <p className="text-xs text-muted-foreground font-normal bg-muted-foreground/10 hover:bg-muted-foreground/15 rounded-full py-1.5 space-y-2 block w-72 mx-auto border-muted-foreground/20 border">
-                            <strong>{tlds.length}</strong> TLD domain extensions registered in <a href="https://www.iana.org/" className="text-blue-500 hover:underline">IANA</a>
+                            <strong>{tlds.length}</strong> TLDs registered in the <a href="https://www.iana.org/" className="text-blue-500 hover:underline">IANA Root Zone</a>
                         </p>
                         <h1 className={`text-4xl md:text-6xl font-extrabold pb-2 pt-6 ${mono.className}`}>.tld-finder</h1>
-                        <p className="text-muted-foreground font-light text-lg">
-                            Explore the world&apos;s top-level domains and uncover the organizations that manage them!
+                            <p className="text-muted-foreground font-extralight text-xl">
+                            Find out who runs the web's top-level domains
                         </p>
                     </div>
                     <SearchForm />
@@ -30,4 +30,3 @@ export default function Home() {
         </div>
     )
 }
-
