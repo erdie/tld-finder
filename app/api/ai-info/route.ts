@@ -1,34 +1,13 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import OpenAI from 'openai';
 import { NextResponse } from "next/server";
 
 // Initialize Gemini API
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
-// Initialize OpenAI as fallback
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-});
-
 // Initialize Gemini model once at module level
 const geminiModel = genAI.getGenerativeModel({
-    model: "gemini-2.5-flash",
-    generationConfig: {
-        temperature: 0.4,
-        topP: 0.8,
-        topK: 40,
-        maxOutputTokens: 150,
-    },
-    systemInstruction: {
-        role: "system",
-        parts: [{
-            text: `You are an expert in domain name management and internet infrastructure.
-Provide concise, factual one-sentence descriptions of organizations.
-Focus on their role in domain registration, TLD management, or internet governance.
-If the organization is not in this field, briefly describe their industry and primary activities.
-Always provide a helpful response.`
-        }],
-    },
+    model: "gemini-3.5-flash",
+    systemInstruction: "You are an expert in domain name management and internet infrastructure. Provide a concise, factual, one-sentence description of the organization and its role in domain registration, TLD management, or internet governance."
 });
 
 async function getGeminiResponse(tldManager: string): Promise<string> {
@@ -45,24 +24,6 @@ async function getGeminiResponse(tldManager: string): Promise<string> {
     return text;
 }
 
-async function getOpenAIResponse(tldManager: string): Promise<string> {
-    const prompt = `Provide a concise, one-sentence description of "${tldManager}" within the domain name management or internet infrastructure industry, highlighting its role or focus. If the company is not widely recognized in this field, briefly describe its industry and primary activities.`;
-
-    console.log(`[OpenAI] Fallback request for: ${tldManager}`);
-
-    const response = await openai.chat.completions.create({
-        model: "gpt-4o-mini",
-        messages: [{ role: "user", content: prompt }],
-        max_tokens: 150,
-    });
-
-    const text = response.choices[0].message.content || "No information available.";
-
-    console.log(`[OpenAI] Response: ${text}`);
-
-    return text;
-}
-
 export async function POST(request: Request) {
     try {
         const { tldManager } = await request.json();
@@ -74,32 +35,19 @@ export async function POST(request: Request) {
             );
         }
 
-        let aiInfo: string;
-        let source: string;
+        console.log(`[AI Route] Fetching Gemini response for: ${tldManager}`);
+        const aiInfo = await getGeminiResponse(tldManager);
 
-        // Try Gemini first
-        try {
-            aiInfo = await getGeminiResponse(tldManager);
-            source = "gemini";
-
-            // Validate response
-            if (!aiInfo || aiInfo.trim() === "" || aiInfo.toLowerCase().includes("i cannot")) {
-                console.warn("[Gemini] Invalid response, falling back to OpenAI");
-                aiInfo = await getOpenAIResponse(tldManager);
-                source = "openai";
-            }
-        } catch (geminiError) {
-            console.error("[Gemini] Error:", geminiError);
-            // Fallback to OpenAI
-            aiInfo = await getOpenAIResponse(tldManager);
-            source = "openai";
+        // Validate response
+        if (!aiInfo || aiInfo.trim() === "" || aiInfo.toLowerCase().includes("i cannot")) {
+            throw new Error("Invalid or empty response from Gemini API");
         }
 
-        return NextResponse.json({ aiInfo, source });
+        return NextResponse.json({ aiInfo, source: "gemini" });
     } catch (error) {
         console.error("[AI Route] Error:", error);
         return NextResponse.json(
-            { error: "Failed to fetch AI information" },
+            { error: "Failed to fetch AI information from Gemini" },
             { status: 500 }
         );
     }
