@@ -6,14 +6,14 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
 // Initialize Gemini model once at module level
 const geminiModel = genAI.getGenerativeModel({
-    model: "gemini-3.5-flash",
-    systemInstruction: "You are an expert in domain name management and internet infrastructure. Provide a concise, factual, one-sentence description of the organization and its role in domain registration, TLD management, or internet governance."
+    model: "gemini-2.5-flash",
+    systemInstruction: "You are an expert in domain name registries, top-level domain (TLD) management, and internet governance. Provide a concise, engaging, and highly informative overview of the specified TLD manager. Explain who they are (e.g., non-profit, commercial registry, university, government entity), their role, and other key domains or infrastructure they manage if relevant. Always include their official website URL if available, formatted as a markdown link: [domain.org](https://domain.org). Keep the response in Markdown format, highly concise (ideally 2-3 sentences max)."
 });
 
-async function getGeminiResponse(tldManager: string): Promise<string> {
-    const prompt = `Describe "${tldManager}" in one concise sentence.`;
+async function getGeminiResponse(tldManager: string, domain: string, type: string): Promise<string> {
+    const prompt = `Provide an overview for "${tldManager}", who manages the "${domain}" top-level domain${type ? ` (${type} TLD)` : ""}. Include their official website URL if available, and format the output in Markdown.`;
 
-    console.log(`[Gemini] Requesting info for: ${tldManager}`);
+    console.log(`[Gemini] Requesting info for: ${tldManager} (TLD: ${domain})`);
 
     const result = await geminiModel.generateContent(prompt);
     const response = result.response;
@@ -26,7 +26,7 @@ async function getGeminiResponse(tldManager: string): Promise<string> {
 
 export async function POST(request: Request) {
     try {
-        const { tldManager } = await request.json();
+        const { tldManager, domain = "", type = "" } = await request.json();
 
         if (!tldManager) {
             return NextResponse.json(
@@ -35,8 +35,8 @@ export async function POST(request: Request) {
             );
         }
 
-        console.log(`[AI Route] Fetching Gemini response for: ${tldManager}`);
-        const aiInfo = await getGeminiResponse(tldManager);
+        console.log(`[AI Route] Fetching Gemini response for: ${tldManager} (Domain: ${domain}, Type: ${type})`);
+        const aiInfo = await getGeminiResponse(tldManager, domain, type);
 
         // Validate response
         if (!aiInfo || aiInfo.trim() === "" || aiInfo.toLowerCase().includes("i cannot")) {
@@ -52,3 +52,4 @@ export async function POST(request: Request) {
         );
     }
 }
+
