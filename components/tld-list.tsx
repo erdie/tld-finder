@@ -3,11 +3,56 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { Sparkles } from 'lucide-react';
 import type { TLD } from "@/data/tlds";
 import { useState, useEffect, useRef, useCallback } from "react";
+import type { ReactNode } from "react";
 
 interface TldListProps {
     results: TLD[];
     query: string;
     isLoading: boolean;
+}
+
+function renderMarkdown(text: string): ReactNode {
+    if (!text) return null;
+
+    // Pattern to capture links [text](url), bold **text**, and italic *text*
+    const regex = /(\*\*.*?\*\*|\*.*?\*|\[.*?\]\(.*?\))/g;
+    const parts = text.split(regex);
+
+    return (
+        <span>
+            {parts.map((part, index) => {
+                if (part.startsWith('**') && part.endsWith('**')) {
+                    return <strong key={index} className="font-semibold text-foreground">{part.slice(2, -2)}</strong>;
+                }
+                if (part.startsWith('*') && part.endsWith('*')) {
+                    return <em key={index} className="italic text-muted-foreground">{part.slice(1, -1)}</em>;
+                }
+                if (part.startsWith('[') && part.includes('](') && part.endsWith(')')) {
+                    const match = part.match(/\[(.*?)\]\((.*?)\)/);
+                    if (match) {
+                        const [, linkText, url] = match;
+                        let safeUrl = url;
+                        if (!/^https?:\/\//i.test(url)) {
+                            safeUrl = `https://${url}`;
+                        }
+                        return (
+                            <a
+                                key={index}
+                                href={safeUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-blue-500 hover:text-blue-400 underline font-semibold inline-flex items-center gap-0.5"
+                                onClick={(e) => e.stopPropagation()}
+                            >
+                                {linkText}
+                            </a>
+                        );
+                    }
+                }
+                return part;
+            })}
+        </span>
+    );
 }
 
 const TldSkeleton = () => (
@@ -40,7 +85,7 @@ export function TldList({ results, query, isLoading }: TldListProps) {
         }
     };
 
-    const handleAIQuery = async (tldManager: string) => {
+    const handleAIQuery = async (tldManager: string, domain: string, type: string) => {
         if (aiInfo[tldManager] && !aiInfo[tldManager].loading) return;
         setAiInfo(prev => ({ ...prev, [tldManager]: { text: '', loading: true } }));
 
@@ -50,7 +95,7 @@ export function TldList({ results, query, isLoading }: TldListProps) {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ tldManager }),
+                body: JSON.stringify({ tldManager, domain, type }),
             });
 
             if (!response.ok) {
@@ -112,6 +157,26 @@ export function TldList({ results, query, isLoading }: TldListProps) {
         };
     }, [loadMoreCallback, isLoadingMore, allItemsLoaded]);
 
+    useEffect(() => {
+        const handleOutsideClick = (event: MouseEvent) => {
+            const target = event.target as HTMLElement;
+            const clickedTrigger = target.closest('[data-tooltip-trigger="true"]');
+            const clickedContent = target.closest('[data-radix-popper-content-wrapper]');
+
+            if (!clickedTrigger && !clickedContent) {
+                setOpenTooltip(null);
+            }
+        };
+
+        if (openTooltip) {
+            document.addEventListener("click", handleOutsideClick);
+        }
+
+        return () => {
+            document.removeEventListener("click", handleOutsideClick);
+        };
+    }, [openTooltip]);
+
     if (isLoading) {
         return (
             <div className="space-y-4">
@@ -154,12 +219,13 @@ export function TldList({ results, query, isLoading }: TldListProps) {
                                     <Tooltip open={openTooltip === tld.domain}>
                                         <TooltipTrigger asChild>
                                             <span
+                                                data-tooltip-trigger="true"
                                                 onClick={() => {
                                                     if (openTooltip === tld.domain) {
                                                         setOpenTooltip(null);
                                                     } else {
                                                         setOpenTooltip(tld.domain);
-                                                        handleAIQuery(tld.tldManager);
+                                                        handleAIQuery(tld.tldManager, tld.domain, tld.type);
                                                     }
                                                 }}
                                                 className="cursor-pointer hover:opacity-80 transition duration-300"
@@ -168,10 +234,15 @@ export function TldList({ results, query, isLoading }: TldListProps) {
                                                 <span className="sr-only">Get AI Info</span>
                                             </span>
                                         </TooltipTrigger>
-                                        <TooltipContent side="top" className="max-w-[300px] break-words">
+                                        <TooltipContent side="top" className="max-w-[320px] p-3 text-xs leading-relaxed break-words">
                                             {aiInfo[tld.tldManager]?.loading ? (
-                                                "Loading..."
-                                            ) : aiInfo[tld.tldManager]?.text || "No information available."}
+                                                <div className="flex items-center gap-2">
+                                                    <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+                                                    <span>Analyzing registry details...</span>
+                                                </div>
+                                            ) : (
+                                                aiInfo[tld.tldManager]?.text ? renderMarkdown(aiInfo[tld.tldManager].text) : "No information available."
+                                            )}
                                         </TooltipContent>
                                     </Tooltip>
                                 )}
