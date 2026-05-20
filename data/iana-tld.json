@@ -502,7 +502,7 @@
   {
     "domain": ".ba",
     "type": "country-code",
-    "tldManager": "Universtiy Telinformatic Centre (UTIC)"
+    "tldManager": "University Tele-Informatic Center (UTIC)"
   },
   {
     "domain": ".baby",
@@ -1022,7 +1022,7 @@
   {
     "domain": ".cam",
     "type": "generic",
-    "tldManager": "CAM Connecting SARL"
+    "tldManager": "CAM Connecting SarL"
   },
   {
     "domain": ".camera",
@@ -1287,7 +1287,7 @@
   {
     "domain": ".circle",
     "type": "generic",
-    "tldManager": "Amazon Registry Services, Inc."
+    "tldManager": "Jolly Host, LLC"
   },
   {
     "domain": ".cisco",
@@ -2072,7 +2072,7 @@
   {
     "domain": ".eu",
     "type": "country-code",
-    "tldManager": "EURid vzw/asbl"
+    "tldManager": "EURid vzw"
   },
   {
     "domain": ".eurovision",
@@ -2532,7 +2532,7 @@
   {
     "domain": ".gent",
     "type": "generic",
-    "tldManager": "Combell nv"
+    "tldManager": "Easyhost bv"
   },
   {
     "domain": ".genting",
@@ -2672,7 +2672,7 @@
   {
     "domain": ".goo",
     "type": "generic",
-    "tldManager": "NTT Resonant Inc."
+    "tldManager": "Not assigned"
   },
   {
     "domain": ".goodhands",
@@ -2702,7 +2702,7 @@
   {
     "domain": ".got",
     "type": "generic",
-    "tldManager": "Amazon Registry Services, Inc."
+    "tldManager": "Jolly Host, LLC"
   },
   {
     "domain": ".gov",
@@ -3377,7 +3377,7 @@
   {
     "domain": ".jot",
     "type": "generic",
-    "tldManager": "Amazon Registry Services, Inc."
+    "tldManager": "Jolly Host, LLC"
   },
   {
     "domain": ".joy",
@@ -4100,6 +4100,11 @@
     "tldManager": "Not assigned"
   },
   {
+    "domain": ".merck",
+    "type": "generic",
+    "tldManager": "Merck Registry Holdings, Inc."
+  },
+  {
     "domain": ".merckmsd",
     "type": "generic",
     "tldManager": "MSD Registry Holdings, Inc."
@@ -4717,7 +4722,7 @@
   {
     "domain": ".onl",
     "type": "generic",
-    "tldManager": "iRegistry GmbH"
+    "tldManager": "Jolly Host, LLC"
   },
   {
     "domain": ".online",
@@ -5192,7 +5197,7 @@
   {
     "domain": ".radio",
     "type": "generic",
-    "tldManager": "European Broadcasting Union (EBU)"
+    "tldManager": "Digity, LLC"
   },
   {
     "domain": ".raid",
@@ -6382,7 +6387,7 @@
   {
     "domain": ".top",
     "type": "generic",
-    "tldManager": ".TOP Registry"
+    "tldManager": "Hong Kong Zhongze International Limited"
   },
   {
     "domain": ".toray",
@@ -6827,12 +6832,12 @@
   {
     "domain": ".weather",
     "type": "generic",
-    "tldManager": "International Business Machines Corporation"
+    "tldManager": "The Weather Company, LLC"
   },
   {
     "domain": ".weatherchannel",
     "type": "generic",
-    "tldManager": "International Business Machines Corporation"
+    "tldManager": "The Weather Company, LLC"
   },
   {
     "domain": ".webcam",
@@ -6922,7 +6927,7 @@
   {
     "domain": ".wolterskluwer",
     "type": "generic",
-    "tldManager": "Wolters Kluwer N.V."
+    "tldManager": "Not assigned"
   },
   {
     "domain": ".woodside",
