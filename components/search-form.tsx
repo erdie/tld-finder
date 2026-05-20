@@ -15,7 +15,7 @@ export function SearchForm() {
     const [type, setType] = React.useState("all")
     const [byExtensions, setByExtensions] = React.useState(false)
     const [byManagers, setByManagers] = React.useState(false)
-    const [isLoading, setIsLoading] = React.useState(false)
+    const [isLoading, setIsLoading] = React.useState(true)
     const [results, setResults] = React.useState<TLD[]>([])
     const [showAdvanced, setShowAdvanced] = React.useState(false)
 
