@@ -1,8 +1,7 @@
 import "@/app/globals.css"
-import { JetBrains_Mono, Inter } from 'next/font/google'
+import { Inter } from 'next/font/google'
 import { ThemeProvider } from "@/components/theme-provider"
 
-const mono = JetBrains_Mono({ subsets: ["latin"] })
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
