@@ -13,7 +13,7 @@ const protectedPaths = [
     '/api/tld',
 ]
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
     // Get the origin and referer from the request headers
     const origin = request.headers.get('origin')
     const referer = request.headers.get('referer')
