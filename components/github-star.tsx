@@ -1,6 +1,5 @@
 "use client"
 
-import * as React from "react"
 import { Github } from 'lucide-react'
 
 import { Button } from "@/components/ui/button"
