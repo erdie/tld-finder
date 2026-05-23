@@ -23,7 +23,7 @@ export function SearchForm() {
     const [isLoading, setIsLoading] = React.useState(true)
     const [results, setResults] = React.useState<TLD[]>([])
     const [showAdvanced, setShowAdvanced] = React.useState(false)
-    
+
     // New WHOIS States
     const [isWhoisMode, setIsWhoisMode] = React.useState(false)
     const [whoisResult, setWhoisResult] = React.useState<any>(null)
@@ -93,7 +93,7 @@ export function SearchForm() {
                     <Input
                         type="search"
                         placeholder="Search domain extension or manager"
-                        className="pl-10 pr-12 bg-muted/50 text-base font-light py-3"
+                        className="pl-10 pr-4 bg-muted/50 text-base font-light py-3"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                     />
@@ -154,10 +154,10 @@ export function SearchForm() {
                     </div>
                 )}
             </div>
-            <TldList 
-                results={results} 
-                query={query} 
-                isLoading={isLoading} 
+            <TldList
+                results={results}
+                query={query}
+                isLoading={isLoading}
                 isWhoisMode={isWhoisMode}
                 whoisResult={whoisResult}
                 whoisError={whoisError}
@@ -165,4 +165,3 @@ export function SearchForm() {
         </div>
     )
 }
-
