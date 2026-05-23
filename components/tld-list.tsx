@@ -470,9 +470,25 @@ export function TldList({
     }
 
     if (!results.length) {
+        const cleanQuery = query.trim();
+        const hasDot = cleanQuery.includes('.');
         return (
-            <div className="text-center text-muted-foreground">
-                No results found. Try adjusting your search criteria.
+            <div className="text-center text-muted-foreground py-8 space-y-4 max-w-md mx-auto animate-fade-in">
+                <p className="text-lg font-light text-foreground">No results found</p>
+                {cleanQuery ? (
+                    <>
+                        <p className="text-sm font-light leading-relaxed">
+                            No top-level domain extensions or managers match <span className="font-mono text-foreground font-medium">"{cleanQuery}"</span>.
+                        </p>
+                        {!hasDot && (
+                            <div className="text-xs border rounded-lg p-3 bg-muted/20 border-muted/30 text-left leading-relaxed">
+                                <span className="font-bold text-foreground">💡 Hint:</span> To perform a live WHOIS lookup on a domain name, make sure to type the full domain including its extension (for example, search <span className="font-mono text-foreground font-semibold">google.com</span> instead of just <span className="font-mono text-foreground font-semibold">google</span>).
+                            </div>
+                        )}
+                    </>
+                ) : (
+                    <p className="text-sm font-light">Try adjusting your search filters.</p>
+                )}
             </div>
         );
     }
