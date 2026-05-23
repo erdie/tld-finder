@@ -29,6 +29,17 @@ export function SearchForm() {
     const [whoisResult, setWhoisResult] = React.useState<any>(null)
     const [whoisError, setWhoisError] = React.useState<string | null>(null)
 
+    // Read initial query string on mount
+    React.useEffect(() => {
+        if (typeof window !== "undefined") {
+            const params = new URLSearchParams(window.location.search);
+            const initialDomain = params.get("domain") || params.get("q") || "";
+            if (initialDomain) {
+                setQuery(initialDomain);
+            }
+        }
+    }, []);
+
     async function searchTlds() {
         setIsLoading(true)
         setWhoisError(null)
@@ -37,8 +48,15 @@ export function SearchForm() {
         if (isDomainQuery(trimmedQuery)) {
             setIsWhoisMode(true)
             setResults([]) // clear TLD results
+            const cleanDomain = trimmedQuery.replace(/^\.+/, "")
+
+            // Sync to URL query parameters
+            if (typeof window !== "undefined") {
+                const newUrl = `${window.location.pathname}?domain=${encodeURIComponent(cleanDomain)}`
+                window.history.replaceState(null, '', newUrl)
+            }
+
             try {
-                const cleanDomain = trimmedQuery.replace(/^\.+/, "")
                 const response = await fetch(`/api/whois?domain=${encodeURIComponent(cleanDomain)}`)
                 if (!response.ok) {
                     const errData = await response.json()
@@ -59,6 +77,18 @@ export function SearchForm() {
         // Standard TLD Search Mode
         setIsWhoisMode(false)
         setWhoisResult(null)
+
+        // Remove domain param from URL if it exists
+        if (typeof window !== "undefined") {
+            const params = new URLSearchParams(window.location.search);
+            if (params.has("domain")) {
+                params.delete("domain");
+                const searchStr = params.toString();
+                const newUrl = `${window.location.pathname}${searchStr ? `?${searchStr}` : ""}`;
+                window.history.replaceState(null, '', newUrl);
+            }
+        }
+
         try {
             const params = new URLSearchParams({
                 q: query,
