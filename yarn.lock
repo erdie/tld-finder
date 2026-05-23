@@ -1198,6 +1198,11 @@ postcss@^8, postcss@^8.5.10:
     picocolors "^1.1.1"
     source-map-js "^1.2.1"
 
+punycode-esm@^1.0.15:
+  version "1.0.15"
+  resolved "https://registry.yarnpkg.com/punycode-esm/-/punycode-esm-1.0.15.tgz#609101f197af258bf20897d1eb0858f298079e6f"
+  integrity sha512-pR7pzaunGU4g3v3vMIXD9WnrGUiEBs2ezcVYr9piTC/HVem9F+MJ+JNdSeYD9pK7EumLMUMO9F3Gsa3RS+o7pA==
+
 punycode@^2.3.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.3.1.tgz#027422e2faec0b25e1549c3e1bd8309b9133b6e5"
@@ -1444,6 +1449,13 @@ whatwg-url@^14.0.0, whatwg-url@^14.1.1:
   dependencies:
     tr46 "^5.1.0"
     webidl-conversions "^7.0.0"
+
+whoiser@^2.0.0-beta.10:
+  version "2.0.0-beta.10"
+  resolved "https://registry.yarnpkg.com/whoiser/-/whoiser-2.0.0-beta.10.tgz#a6e31240509259aa307b1997287629891749004a"
+  integrity sha512-Y1uyLNR6zQnKj/mZPYtofs6u/9ZAnBzAuiTgU1aEMKjlnknrQdLyOKv9ErmIeF2mySMjGFj0tCam+DpxotBXHw==
+  dependencies:
+    punycode-esm "^1.0.15"
 
 ws@^8.18.0:
   version "8.20.1"

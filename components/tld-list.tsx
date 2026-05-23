@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Sparkles } from 'lucide-react';
+import { Sparkles, Calendar, ShieldCheck, Globe, Terminal, Copy, FileText, Check, AlertTriangle, ExternalLink } from 'lucide-react';
 import type { TLD } from "@/data/tlds";
 import { useState, useEffect, useRef, useCallback } from "react";
 import type { ReactNode } from "react";
@@ -9,6 +9,9 @@ interface TldListProps {
     results: TLD[];
     query: string;
     isLoading: boolean;
+    isWhoisMode?: boolean;
+    whoisResult?: any;
+    whoisError?: string | null;
 }
 
 function renderMarkdown(text: string): ReactNode {
@@ -62,7 +65,276 @@ const TldSkeleton = () => (
     </div>
 );
 
-export function TldList({ results, query, isLoading }: TldListProps) {
+function WhoisDisplay({ result, error, isLoading }: { result: any; error: string | null; isLoading: boolean }) {
+    const [activeTab, setActiveTab] = useState<'summary' | 'raw'>('summary');
+    const [copied, setCopied] = useState(false);
+
+    if (isLoading) {
+        return (
+            <div className="space-y-6 animate-pulse">
+                {/* Status card skeleton */}
+                <div className="bg-muted/40 rounded-xl p-6 border border-muted/60 space-y-4">
+                    <div className="h-8 bg-muted rounded w-1/3"></div>
+                    <div className="h-4 bg-muted rounded w-2/3"></div>
+                </div>
+                {/* Details grid skeleton */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="bg-muted/30 rounded-xl p-4 h-24 border border-muted/40"></div>
+                    <div className="bg-muted/30 rounded-xl p-4 h-24 border border-muted/40"></div>
+                    <div className="bg-muted/30 rounded-xl p-4 h-24 border border-muted/40"></div>
+                    <div className="bg-muted/30 rounded-xl p-4 h-24 border border-muted/40"></div>
+                </div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-6 space-y-4 text-center">
+                <AlertTriangle className="h-10 w-10 text-red-500 mx-auto animate-bounce" />
+                <h3 className="text-lg font-semibold text-red-400">WHOIS Lookup Failed</h3>
+                <p className="text-sm text-muted-foreground max-w-md mx-auto">{error}</p>
+            </div>
+        );
+    }
+
+    if (!result) return null;
+
+    const { domain, isRegistered, parsed, raw } = result;
+
+    const copyToClipboard = () => {
+        if (!raw) return;
+        navigator.clipboard.writeText(raw);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+    };
+
+    if (!isRegistered) {
+        return (
+            <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-8 text-center space-y-6 animate-fade-in relative overflow-hidden group shadow-lg shadow-emerald-500/5">
+                {/* Pulsing visual element */}
+                <div className="absolute -right-16 -top-16 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl group-hover:scale-150 transition-all duration-700" />
+                <div className="absolute -left-16 -bottom-16 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl group-hover:scale-150 transition-all duration-700" />
+                
+                <div className="bg-emerald-500/20 h-16 w-16 rounded-full flex items-center justify-center mx-auto text-emerald-400 border border-emerald-500/30 shadow-md">
+                    <ShieldCheck className="h-8 w-8" />
+                </div>
+                
+                <div className="space-y-2">
+                    <h3 className="text-2xl font-mono font-bold tracking-tight text-emerald-400">
+                        {domain}
+                    </h3>
+                    <p className="text-xl font-light text-foreground">
+                        Domain is Available!
+                    </p>
+                    <p className="text-sm text-muted-foreground max-w-md mx-auto">
+                        This domain name is currently unregistered. You can register it at any major domain registrar.
+                    </p>
+                </div>
+                
+                <div className="pt-2">
+                    <a 
+                        href={`https://www.namecheap.com/domains/registration/results/?domain=${domain}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-6 py-2.5 rounded-lg transition shadow-md shadow-emerald-700/20 cursor-pointer"
+                    >
+                        Register Domain <ExternalLink className="h-4 w-4" />
+                    </a>
+                </div>
+            </div>
+        );
+    }
+
+    // Days remaining calculations
+    const expiryDate = parsed.expiryDate ? new Date(parsed.expiryDate) : null;
+    const isDateValid = expiryDate && !isNaN(expiryDate.getTime());
+    let daysRemaining = null;
+    if (isDateValid) {
+        const today = new Date();
+        const diffTime = expiryDate!.getTime() - today.getTime();
+        daysRemaining = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    }
+
+    const formatDate = (dateStr: string | null) => {
+        if (!dateStr) return "N/A";
+        try {
+            const d = new Date(dateStr);
+            if (isNaN(d.getTime())) return dateStr;
+            return d.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        } catch (e) {
+            return dateStr;
+        }
+    };
+
+    return (
+        <div className="space-y-6 animate-fade-in">
+            {/* Registered Domain Status Card */}
+            <div className="bg-card/40 border rounded-2xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 relative overflow-hidden group shadow-xs">
+                <div className="space-y-1">
+                    <div className="flex items-center gap-2.5">
+                        <h3 className="text-2xl font-mono font-bold tracking-tight">{domain}</h3>
+                        <Badge variant="secondary" className="bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 border border-blue-500/20">
+                            Registered
+                        </Badge>
+                    </div>
+                    <p className="text-sm text-muted-foreground font-light">
+                        Managed by <span className="font-semibold text-foreground">{parsed.registrar || "Unknown Registrar"}</span>
+                    </p>
+                </div>
+                
+                {daysRemaining !== null && (
+                    <div className="flex flex-col items-start md:items-end justify-center">
+                        <div className="text-xs uppercase tracking-wider text-muted-foreground font-semibold">
+                            Time to Expiry
+                        </div>
+                        <div className={`text-xl font-bold font-mono ${daysRemaining < 90 ? 'text-rose-500' : 'text-blue-400'}`}>
+                            {daysRemaining > 0 ? `${daysRemaining} days left` : 'Expired'}
+                        </div>
+                        <div className="text-xs text-muted-foreground font-light mt-0.5">
+                            Expires on {formatDate(parsed.expiryDate)}
+                        </div>
+                    </div>
+                )}
+            </div>
+
+            {/* Navigation Tabs */}
+            <div className="flex border-b gap-4">
+                <button
+                    onClick={() => setActiveTab('summary')}
+                    className={`pb-2 text-sm font-semibold transition relative cursor-pointer ${
+                        activeTab === 'summary' 
+                            ? 'text-foreground border-b-2 border-primary' 
+                            : 'text-muted-foreground hover:text-foreground'
+                    }`}
+                >
+                    <span className="flex items-center gap-1.5">
+                        <FileText className="h-4 w-4" /> Summary
+                    </span>
+                </button>
+                <button
+                    onClick={() => setActiveTab('raw')}
+                    className={`pb-2 text-sm font-semibold transition relative cursor-pointer ${
+                        activeTab === 'raw' 
+                            ? 'text-foreground border-b-2 border-primary' 
+                            : 'text-muted-foreground hover:text-foreground'
+                    }`}
+                >
+                    <span className="flex items-center gap-1.5">
+                        <Terminal className="h-4 w-4" /> Raw WHOIS Record
+                    </span>
+                </button>
+            </div>
+
+            {/* Summary View */}
+            {activeTab === 'summary' && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-fade-in">
+                    {/* Dates Card */}
+                    <div className="bg-muted/30 border rounded-xl p-4 space-y-3.5">
+                        <h4 className="text-sm font-bold text-muted-foreground flex items-center gap-2">
+                            <Calendar className="h-4 w-4 text-blue-500" /> Important Dates
+                        </h4>
+                        <div className="grid grid-cols-2 gap-2 text-xs font-light">
+                            <div className="text-muted-foreground">Registered:</div>
+                            <div className="font-medium text-foreground">{formatDate(parsed.createdDate)}</div>
+                            
+                            <div className="text-muted-foreground">Expires:</div>
+                            <div className="font-medium text-foreground">{formatDate(parsed.expiryDate)}</div>
+                            
+                            <div className="text-muted-foreground">Last Updated:</div>
+                            <div className="font-medium text-foreground">{formatDate(parsed.updatedDate)}</div>
+                        </div>
+                    </div>
+
+                    {/* Registry Operator/Details Card */}
+                    <div className="bg-muted/30 border rounded-xl p-4 space-y-3.5">
+                        <h4 className="text-sm font-bold text-muted-foreground flex items-center gap-2">
+                            <Globe className="h-4 w-4 text-purple-500" /> Registrar & Registry
+                        </h4>
+                        <div className="grid grid-cols-2 gap-2 text-xs font-light">
+                            <div className="text-muted-foreground">Registrar:</div>
+                            <div className="font-medium text-foreground truncate" title={parsed.registrar || "N/A"}>
+                                {parsed.registrar || "N/A"}
+                            </div>
+                            
+                            <div className="text-muted-foreground">Domain Status:</div>
+                            <div className="font-medium text-foreground space-y-1">
+                                {parsed.status && parsed.status.length > 0 ? (
+                                    parsed.status.slice(0, 2).map((st: string, idx: number) => {
+                                        const cleanSt = st.split(' ')[0] || st;
+                                        return (
+                                            <Badge key={idx} variant="outline" className="text-[10px] py-0 px-1 border-muted-foreground/30 capitalize block w-fit truncate" title={st}>
+                                                {cleanSt.toLowerCase()}
+                                            </Badge>
+                                        );
+                                    })
+                                ) : (
+                                    <span>N/A</span>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Name Servers Card */}
+                    {parsed.nameServers && parsed.nameServers.length > 0 && (
+                        <div className="bg-muted/30 border rounded-xl p-4 space-y-3.5 md:col-span-2">
+                            <h4 className="text-sm font-bold text-muted-foreground flex items-center gap-2">
+                                <Globe className="h-4 w-4 text-emerald-500" /> DNS Nameservers
+                            </h4>
+                            <div className="flex flex-wrap gap-2">
+                                {parsed.nameServers.map((ns: string, idx: number) => (
+                                    <Badge key={idx} variant="secondary" className="font-mono text-xs px-2.5 py-1 bg-muted/80 text-muted-foreground hover:text-foreground border">
+                                        {ns.toLowerCase()}
+                                    </Badge>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                </div>
+            )}
+
+            {/* Raw Terminal View */}
+            {activeTab === 'raw' && (
+                <div className="space-y-2 animate-fade-in">
+                    <div className="flex items-center justify-between">
+                        <span className="text-xs text-muted-foreground font-mono">whois -h query output</span>
+                        <button
+                            onClick={copyToClipboard}
+                            className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition bg-muted/60 border hover:bg-muted py-1 px-2.5 rounded-lg cursor-pointer"
+                        >
+                            {copied ? (
+                                <>
+                                    <Check className="h-3.5 w-3.5 text-emerald-400" /> Copied!
+                                </>
+                            ) : (
+                                <>
+                                    <Copy className="h-3.5 w-3.5" /> Copy Record
+                                </>
+                            )}
+                        </button>
+                    </div>
+                    <pre className="bg-neutral-950 text-neutral-200 border border-neutral-800 rounded-xl p-4 font-mono text-xs leading-relaxed overflow-x-auto overflow-y-auto max-h-[450px] shadow-inner custom-scrollbar selection:bg-neutral-700">
+                        {raw || "No raw WHOIS records found."}
+                    </pre>
+                </div>
+            )}
+        </div>
+    );
+}
+
+
+export function TldList({ 
+    results, 
+    query, 
+    isLoading,
+    isWhoisMode = false,
+    whoisResult = null,
+    whoisError = null
+}: TldListProps) {
     const [aiInfo, setAiInfo] = useState<{ [key: string]: { text: string, loading: boolean } }>({});
     const [visibleTlds, setVisibleTlds] = useState<TLD[]>([]);
     const [itemsToLoad, setItemsToLoad] = useState(10);
@@ -176,6 +448,16 @@ export function TldList({ results, query, isLoading }: TldListProps) {
             document.removeEventListener("click", handleOutsideClick);
         };
     }, [openTooltip]);
+
+    if (isWhoisMode) {
+        return (
+            <WhoisDisplay 
+                result={whoisResult} 
+                error={whoisError} 
+                isLoading={isLoading} 
+            />
+        );
+    }
 
     if (isLoading) {
         return (
