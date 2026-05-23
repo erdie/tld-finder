@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "npm run scrape && next build",
     "start": "next start",
     "scrape": "node ./scripts/scrape.js"
   },
