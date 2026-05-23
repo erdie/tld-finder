@@ -115,11 +115,11 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
                 {/* Pulsing visual element */}
                 <div className="absolute -right-16 -top-16 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl group-hover:scale-150 transition-all duration-700" />
                 <div className="absolute -left-16 -bottom-16 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl group-hover:scale-150 transition-all duration-700" />
-                
+
                 <div className="bg-emerald-500/20 h-16 w-16 rounded-full flex items-center justify-center mx-auto text-emerald-400 border border-emerald-500/30 shadow-md">
                     <ShieldCheck className="h-8 w-8" />
                 </div>
-                
+
                 <div className="space-y-2">
                     <h3 className="text-2xl font-mono font-bold tracking-tight text-emerald-400">
                         {domain}
@@ -131,10 +131,10 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
                         This domain name is currently unregistered. You can register it at any major domain registrar.
                     </p>
                 </div>
-                
+
                 <div className="pt-2">
-                    <a 
-                        href={`https://www.namecheap.com/domains/registration/results/?domain=${domain}`}
+                    <a
+                        href={`https://www.domainesia.com/domain/?domain=${domain}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-6 py-2.5 rounded-lg transition shadow-md shadow-emerald-700/20 cursor-pointer"
@@ -186,7 +186,7 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
                         Managed by <span className="font-semibold text-foreground">{parsed.registrar || "Unknown Registrar"}</span>
                     </p>
                 </div>
-                
+
                 {daysRemaining !== null && (
                     <div className="flex flex-col items-start md:items-end justify-center">
                         <div className="text-xs uppercase tracking-wider text-muted-foreground font-semibold">
@@ -207,8 +207,8 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
                 <button
                     onClick={() => setActiveTab('summary')}
                     className={`pb-2 text-sm font-semibold transition relative cursor-pointer ${
-                        activeTab === 'summary' 
-                            ? 'text-foreground border-b-2 border-primary' 
+                        activeTab === 'summary'
+                            ? 'text-foreground border-b-2 border-primary'
                             : 'text-muted-foreground hover:text-foreground'
                     }`}
                 >
@@ -219,8 +219,8 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
                 <button
                     onClick={() => setActiveTab('raw')}
                     className={`pb-2 text-sm font-semibold transition relative cursor-pointer ${
-                        activeTab === 'raw' 
-                            ? 'text-foreground border-b-2 border-primary' 
+                        activeTab === 'raw'
+                            ? 'text-foreground border-b-2 border-primary'
                             : 'text-muted-foreground hover:text-foreground'
                     }`}
                 >
@@ -241,10 +241,10 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
                         <div className="grid grid-cols-2 gap-2 text-xs font-light">
                             <div className="text-muted-foreground">Registered:</div>
                             <div className="font-medium text-foreground">{formatDate(parsed.createdDate)}</div>
-                            
+
                             <div className="text-muted-foreground">Expires:</div>
                             <div className="font-medium text-foreground">{formatDate(parsed.expiryDate)}</div>
-                            
+
                             <div className="text-muted-foreground">Last Updated:</div>
                             <div className="font-medium text-foreground">{formatDate(parsed.updatedDate)}</div>
                         </div>
@@ -260,7 +260,7 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
                             <div className="font-medium text-foreground truncate" title={parsed.registrar || "N/A"}>
                                 {parsed.registrar || "N/A"}
                             </div>
-                            
+
                             <div className="text-muted-foreground">Domain Status:</div>
                             <div className="font-medium text-foreground space-y-1">
                                 {parsed.status && parsed.status.length > 0 ? (
@@ -327,9 +327,9 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
 }
 
 
-export function TldList({ 
-    results, 
-    query, 
+export function TldList({
+    results,
+    query,
     isLoading,
     isWhoisMode = false,
     whoisResult = null,
@@ -451,10 +451,10 @@ export function TldList({
 
     if (isWhoisMode) {
         return (
-            <WhoisDisplay 
-                result={whoisResult} 
-                error={whoisError} 
-                isLoading={isLoading} 
+            <WhoisDisplay
+                result={whoisResult}
+                error={whoisError}
+                isLoading={isLoading}
             />
         );
     }
@@ -544,4 +544,3 @@ export function TldList({
         </TooltipProvider>
     );
 }
-
