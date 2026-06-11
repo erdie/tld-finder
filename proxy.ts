@@ -4,6 +4,7 @@ import type { NextRequest } from 'next/server'
 // List of allowed domains
 const allowedOrigins = [
     'https://tld-finder.erdiawan.com',
+    'https://tldfinder.app',
     'http://localhost:3000', // For local development
 ]
 
