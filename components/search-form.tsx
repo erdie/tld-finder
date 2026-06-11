@@ -155,9 +155,9 @@ export function SearchForm() {
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="all" className="cursor-pointer">All Types</SelectItem>
-                                    <SelectItem value="generic" className="cursor-pointer">Generic</SelectItem>
-                                    <SelectItem value="country-code" className="cursor-pointer">Country Code</SelectItem>
-                                    <SelectItem value="sponsored" className="cursor-pointer">Sponsored</SelectItem>
+                                    <SelectItem value="generic" className="cursor-pointer">Generic (gTLD)</SelectItem>
+                                    <SelectItem value="country-code" className="cursor-pointer">Country Code (ccTLD)</SelectItem>
+                                    <SelectItem value="sponsored" className="cursor-pointer">Sponsored (sTLD)</SelectItem>
                                 </SelectContent>
                             </Select>
                             <div className="grid grid-cols-2 w-full justify-center">
