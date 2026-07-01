@@ -17,7 +17,7 @@ TLD Finder is a modern, responsive Jamstack application built on **Next.js** and
   * Features a gorgeous visual display showcasing **Registration Availability** (green pulsing indicator) vs **Registered Status** (blue indicator).
   * Includes crucial metrics: Registrar info, DNS Nameservers, Status badges, and an **active countdown of days remaining until expiration** (which highlights in red when close to expiring).
   * Includes a toggleable **Raw WHOIS Record** dark terminal block with instant copy-to-clipboard actions.
-* **Weekly Automated Database Scraper**: A Netlify Scheduled Function running weekly (`@weekly`) that triggers a Netlify Build Hook to auto-scrape, compile, and statically deploy the latest TLD registries from the IANA Root Zone.
+* **Bi-weekly Automated Database Scraper**: A Netlify Scheduled Function running every two weeks (`0 0 1,15 * *`) that triggers a Netlify Build Hook to auto-scrape, compile, and statically deploy the latest TLD registries from the IANA Root Zone.
 * **Deep Linking / URL Parameter Sync**: Automatically updates the browser query string (`?domain=...` or `?q=...`) for instant deep linking, page refreshes, or query sharing.
 
 ---
@@ -66,8 +66,8 @@ To support Gemini AI lookups and weekly auto-scraping cron jobs, configure the f
 | `GEMINI_API_KEY` | Your Google Gemini API Key | `AIzaSy...` |
 | `NETLIFY_BUILD_HOOK_URL` | Netlify build webhook URL to trigger weekly auto-scrape | `https://api.netlify.com/build_hooks/...` |
 
-### Setting up the Weekly Automated Scraper
+### Setting up the Bi-weekly Automated Scraper
 1. Go to your **Netlify Dashboard** > **Site Configuration** > **Build & deploy** > **Build hooks**.
-2. Click **Add build hook**, set the name to `Weekly Scraper Trigger`, choose the `main` branch, and click **Save**.
+2. Click **Add build hook**, set the name to `Bi-weekly Scraper Trigger`, choose the `main` branch, and click **Save**.
 3. Copy the generated URL and save it as the `NETLIFY_BUILD_HOOK_URL` environment variable.
-4. Deploy the main branch. Netlify will automatically detect the cron configuration in [`netlify/functions/trigger-build.js`](netlify/functions/trigger-build.js) and run the build weekly, pulling and deploying the latest TLDs automatically!
+4. Deploy the main branch. Netlify will automatically detect the cron configuration in [`netlify/functions/trigger-build.js`](netlify/functions/trigger-build.js) and run the build bi-weekly (on the 1st and 15th of each month), pulling and deploying the latest TLDs automatically!
