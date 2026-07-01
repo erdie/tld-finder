@@ -20,5 +20,5 @@ export default async (req) => {
 };
 
 export const config = {
-    schedule: "@weekly"
+    schedule: "0 0 1,15 * *"
 };
