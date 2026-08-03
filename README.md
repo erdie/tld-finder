@@ -10,7 +10,7 @@ TLD Finder is a modern, responsive Jamstack application built on **Next.js** and
 ## 🚀 Key Features
 
 * **IANA Root Database Explorer**: Instantly search and filter through all registered top-level domains (TLDs) in the IANA Root Zone.
-* **Gemini AI Registry Insights**: Harnesses Google's `gemini-2.5-flash` model to fetch real-time, concise, and highly engaging details about the registry operator for any TLD at the click of a button.
+* **Gemini AI Registry Insights**: Harnesses Google's `gemini-3.5-flash-lite` model (with dynamic fallback to `gemini-3.1-flash-lite` and `gemini-2.5-flash-lite`) to fetch real-time, concise, and highly engaging details about the registry operator for any TLD at the click of a button.
 * **Live Domain WHOIS & Availability Lookup**: 
   * Automatically detects fully-qualified domain queries (e.g., `erdiawan.com`) in the search bar.
   * Dynamically queries registry and registrar servers using `whoiser`.
