@@ -44,20 +44,26 @@
    - On-demand AI summary generation for any TLD registry manager.
    - Provides background on the organization type (non-profit, commercial, government, university) and links to their official website.
 
-3. **Live WHOIS & Domain Availability Lookup**
-   - Automatic input detector: queries containing a dot and valid hostname (e.g. `example.com`) switch dynamically into Domain WHOIS Mode.
+3. **RDAP (Registration Data Access Protocol) & WHOIS Lookup**
+   - Protocol selector: Auto (RDAP preferred with WHOIS fallback), RDAP (RESTful JSON), or WHOIS (Traditional Port 43).
+   - RDAP Engine (`lib/rdap.ts`): Queries RESTful RDAP bootstrap servers for structured JSON responses (HTTP 200 registered vs HTTP 404 available).
    - Real-time status indication: Registered (blue indicator) vs Available for registration (green pulsing indicator).
-   - Metrics display: Registrar, Creation date, Expiry date (with active days remaining countdown and close-to-expiration warning), Updated date, Name Servers, Domain Status tags.
-   - Integrated dark terminal drawer for raw WHOIS output with one-click copy-to-clipboard functionality.
+   - Metrics display: Registrar, Creation date, Expiry date (with active days remaining countdown and close-to-expiration warning), Updated date, RDAP Contact Entities, Name Servers, Domain Status tags.
+   - Dual-mode raw terminal view: Raw RDAP RESTful JSON payload or raw WHOIS output with one-click copy functionality.
 
-4. **Deep Linking & URL Query Sync**
+4. **Domain Hack Generator (`lib/domain-hacks.ts` & `/api/domain-hacks`)**
+   - Automatic split-word matching against 1,500+ active IANA TLDs to uncover creative domain hacks for any keyword (e.g. `antigravity` -> `anti.gr/avity`, `antigra.vi/ty`, `antigrav.it/y`; `instagram` -> `instagr.am`, `in.stagr.am`; `delicious` -> `delicio.us`).
+   - Supports 3 hack patterns: Direct split (`name.tld`), Path split (`name.tld/path`), and Subdomain split (`sub.name.tld`).
+   - Interactive card grid with type badges, TLD manager metadata, one-click RDAP/WHOIS lookup trigger, copy buttons, and external link previews.
+
+5. **Deep Linking & URL Query Sync**
    - Synchronizes search state with URL search parameters (`?domain=...` or `?q=...`) for instant sharing and bookmarking.
 
-5. **Automated Bi-weekly Data Pipeline**
+6. **Automated Bi-weekly Data Pipeline**
    - Netlify Scheduled Function triggers a build hook on the 1st and 15th of every month (`0 0 1,15 * *`).
    - The build process runs `npm run scrape` before `next build`, keeping static data fresh without manual intervention.
 
-6. **Security & API Request Proxy**
+7. **Security & API Request Proxy**
    - Custom proxy middleware (`proxy.ts`) verifying `Origin` and `Referer` headers against allowed domains (`tld-finder.erdiawan.com`, `tldfinder.app`, `localhost:3000`) for protected routes (`/api/ai-info`, `/api/tld`).
 
 ---
@@ -69,14 +75,16 @@ tld-finder/
 ├── app/                        # Next.js App Router pages and API routes
 │   ├── api/
 │   │   ├── ai-info/route.ts    # POST: Gemini AI 2.5 Flash TLD manager lookup
+│   │   ├── domain-hacks/route.ts# GET: API endpoint for generating split-word domain hacks
 │   │   ├── tld/route.ts        # GET: Filtered TLD list query endpoint
-│   │   └── whois/route.ts      # GET: Live WHOIS domain lookup using whoiser
+│   │   └── whois/route.ts      # GET: Live RDAP & WHOIS domain lookup route
 │   ├── globals.css             # Tailwind v4 directives & theme configurations
 │   ├── layout.tsx              # Root layout wrapped with ThemeProvider
 │   └── page.tsx                # Main single-page interface
 ├── components/                 # Client and Server React components
-│   ├── search-form.tsx         # Search input, mode detection, filter controls, URL sync
-│   ├── tld-list.tsx            # TLD cards grid, AI info trigger, WHOIS results display
+│   ├── domain-hacks.tsx        # UI card grid for displaying split-word domain hack suggestions
+│   ├── search-form.tsx         # Search input, mode detection, protocol toggle, filter controls
+│   ├── tld-list.tsx            # TLD cards grid, AI info trigger, RDAP & WHOIS results display
 │   ├── github-star.tsx         # GitHub repository badge link
 │   ├── theme-provider.tsx      # Next-themes wrapper
 │   ├── theme-toggle.tsx        # Dark/Light mode toggle button
@@ -85,6 +93,8 @@ tld-finder/
 │   ├── iana-tld.json           # Scraped static database of all IANA TLDs
 │   └── tlds.ts                 # TypeScript types and export wrapper for iana-tld.json
 ├── lib/
+│   ├── domain-hacks.ts         # Domain hack generator library (direct, path, subdomain splits)
+│   ├── rdap.ts                 # RDAP protocol client (RESTful JSON parser)
 │   └── utils.ts                # Utility functions (clsx + tailwind-merge helper)
 ├── netlify/
 │   └── functions/
