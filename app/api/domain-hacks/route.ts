@@ -1,0 +1,22 @@
+import { NextResponse } from "next/server";
+import { generateDomainHacks } from "@/lib/domain-hacks";
+
+export async function GET(request: Request) {
+    try {
+        const { searchParams } = new URL(request.url);
+        const q = searchParams.get("q") || "";
+
+        if (!q.trim()) {
+            return NextResponse.json([]);
+        }
+
+        const hacks = generateDomainHacks(q);
+        return NextResponse.json(hacks);
+    } catch (error: any) {
+        console.error("[Domain Hacks API Error]:", error);
+        return NextResponse.json(
+            { error: "Failed to generate domain hacks", details: error.message || String(error) },
+            { status: 500 }
+        );
+    }
+}
