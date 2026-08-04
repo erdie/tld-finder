@@ -1,10 +1,12 @@
 import { whoisDomain, firstResult } from "whoiser";
 import { NextResponse } from "next/server";
+import { queryRdap } from "@/lib/rdap";
 
 export async function GET(request: Request) {
     try {
         const { searchParams } = new URL(request.url);
         const rawDomain = searchParams.get("domain") || "";
+        const protocol = (searchParams.get("protocol") || "auto").toLowerCase();
         
         // Clean domain name
         const domain = rawDomain.trim().replace(/^\.+/, "").toLowerCase();
@@ -25,6 +27,29 @@ export async function GET(request: Request) {
             );
         }
         
+        // Try RDAP first if protocol is 'auto' or 'rdap'
+        if (protocol === "auto" || protocol === "rdap") {
+            try {
+                console.log(`[RDAP] Querying RDAP for domain: ${domain}`);
+                const rdapResult = await queryRdap(domain);
+                return NextResponse.json(rdapResult);
+            } catch (rdapErr: any) {
+                console.warn(`[RDAP] Failed or unavailable for ${domain}: ${rdapErr.message}`);
+                if (protocol === "rdap") {
+                    return NextResponse.json(
+                        {
+                            error: `RDAP lookup failed for ${domain}`,
+                            details: rdapErr.message || String(rdapErr)
+                        },
+                        { status: 502 }
+                    );
+                }
+                // If protocol was 'auto', gracefully fall through to WHOIS
+                console.log(`[RDAP -> WHOIS Fallback] Falling back to traditional WHOIS for: ${domain}`);
+            }
+        }
+
+        // Traditional WHOIS lookup
         console.log(`[WHOIS] Querying WHOIS for domain: ${domain}`);
         const result = await whoisDomain(domain);
         const parsed = firstResult(result) || {};
@@ -85,6 +110,8 @@ export async function GET(request: Request) {
         // Expose structured JSON response
         return NextResponse.json({
             domain,
+            protocol: "whois",
+            fallbackFromRdap: protocol === "auto",
             isRegistered,
             parsed: {
                 domainName: parsed["Domain Name"] || domain,
@@ -98,10 +125,10 @@ export async function GET(request: Request) {
             raw: rawText
         });
     } catch (error: any) {
-        console.error("[WHOIS API Error]:", error);
+        console.error("[WHOIS/RDAP API Error]:", error);
         return NextResponse.json(
             {
-                error: "Failed to perform WHOIS lookup",
+                error: "Failed to perform domain lookup",
                 details: error.message || String(error)
             },
             { status: 500 }
