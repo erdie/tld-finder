@@ -92,7 +92,7 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
         return (
             <div className="bg-red-500/10 border border-red-500/20 rounded-md p-6 space-y-4 text-center">
                 <AlertTriangle className="h-10 w-10 text-red-500 mx-auto animate-bounce" />
-                <h3 className="text-lg font-semibold text-red-400">WHOIS Lookup Failed</h3>
+                <h3 className="text-lg font-semibold text-red-400">Lookup Failed</h3>
                 <p className="text-sm text-muted-foreground max-w-md mx-auto">{error}</p>
             </div>
         );
@@ -100,7 +100,8 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
 
     if (!result) return null;
 
-    const { domain, isRegistered, parsed, raw } = result;
+    const { domain, isRegistered, parsed, raw, protocol = "whois", fallbackFromRdap = false, rdapUrl } = result;
+    const isRdap = protocol === "rdap";
 
     const copyToClipboard = () => {
         if (!raw) return;
@@ -121,14 +122,19 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
                 </div>
 
                 <div className="space-y-2">
-                    <h3 className="text-2xl font-mono font-bold tracking-tight text-emerald-400">
-                        {domain}
-                    </h3>
+                    <div className="flex items-center justify-center gap-2">
+                        <h3 className="text-2xl font-mono font-bold tracking-tight text-emerald-400">
+                            {domain}
+                        </h3>
+                        <Badge variant="outline" className={`text-xs px-2 py-0.5 ${isRdap ? 'bg-purple-500/10 text-purple-400 border-purple-500/30' : 'bg-slate-500/10 text-slate-400 border-slate-500/30'}`}>
+                            {isRdap ? '⚡ RDAP' : '📜 WHOIS'}
+                        </Badge>
+                    </div>
                     <p className="text-xl font-light text-foreground">
                         Domain is Available!
                     </p>
                     <p className="text-sm text-muted-foreground max-w-md mx-auto">
-                        This domain name is currently unregistered. You can register it at any major domain registrar.
+                        This domain name is currently unregistered ({isRdap ? 'Verified via RESTful RDAP protocol 404' : 'Verified via WHOIS lookup'}). You can register it at any major domain registrar.
                     </p>
                 </div>
 
@@ -175,15 +181,30 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
         <div className="space-y-6 animate-fade-in">
             {/* Registered Domain Status Card */}
             <div className="bg-muted/30 border rounded-md p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 relative overflow-hidden group shadow-xs">
-                <div className="space-y-1">
-                    <div className="flex items-center gap-2.5">
+                <div className="space-y-1.5">
+                    <div className="flex items-center gap-2.5 flex-wrap">
                         <h3 className="text-2xl font-mono font-bold tracking-tight">{domain}</h3>
                         <Badge variant="secondary" className="bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 border border-blue-500/20">
                             Registered
                         </Badge>
+                        <Badge
+                            variant="outline"
+                            className={`text-xs px-2 py-0.5 font-mono ${
+                                isRdap
+                                    ? 'bg-purple-500/15 text-purple-400 border-purple-500/30 font-semibold'
+                                    : 'bg-amber-500/15 text-amber-400 border-amber-500/30'
+                            }`}
+                        >
+                            {isRdap ? '⚡ Protocol: RDAP (RESTful JSON)' : '📜 Protocol: WHOIS (Port 43)'}
+                        </Badge>
                     </div>
-                    <p className="text-sm text-muted-foreground font-light">
+                    <p className="text-sm text-muted-foreground font-light flex items-center gap-2">
                         Managed by <span className="font-semibold text-foreground">{parsed.registrar || "Unknown Registrar"}</span>
+                        {fallbackFromRdap && (
+                            <span className="text-xs text-amber-400/90 font-mono bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
+                                RDAP fallback
+                            </span>
+                        )}
                     </p>
                 </div>
 
@@ -213,7 +234,7 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
                     }`}
                 >
                     <span className="flex items-center gap-1.5">
-                        <FileText className="h-4 w-4" /> Summary
+                        <FileText className="h-4 w-4" /> Structured Summary
                     </span>
                 </button>
                 <button
@@ -225,7 +246,7 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
                     }`}
                 >
                     <span className="flex items-center gap-1.5">
-                        <Terminal className="h-4 w-4" /> Raw WHOIS Record
+                        <Terminal className="h-4 w-4" /> {isRdap ? 'Raw RDAP JSON' : 'Raw WHOIS Record'}
                     </span>
                 </button>
             </div>
@@ -253,7 +274,7 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
                     {/* Registry Operator/Details Card */}
                     <div className="bg-muted/30 border rounded-md p-4 space-y-3.5">
                         <h4 className="text-sm font-bold text-muted-foreground flex items-center gap-2">
-                            <Globe className="h-4 w-4 text-purple-500" /> Registrar & Registry
+                            <Globe className="h-4 w-4 text-purple-500" /> Registrar & Domain Status
                         </h4>
                         <div className="grid grid-cols-2 gap-2 text-xs font-light">
                             <div className="text-muted-foreground">Registrar:</div>
@@ -264,7 +285,7 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
                             <div className="text-muted-foreground">Domain Status:</div>
                             <div className="font-medium text-foreground space-y-1">
                                 {parsed.status && parsed.status.length > 0 ? (
-                                    parsed.status.slice(0, 2).map((st: string, idx: number) => {
+                                    parsed.status.slice(0, 3).map((st: string, idx: number) => {
                                         const cleanSt = st.split(' ')[0] || st;
                                         return (
                                             <Badge key={idx} variant="outline" className="text-[10px] py-0 px-1 border-muted-foreground/30 capitalize block w-fit truncate" title={st}>
@@ -278,6 +299,23 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
                             </div>
                         </div>
                     </div>
+
+                    {/* RDAP Entities Card if present */}
+                    {parsed.entities && parsed.entities.length > 0 && (
+                        <div className="bg-muted/30 border rounded-md p-4 space-y-3.5 md:col-span-2">
+                            <h4 className="text-sm font-bold text-muted-foreground flex items-center gap-2">
+                                <Sparkles className="h-4 w-4 text-purple-400" /> RDAP Contact Entities
+                            </h4>
+                            <div className="flex flex-wrap gap-2">
+                                {parsed.entities.map((ent: { role: string; name: string }, idx: number) => (
+                                    <Badge key={idx} variant="outline" className="font-mono text-xs px-2.5 py-1 bg-purple-500/5 text-foreground border-purple-500/20 flex items-center gap-1.5">
+                                        <span className="text-purple-400 font-bold uppercase text-[10px]">{ent.role}:</span>
+                                        <span>{ent.name}</span>
+                                    </Badge>
+                                ))}
+                            </div>
+                        </div>
+                    )}
 
                     {/* Name Servers Card */}
                     {parsed.nameServers && parsed.nameServers.length > 0 && (
@@ -297,11 +335,13 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
                 </div>
             )}
 
-            {/* Raw Terminal View */}
+            {/* Raw Terminal / JSON View */}
             {activeTab === 'raw' && (
                 <div className="space-y-2 animate-fade-in">
                     <div className="flex items-center justify-between">
-                        <span className="text-xs text-muted-foreground font-mono">whois -h query output</span>
+                        <span className="text-xs text-muted-foreground font-mono">
+                            {isRdap ? 'RESTful RDAP JSON payload' : 'whois -h query output'}
+                        </span>
                         <button
                             onClick={copyToClipboard}
                             className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition bg-muted/60 border hover:bg-muted py-1 px-2.5 rounded-lg cursor-pointer"
@@ -318,7 +358,7 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
                         </button>
                     </div>
                     <pre className="bg-neutral-950 text-neutral-200 border border-neutral-800 rounded-md p-4 font-mono text-xs leading-relaxed overflow-x-auto overflow-y-auto max-h-[450px] shadow-inner custom-scrollbar selection:bg-neutral-700">
-                        {raw || "No raw WHOIS records found."}
+                        {raw || "No raw lookup records found."}
                     </pre>
                 </div>
             )}
