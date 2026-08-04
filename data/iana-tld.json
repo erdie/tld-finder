@@ -3087,7 +3087,7 @@
   {
     "domain": ".ie",
     "type": "country-code",
-    "tldManager": "University College Dublin, Computing Services, Computer Centre"
+    "tldManager": "IE Domain Registry CLG"
   },
   {
     "domain": ".ieee",
@@ -5462,7 +5462,7 @@
   {
     "domain": ".safety",
     "type": "generic",
-    "tldManager": "Safety Registry Services, LLC."
+    "tldManager": "Jolly Host, LLC"
   },
   {
     "domain": ".sakura",
@@ -6838,6 +6838,11 @@
     "domain": ".weatherchannel",
     "type": "generic",
     "tldManager": "The Weather Company, LLC"
+  },
+  {
+    "domain": ".web",
+    "type": "generic",
+    "tldManager": "VeriSign, Inc."
   },
   {
     "domain": ".webcam",
