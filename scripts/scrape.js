@@ -13,7 +13,7 @@ import got from 'got';
         const selectTldManager = dom.window.document.querySelectorAll('table tr td:nth-child(3)');
 
         const compileData = Array.from(selectDomain).map((item, index) => {
-            const domain = item.textContent.trim();
+            const domain = item.textContent.replace(/[\u200e\u200f\u202a-\u202e\u2066-\u2069]/g, '').trim();
             const type = selectType[index].textContent.trim();
             const manager = selectTldManager[index].textContent.trim();
             console.log(`Scraping tld: ${domain}, type: ${type}, manager: ${manager}`);
