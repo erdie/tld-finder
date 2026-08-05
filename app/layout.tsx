@@ -1,13 +1,82 @@
 import "@/app/globals.css"
 import { Inter } from 'next/font/google'
 import { ThemeProvider } from "@/components/theme-provider"
+import type { Metadata } from "next"
 
 const inter = Inter({ subsets: ["latin"] })
 
-export const metadata = {
-    title: "TLD Finder",
-    description: "Explore the world's top-level domains and uncover the organizations that manage them!",
+export const metadata: Metadata = {
+    metadataBase: new URL("https://tld-finder.erdiawan.com"),
+    title: {
+        default: "TLD Finder - Search Top-Level Domains, Registry Managers & WHOIS",
+        template: "%s | TLD Finder"
+    },
+    description: "Search and explore 1,500+ IANA top-level domain extensions (.com, .dev, .id), discover registry operators, generate creative domain hacks, and run live WHOIS & RDAP domain lookups.",
+    keywords: [
+        "TLD finder",
+        "top level domain finder",
+        "WHOIS lookup",
+        "RDAP lookup",
+        "IANA root zone",
+        "domain hacks",
+        "TLD manager search",
+        "gTLD finder",
+        "ccTLD finder",
+        "domain registry search"
+    ],
+    authors: [{ name: "Erdiawan", url: "https://erdiawan.com" }],
+    creator: "Erdiawan",
+    publisher: "TLD Finder",
+    alternates: {
+        canonical: "/",
+    },
+    robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+            index: true,
+            follow: true,
+            "max-video-preview": -1,
+            "max-image-preview": "large",
+            "max-snippet": -1,
+        },
+    },
+    openGraph: {
+        type: "website",
+        locale: "en_US",
+        url: "https://tld-finder.erdiawan.com",
+        title: "TLD Finder - Search Top-Level Domains, Registry Managers & WHOIS",
+        description: "Explore 1,500+ IANA top-level domains, discover registry managers, generate domain hacks, and run live WHOIS/RDAP lookups.",
+        siteName: "TLD Finder",
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "TLD Finder - Search Top-Level Domains & WHOIS",
+        description: "Discover registry operators, generate domain hacks, and run live WHOIS/RDAP lookups.",
+    },
 }
+
+const jsonLd = [
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "TLD Finder",
+        "url": "https://tld-finder.erdiawan.com",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://tld-finder.erdiawan.com/?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    },
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "TLD Finder",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "All",
+        "description": "Interactive search engine for 1,500+ IANA top-level domains, TLD registry managers, WHOIS/RDAP records, and domain hacks."
+    }
+]
 
 export default function RootLayout({
     children,
@@ -16,6 +85,12 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en" className="dark" suppressHydrationWarning>
+            <head>
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+                />
+            </head>
             <body className={inter.className} suppressHydrationWarning>
                 <ThemeProvider
                     attribute="class"
@@ -29,4 +104,3 @@ export default function RootLayout({
         </html>
     )
 }
-
