@@ -1,6 +1,7 @@
+import Link from 'next/link';
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Sparkles, Calendar, ShieldCheck, Globe, Terminal, Copy, FileText, Check, AlertTriangle, ExternalLink } from 'lucide-react';
+import { Sparkles, Calendar, ShieldCheck, Globe, Terminal, Copy, FileText, Check, AlertTriangle, ExternalLink, ChevronRight } from 'lucide-react';
 import type { TLD } from "@/data/tlds";
 import { useState, useEffect, useRef, useCallback } from "react";
 import type { ReactNode } from "react";
@@ -536,58 +537,75 @@ export function TldList({
     return (
         <TooltipProvider>
             <div className="space-y-4">
-                {visibleTlds.map((tld) => (
-                    <div
-                        key={tld.domain}
-                        className="bg-muted/50 rounded-lg p-4 space-y-2"
-                    >
-                        <div className="flex items-center gap-3">
-                            <h3 className="text-lg font-mono">{tld.domain}</h3>
-                            <Badge
-                                variant="secondary"
-                                className={getBadgeStyles(tld.type)}
-                            >
-                                {tld.type}
-                            </Badge>
-                        </div>
-                        <div className="flex items-center justify-between">
-                            <div className="text-sm text-muted-foreground flex gap-2 items-center">
-                                {tld.tldManager}
-                                {tld.tldManager !== "Not assigned" && (
-                                    <Tooltip open={openTooltip === tld.domain}>
-                                        <TooltipTrigger asChild>
-                                            <span
-                                                data-tooltip-trigger="true"
-                                                onClick={() => {
-                                                    if (openTooltip === tld.domain) {
-                                                        setOpenTooltip(null);
-                                                    } else {
-                                                        setOpenTooltip(tld.domain);
-                                                        handleAIQuery(tld.tldManager, tld.domain, tld.type);
-                                                    }
-                                                }}
-                                                className="cursor-pointer hover:opacity-80 transition duration-300"
-                                            >
-                                                <Sparkles className="h-4 w-4" />
-                                                <span className="sr-only">Get AI Info</span>
-                                            </span>
-                                        </TooltipTrigger>
-                                        <TooltipContent side="top" className="max-w-[320px] p-3 text-xs leading-relaxed break-words">
-                                            {aiInfo[tld.tldManager]?.loading ? (
-                                                <div className="flex items-center gap-2">
-                                                    <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-                                                    <span>Analyzing registry details...</span>
-                                                </div>
-                                            ) : (
-                                                aiInfo[tld.tldManager]?.text ? renderMarkdown(aiInfo[tld.tldManager].text) : "No information available."
-                                            )}
-                                        </TooltipContent>
-                                    </Tooltip>
-                                )}
+                {visibleTlds.map((tld) => {
+                    const cleanDomain = tld.domain.toLowerCase().replace(/^\./, '');
+                    return (
+                        <div
+                            key={tld.domain}
+                            className="bg-muted/50 hover:bg-muted/70 transition-colors border border-border/40 rounded-lg p-4 space-y-2 group"
+                        >
+                            <div className="flex items-center justify-between gap-3">
+                                <div className="flex items-center gap-3">
+                                    <Link 
+                                        href={`/tld/${cleanDomain}`}
+                                        className="text-lg font-mono font-bold hover:text-blue-400 hover:underline transition-colors flex items-center gap-1"
+                                    >
+                                        <span>{tld.domain}</span>
+                                    </Link>
+                                    <Badge
+                                        variant="secondary"
+                                        className={getBadgeStyles(tld.type)}
+                                    >
+                                        {tld.type}
+                                    </Badge>
+                                </div>
+                                <Link
+                                    href={`/tld/${cleanDomain}`}
+                                    className="text-xs font-medium text-blue-500 hover:text-blue-400 opacity-80 group-hover:opacity-100 transition-all flex items-center gap-0.5"
+                                >
+                                    <span>Record Details</span>
+                                    <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                                </Link>
+                            </div>
+                            <div className="flex items-center justify-between">
+                                <div className="text-sm text-muted-foreground flex gap-2 items-center">
+                                    {tld.tldManager}
+                                    {tld.tldManager !== "Not assigned" && (
+                                        <Tooltip open={openTooltip === tld.domain}>
+                                            <TooltipTrigger asChild>
+                                                <span
+                                                    data-tooltip-trigger="true"
+                                                    onClick={() => {
+                                                        if (openTooltip === tld.domain) {
+                                                            setOpenTooltip(null);
+                                                        } else {
+                                                            setOpenTooltip(tld.domain);
+                                                            handleAIQuery(tld.tldManager, tld.domain, tld.type);
+                                                        }
+                                                    }}
+                                                    className="cursor-pointer hover:opacity-80 transition duration-300"
+                                                >
+                                                    <Sparkles className="h-4 w-4 text-amber-400" />
+                                                    <span className="sr-only">Get AI Info</span>
+                                                </span>
+                                            </TooltipTrigger>
+                                            <TooltipContent side="top" className="max-w-[320px] p-3 text-xs leading-relaxed break-words">
+                                                {aiInfo[tld.tldManager]?.loading ? (
+                                                    <div className="flex items-center gap-2">
+                                                        <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+                                                        <span>Analyzing registry details...</span>
+                                                    </div>
+                                                ) : (
+                                                    aiInfo[tld.tldManager]?.text ? renderMarkdown(aiInfo[tld.tldManager].text) : "No information available."
+                                                )}
+                                            </TooltipContent>
+                                        </Tooltip>
+                                    )}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                ))}
+                    );
+                })}
                 {!allItemsLoaded && isLoadingMore && (
                     <div className="space-y-4">
                         {[...Array(3)].map((_, i) => (

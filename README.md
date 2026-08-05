@@ -1,41 +1,91 @@
 # TLD Finder
 [![Netlify Status](https://api.netlify.com/api/v1/badges/2780d267-7fd3-42b0-b8d0-5005e2f3932d/deploy-status)](https://app.netlify.com/sites/hilarious-biscuit-90e43f/deploys)
 
-Explore the world's top-level domains, uncover the organizations that manage them, and perform live, high-performance WHOIS queries on any fully qualified domain name!
+Explore the world's top-level domains, uncover the organizations that manage them, view complete IANA delegation records, and perform live, high-performance WHOIS & RDAP queries on any fully qualified domain name!
 
-TLD Finder is a modern, responsive Jamstack application built on **Next.js** and deployed natively on **Netlify** serverless infrastructure.
+TLD Finder is a modern, responsive Jamstack application built on **Next.js 16** (App Router) and deployed natively on **Netlify** serverless infrastructure.
 
 ---
 
 ## 🚀 Key Features
 
-* **IANA Root Database Explorer**: Instantly search and filter through all registered top-level domains (TLDs) in the IANA Root Zone.
-* **Gemini AI Registry Insights**: Harnesses Google's `gemini-3.5-flash-lite` model (with dynamic fallback to `gemini-3.1-flash-lite` and `gemini-2.5-flash-lite`) to fetch real-time, concise, and highly engaging details about the registry operator for any TLD at the click of a button.
-* **Live Domain WHOIS & Availability Lookup**: 
-  * Automatically detects fully-qualified domain queries (e.g., `erdiawan.com`) in the search bar.
-  * Dynamically queries registry and registrar servers using `whoiser`.
-  * Features a gorgeous visual display showcasing **Registration Availability** (green pulsing indicator) vs **Registered Status** (blue indicator).
-  * Includes crucial metrics: Registrar info, DNS Nameservers, Status badges, and an **active countdown of days remaining until expiration** (which highlights in red when close to expiring).
-  * Includes a toggleable **Raw WHOIS Record** dark terminal block with instant copy-to-clipboard actions.
-* **Bi-weekly Automated Database Scraper**: A Netlify Scheduled Function running every two weeks (`0 0 1,15 * *`) that triggers a Netlify Build Hook to auto-scrape, compile, and statically deploy the latest TLD registries from the IANA Root Zone.
-* **Deep Linking / URL Parameter Sync**: Automatically updates the browser query string (`?domain=...` or `?q=...`) for instant deep linking, page refreshes, or query sharing.
+* **IANA Root Database Explorer**: Instantly search and filter through all 1,500+ registered top-level domains (TLDs) in the official IANA Root Zone by extension (e.g. `.com`, `.ai`, `.id`) or registry operator name.
+* **Dedicated SERP & SEO-Friendly TLD Detail Pages (`/tld/[domain]`)**:
+  * Static Site Generation (SSG) for all 1,500+ top-level domains pre-rendering full HTML for instant load times and search engine indexing.
+  * Comprehensive SERP optimization: Dynamic `<title>`, meta descriptions, canonical URLs (`https://tld-finder.erdiawan.com/tld/[domain]`), OpenGraph tags, and Twitter Cards.
+  * Structured JSON-LD Data (Schema.org `BreadcrumbList`, `WebPage`, `Organization`) for rich search engine result snippets.
+  * Deep delegation record metadata: Sponsoring Organisation, Administrative Contact, Technical Contact, Authoritative Name Servers, WHOIS Server, and RDAP Endpoint.
+  * Interactive live WHOIS & domain availability lookup widget embedded on every detail page.
+* **Browser-Mimicking Stealth Scraper (`scripts/scrape-details.js`)**:
+  * Scrapes individual IANA TLD delegation pages (`https://www.iana.org/domains/root/db/{domain}.html`) with stealth protections to prevent anti-scraping blocks.
+  * Features User-Agent rotation, realistic browser HTTP navigation headers (`Sec-Fetch-*`, `Sec-Ch-Ua`, `Accept-Language`, `Referer`), jitter delays, rate-limit throttling, and IDN Punycode conversion (`domainToASCII`).
+  * Saves structured records locally to `data/iana-tld-details.json` with resumable progress caching.
+* **Gemini AI Registry Insights**: Harnesses Google's `gemini-3.5-flash-lite` model (with dynamic fallbacks) to fetch real-time, concise Markdown summaries about registry operators.
+* **Live Domain WHOIS & RDAP Lookup**: 
+  * Automatically detects domain queries (e.g., `erdiawan.com`) and queries RDAP bootstrap servers with automatic fallback to traditional WHOIS (`whoiser`).
+  * Real-time status display: **Registration Availability** (green pulsing indicator) vs **Registered Status** (blue indicator).
+  * Key metrics: Registrar info, DNS Nameservers, Status badges, and active countdown of days remaining until expiration.
+  * Includes a toggleable **Raw WHOIS/RDAP Record** dark terminal block with instant copy-to-clipboard actions.
+* **Domain Hack Generator**: Split-word algorithm generating creative domain hacks for any keyword (e.g., `antigravity` ➔ `anti.gr/avity`, `antigra.vi/ty`, `antigrav.it/y`).
+* **Automated Bi-weekly Data Pipeline**: A Netlify Scheduled Function (`0 0 1,15 * *`) triggering a build hook to auto-scrape, compile, and statically deploy the latest TLD records from IANA.
+* **Deep Linking / URL Parameter Sync**: Automatically updates the browser query string (`?domain=...` or `?q=...`) for instant deep linking and query sharing.
 
 ---
 
 ## 🛠️ Tech Stack
 
-* **Frontend Framework**: Next.js 16.1.6 (utilizing React 19 & Next.js App Router)
+* **Frontend Framework**: Next.js 16.1.6 (React 19 & Next.js App Router with Turbopack)
+* **Language**: TypeScript 5
 * **Styling**: Tailwind CSS v4 + PostCSS
-* **Serverless Infrastructure**: Netlify Functions (Node.js API routes & background Scheduled Functions)
-* **Design Systems**: Radix UI Primitives (Checkbox, Select, Tooltip, Label, Slot) and CVA
-* **Query Libraries**: `whoiser` for live WHOIS querying
+* **Design System**: Radix UI Primitives (Checkbox, Select, Tooltip, Label, Slot) and CVA
+* **Query & Scraper Engines**: `got`, `jsdom`, `whoiser`, and custom RDAP RESTful client
 * **Iconography**: Lucide React
+* **Hosting**: Netlify (App Router Serverless Functions & Scheduled Functions)
+
+---
+
+## 📁 Project Structure
+
+```
+tld-finder/
+├── app/                        # Next.js App Router pages and API routes
+│   ├── api/
+│   │   ├── ai-info/route.ts    # POST: Gemini AI TLD manager lookup
+│   │   ├── domain-hacks/route.ts# GET: Split-word domain hack generator endpoint
+│   │   ├── tld/route.ts        # GET: Filtered TLD list endpoint
+│   │   └── whois/route.ts      # GET: Live RDAP & WHOIS domain lookup route
+│   ├── tld/[domain]/           # Dedicated SERP/SEO friendly TLD detail page
+│   │   └── page.tsx            # Static pre-rendered detail view (SSG)
+│   ├── globals.css             # Tailwind v4 directives & theme configurations
+│   ├── layout.tsx              # Root layout wrapped with ThemeProvider & base JSON-LD
+│   ├── page.tsx                # Main search & TLD explorer page
+│   ├── robots.ts               # Search engine crawler directive rules
+│   └── sitemap.ts              # Dynamic XML sitemap generator (includes all /tld/[domain] paths)
+├── components/                 # Client and Server React components
+│   ├── tld-detail-client.tsx   # Interactive WHOIS checker & quick-copy widget for detail pages
+│   ├── domain-hacks.tsx        # UI card grid for displaying domain hacks
+│   ├── search-form.tsx         # Search input, mode detection, protocol toggle
+│   ├── tld-list.tsx            # TLD cards grid & AI info trigger
+│   └── ui/                     # Radix UI primitives
+├── data/
+│   ├── iana-tld.json           # Scraped index of all IANA TLDs
+│   ├── iana-tld-details.json   # Scraped delegation details for 1,500+ TLDs
+│   └── tlds.ts                 # TypeScript types and data accessor helpers
+├── scripts/
+│   ├── scrape.js               # Web scraper for IANA master index (iana.org/domains/root/db)
+│   └── scrape-details.js       # Stealth scraper for individual IANA TLD detail pages
+├── netlify/
+│   └── functions/
+│       └── trigger-build.js    # Netlify Scheduled Function (Bi-weekly build trigger)
+├── proxy.ts                    # CORS/Origin security middleware
+└── package.json                # Project dependencies and script declarations
+```
 
 ---
 
 ## 💻 Local Setup & Development
 
-First, ensure you have dependencies installed (configured for Yarn):
+Ensure you have dependencies installed (configured for Yarn):
 
 ```bash
 # Install dependencies
@@ -45,29 +95,41 @@ yarn install
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### Scrape the List of TLD Extensions Manually
+---
 
-To manually fetch the latest TLD extensions from IANA and write them locally to `data/iana-tld.json`:
+## ⚙️ Data Scraping Commands
+
+To manually refresh IANA top-level domain records:
 
 ```bash
+# 1. Scrape master TLD index list (data/iana-tld.json)
 yarn scrape
+
+# 2. Stealth-scrape detailed delegation records for all TLDs (data/iana-tld-details.json)
+yarn scrape:details
+
+# Target a specific domain only:
+node ./scripts/scrape-details.js --tld=ai
+
+# 3. Scrape both index and details in sequence:
+yarn scrape:all
 ```
 
 ---
 
 ## ⚙️ Environment Configuration
 
-To support Gemini AI lookups and weekly auto-scraping cron jobs, configure the following environment variables in your local `.env.local` or **Netlify Site Configuration > Environment variables**:
+Configure environment variables in `.env.local` or **Netlify Site Configuration > Environment variables**:
 
 | Variable Key | Description | Example |
 | :--- | :--- | :--- |
-| `GEMINI_API_KEY` | Your Google Gemini API Key | `AIzaSy...` |
-| `NETLIFY_BUILD_HOOK_URL` | Netlify build webhook URL to trigger weekly auto-scrape | `https://api.netlify.com/build_hooks/...` |
+| `GEMINI_API_KEY` | Google Gemini API Key | `AIzaSy...` |
+| `NETLIFY_BUILD_HOOK_URL` | Netlify build webhook URL for automated bi-weekly builds | `https://api.netlify.com/build_hooks/...` |
 
-### Setting up the Bi-weekly Automated Scraper
-1. Go to your **Netlify Dashboard** > **Site Configuration** > **Build & deploy** > **Build hooks**.
-2. Click **Add build hook**, set the name to `Bi-weekly Scraper Trigger`, choose the `main` branch, and click **Save**.
-3. Copy the generated URL and save it as the `NETLIFY_BUILD_HOOK_URL` environment variable.
-4. Deploy the main branch. Netlify will automatically detect the cron configuration in [`netlify/functions/trigger-build.js`](netlify/functions/trigger-build.js) and run the build bi-weekly (on the 1st and 15th of each month), pulling and deploying the latest TLDs automatically!
+### Bi-weekly Automated Pipeline Setup
+1. In **Netlify Dashboard** > **Site Configuration** > **Build & deploy** > **Build hooks**, click **Add build hook**.
+2. Name it `Bi-weekly Scraper Trigger`, target the `main` branch, and click **Save**.
+3. Save the webhook URL into `NETLIFY_BUILD_HOOK_URL`.
+4. On deployment, [`netlify/functions/trigger-build.js`](netlify/functions/trigger-build.js) will fire on the 1st and 15th of every month (`0 0 1,15 * *`), executing `yarn scrape:all && next build` to deploy fresh static data automatically!
