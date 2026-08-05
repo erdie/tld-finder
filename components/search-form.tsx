@@ -154,18 +154,22 @@ export function SearchForm() {
                 <div className="relative flex items-center gap-2">
                     <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
                     <Input
+                        id="tld-search-input"
                         type="search"
                         placeholder="Search TLD (e.g., .com), lookup domain (e.g., google.com), or type keyword for Domain Hacks..."
                         className="pl-10 pr-4 bg-muted/50 text-base font-light py-3"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
+                        aria-label="Search top-level domain or lookup domain"
                     />
                     <Button
+                        id="filter-toggle-button"
                         variant={hasActiveFilters ? "default" : "outline"}
                         size="icon"
                         onClick={() => setShowAdvanced(!showAdvanced)}
                         className={`cursor-pointer ${hasActiveFilters ? "shadow-sm" : "bg-muted/50"}`}
                         title="Toggle filters & protocol settings"
+                        aria-label="Toggle search filters and lookup protocol settings"
                     >
                         {showAdvanced ? (
                             <FilterX className="h-4 w-4" />
