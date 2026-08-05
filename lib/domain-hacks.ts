@@ -33,9 +33,11 @@ const tldMap = new Map<string, TldInfo>();
  */
 export function generateDomainHacks(inputQuery: string): DomainHack[] {
     if (!inputQuery) return [];
+    const trimmed = inputQuery.trim();
+    if (trimmed.startsWith(".")) return [];
 
     // Clean input: remove protocol, slashes, trailing dots
-    let clean = inputQuery.trim().toLowerCase();
+    let clean = trimmed.toLowerCase();
     clean = clean.replace(/^https?:\/\//, "").replace(/\/.*$/, "").replace(/^\.+/, "").replace(/\.+$/, "");
 
     // If input is a domain like "antigravity.com", use the main word "antigravity"
