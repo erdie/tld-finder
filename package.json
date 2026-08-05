@@ -5,9 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "yarn scrape && next build",
+    "build": "yarn scrape:all && next build",
     "start": "next start",
-    "scrape": "node ./scripts/scrape.js"
+    "scrape": "node ./scripts/scrape.js",
+    "scrape:details": "node ./scripts/scrape-details.js",
+    "scrape:all": "node ./scripts/scrape.js && node ./scripts/scrape-details.js"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
