@@ -10,7 +10,7 @@ export default function Home() {
     return (
         <div className="min-h-screen bg-background">
             <main className="container py-6 md:py-8 mx-auto">
-                <div className="mx-auto max-w-[800px] space-y-8 px-4">
+                <div className="mx-auto max-w-4xl space-y-8 px-4">
                     <div className="flex justify-end gap-1">
                         <GithubStarButton />
                         <ThemeToggle />
