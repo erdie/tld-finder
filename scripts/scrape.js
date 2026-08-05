@@ -1,10 +1,9 @@
-const fs = require('fs/promises');
-const { JSDOM } = require('jsdom');
+import fs from 'node:fs/promises';
+import { JSDOM } from 'jsdom';
+import got from 'got';
 
 (async () => {
     try {
-        const got = (await import('got')).default; // Dynamically import 'got'
-
         const url = 'https://www.iana.org/domains/root/db';
         const response = await got(url);
         const dom = new JSDOM(response.body);
