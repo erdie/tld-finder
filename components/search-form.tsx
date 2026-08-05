@@ -3,6 +3,7 @@
 import * as React from "react"
 import { Search, Filter, FilterX, Radio, Zap, ShieldAlert } from 'lucide-react'
 import type { TLD } from "@/data/tlds"
+import { tlds } from "@/data/tlds"
 import { Input } from "@/components/ui/input"
 import { TldList } from "@/components/tld-list"
 import { DomainHacks } from "@/components/domain-hacks"
@@ -11,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 
 function isDomainQuery(q: string): boolean {
     const clean = q.trim().replace(/^\.+/, "");
@@ -20,6 +22,7 @@ function isDomainQuery(q: string): boolean {
 export function SearchForm() {
     const [query, setQuery] = React.useState("")
     const [type, setType] = React.useState("all")
+    const [assignment, setAssignment] = React.useState("all")
     const [protocol, setProtocol] = React.useState<"auto" | "rdap" | "whois">("auto")
     const [byExtensions, setByExtensions] = React.useState(false)
     const [byManagers, setByManagers] = React.useState(false)
@@ -32,6 +35,16 @@ export function SearchForm() {
     const [isWhoisMode, setIsWhoisMode] = React.useState(false)
     const [whoisResult, setWhoisResult] = React.useState<any>(null)
     const [whoisError, setWhoisError] = React.useState<string | null>(null)
+
+    // Precomputed TLD category counts for live filter options
+    const totalTldsCount = tlds.length;
+    const genericCount = React.useMemo(() => tlds.filter(t => t.type === 'generic').length, []);
+    const countryCodeCount = React.useMemo(() => tlds.filter(t => t.type === 'country-code').length, []);
+    const sponsoredCount = React.useMemo(() => tlds.filter(t => t.type === 'sponsored').length, []);
+    const assignedCount = React.useMemo(() => tlds.filter(t => t.tldManager.toLowerCase() !== 'not assigned').length, []);
+    const unassignedCount = React.useMemo(() => tlds.filter(t => t.tldManager.toLowerCase() === 'not assigned').length, []);
+
+    const hasActiveFilters = type !== "all" || assignment !== "all" || protocol !== "auto" || byExtensions || byManagers;
 
     // Read initial query string on mount
     React.useEffect(() => {
@@ -49,9 +62,10 @@ export function SearchForm() {
         setWhoisError(null)
 
         const trimmedQuery = query.trim()
+        const isExtensionQuery = trimmedQuery.startsWith(".") || (byExtensions && !byManagers);
 
-        // Generate Domain Hacks for non-empty search terms
-        if (trimmedQuery.length >= 3) {
+        // Generate Domain Hacks for non-empty search terms (skip for extension searches)
+        if (trimmedQuery.length >= 3 && !isExtensionQuery) {
             const hacks = generateDomainHacks(trimmedQuery);
             setDomainHacks(hacks);
         } else {
@@ -106,6 +120,7 @@ export function SearchForm() {
             const params = new URLSearchParams({
                 q: query,
                 type: type !== "all" ? type : "",
+                assignment: assignment !== "all" ? assignment : "",
                 byExtensions: byExtensions.toString(),
                 byManagers: byManagers.toString()
             })
@@ -126,7 +141,7 @@ export function SearchForm() {
         }, 300)
 
         return () => clearTimeout(timer)
-    }, [query, type, protocol, byExtensions, byManagers])
+    }, [query, type, assignment, protocol, byExtensions, byManagers])
 
     const handleSelectHack = (hackDomain: string) => {
         setQuery(hackDomain);
@@ -146,10 +161,10 @@ export function SearchForm() {
                         onChange={(e) => setQuery(e.target.value)}
                     />
                     <Button
-                        variant="outline"
+                        variant={hasActiveFilters ? "default" : "outline"}
                         size="icon"
                         onClick={() => setShowAdvanced(!showAdvanced)}
-                        className="cursor-pointer bg-muted/50"
+                        className={`cursor-pointer ${hasActiveFilters ? "shadow-sm" : "bg-muted/50"}`}
                         title="Toggle filters & protocol settings"
                     >
                         {showAdvanced ? (
@@ -206,7 +221,16 @@ export function SearchForm() {
 
                 {showAdvanced && (
                     <div className="border rounded-lg p-4 bg-card text-card-foreground shadow-xs animate-fade-in space-y-4">
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="flex items-center justify-between border-b border-border/40 pb-2.5">
+                            <span className="text-xs font-semibold text-foreground flex items-center gap-1.5">
+                                <Filter className="h-3.5 w-3.5 text-primary" /> Filter Options
+                            </span>
+                            <Badge variant="outline" className="font-mono text-xs bg-primary/10 text-primary border-primary/20">
+                                {isLoading ? "Counting..." : `${results.length} TLDs matching filter`}
+                            </Badge>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             <div>
                                 <Label className="text-xs text-muted-foreground mb-1.5 block">TLD Type Filter</Label>
                                 <Select value={type} onValueChange={setType}>
@@ -214,10 +238,24 @@ export function SearchForm() {
                                         <SelectValue placeholder="Type" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="all" className="cursor-pointer">All Types</SelectItem>
-                                        <SelectItem value="generic" className="cursor-pointer">Generic (gTLD)</SelectItem>
-                                        <SelectItem value="country-code" className="cursor-pointer">Country Code (ccTLD)</SelectItem>
-                                        <SelectItem value="sponsored" className="cursor-pointer">Sponsored (sTLD)</SelectItem>
+                                        <SelectItem value="all" className="cursor-pointer">All Types ({totalTldsCount})</SelectItem>
+                                        <SelectItem value="generic" className="cursor-pointer">Generic ({genericCount})</SelectItem>
+                                        <SelectItem value="country-code" className="cursor-pointer">Country Code ({countryCodeCount})</SelectItem>
+                                        <SelectItem value="sponsored" className="cursor-pointer">Sponsored ({sponsoredCount})</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+
+                            <div>
+                                <Label className="text-xs text-muted-foreground mb-1.5 block">Assignment Filter</Label>
+                                <Select value={assignment} onValueChange={setAssignment}>
+                                    <SelectTrigger className="cursor-pointer w-full">
+                                        <SelectValue placeholder="Assignment Status" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="all" className="cursor-pointer">All TLDs ({totalTldsCount})</SelectItem>
+                                        <SelectItem value="assigned" className="cursor-pointer">Assigned Only ({assignedCount})</SelectItem>
+                                        <SelectItem value="unassigned" className="cursor-pointer">Not Assigned Only ({unassignedCount})</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
@@ -235,8 +273,11 @@ export function SearchForm() {
                                     </SelectContent>
                                 </Select>
                             </div>
+                        </div>
 
-                            <div className="flex items-center justify-around">
+                        <div className="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-border/40 text-xs">
+                            <div className="flex items-center space-x-4">
+                                <span className="text-muted-foreground font-medium">Search Scope:</span>
                                 <div className="flex items-center space-x-2">
                                     <Checkbox
                                         id="byExtensions"
@@ -244,7 +285,7 @@ export function SearchForm() {
                                         onCheckedChange={(checked) => setByExtensions(checked as boolean)}
                                         className="cursor-pointer"
                                     />
-                                    <Label htmlFor="byExtensions">By Extensions</Label>
+                                    <Label htmlFor="byExtensions" className="cursor-pointer">Extensions</Label>
                                 </div>
                                 <div className="flex items-center space-x-2">
                                     <Checkbox
@@ -253,10 +294,70 @@ export function SearchForm() {
                                         onCheckedChange={(checked) => setByManagers(checked as boolean)}
                                         className="cursor-pointer"
                                     />
-                                    <Label htmlFor="byManagers">By Managers</Label>
+                                    <Label htmlFor="byManagers" className="cursor-pointer">Managers</Label>
                                 </div>
                             </div>
+
+                            <div className="flex items-center space-x-2">
+                                <Checkbox
+                                    id="hideUnassigned"
+                                    checked={assignment === "assigned"}
+                                    onCheckedChange={(checked) => setAssignment(checked ? "assigned" : "all")}
+                                    className="cursor-pointer"
+                                />
+                                <Label htmlFor="hideUnassigned" className="cursor-pointer font-medium">
+                                    Hide "Not assigned" TLDs
+                                </Label>
+                            </div>
                         </div>
+                    </div>
+                )}
+
+                {!isWhoisMode && (
+                    <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-muted-foreground px-1 font-mono">
+                        <div>
+                            Showing <strong className="text-foreground">{isLoading ? '...' : results.length}</strong> of <strong className="text-foreground">{totalTldsCount}</strong> TLDs
+                        </div>
+                        {hasActiveFilters && (
+                            <div className="flex items-center gap-1.5 flex-wrap">
+                                {type !== "all" && (
+                                    <Badge variant="secondary" className="text-[10px] py-0.5 px-2 flex items-center gap-1 font-sans">
+                                        Type: {type}
+                                        <button onClick={() => setType("all")} className="hover:text-foreground cursor-pointer ml-0.5">✕</button>
+                                    </Badge>
+                                )}
+                                {assignment !== "all" && (
+                                    <Badge variant="secondary" className="text-[10px] py-0.5 px-2 flex items-center gap-1 font-sans">
+                                        Assignment: {assignment}
+                                        <button onClick={() => setAssignment("all")} className="hover:text-foreground cursor-pointer ml-0.5">✕</button>
+                                    </Badge>
+                                )}
+                                {byExtensions && (
+                                    <Badge variant="secondary" className="text-[10px] py-0.5 px-2 flex items-center gap-1 font-sans">
+                                        Scope: Extensions
+                                        <button onClick={() => setByExtensions(false)} className="hover:text-foreground cursor-pointer ml-0.5">✕</button>
+                                    </Badge>
+                                )}
+                                {byManagers && (
+                                    <Badge variant="secondary" className="text-[10px] py-0.5 px-2 flex items-center gap-1 font-sans">
+                                        Scope: Managers
+                                        <button onClick={() => setByManagers(false)} className="hover:text-foreground cursor-pointer ml-0.5">✕</button>
+                                    </Badge>
+                                )}
+                                <button
+                                    onClick={() => {
+                                        setType("all");
+                                        setAssignment("all");
+                                        setProtocol("auto");
+                                        setByExtensions(false);
+                                        setByManagers(false);
+                                    }}
+                                    className="text-[11px] text-muted-foreground hover:text-foreground underline cursor-pointer ml-1 font-sans"
+                                >
+                                    Reset filters
+                                </button>
+                            </div>
+                        )}
                     </div>
                 )}
             </div>
