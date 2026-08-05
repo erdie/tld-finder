@@ -3,7 +3,7 @@
 ## 📌 Project Overview
 **TLD Finder** (`tld-finder`) is a modern, responsive Jamstack web application designed to explore top-level domains (TLDs) from the IANA Root Zone, provide AI-powered insights into TLD registry managers via Google Gemini, and perform live, real-time WHOIS lookups and domain availability checks.
 
-- **Production URL**: Netlify deployed Jamstack app (`https://tld-finder.erdiawan.com` / `https://tldfinder.app`)
+- **Production URL**: Netlify deployed Jamstack app (`https://tld-finder.erdiawan.com`)
 - **Primary Repository Workspace**: `/Users/erdi/Data/Codes/tld-finder`
 
 ---
@@ -64,7 +64,7 @@
    - The build process runs `npm run scrape` before `next build`, keeping static data fresh without manual intervention.
 
 7. **Security & API Request Proxy**
-   - Custom proxy middleware (`proxy.ts`) verifying `Origin` and `Referer` headers against allowed domains (`tld-finder.erdiawan.com`, `tldfinder.app`, `localhost:3000`) for protected routes (`/api/ai-info`, `/api/tld`).
+   - Custom proxy middleware (`proxy.ts`) verifying `Origin` and `Referer` headers against allowed domains (`tld-finder.erdiawan.com`, `localhost:3000`) for protected routes (`/api/ai-info`, `/api/tld`).
 
 ---
 
