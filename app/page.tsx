@@ -17,7 +17,7 @@ export default function Home() {
             </header>
 
             <main className="container py-4 md:py-6 mx-auto flex-1">
-                <div className="mx-auto max-w-4xl space-y-8 px-4">
+                <div className="mx-auto max-w-6xl space-y-8 px-4">
                     <div className="space-y-2 text-center pb-1 md:pb-4">
                         <p className="text-xs text-muted-foreground font-normal bg-muted-foreground/10 hover:bg-muted-foreground/15 rounded-full py-1.5 space-y-2 block w-72 mx-auto border-muted-foreground/20 border">
                             <strong>{tlds.length}</strong> TLDs registered in the <a href="https://www.iana.org/" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">IANA Root Zone</a>
