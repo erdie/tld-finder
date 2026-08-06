@@ -34,7 +34,7 @@ export function DomainHacks({ hacks, query, onSelectHack }: DomainHacksProps) {
     };
 
     return (
-        <div className="bg-card border border-primary/20 rounded-xl p-5 shadow-lg space-y-4 animate-fade-in">
+        <div className="bg-card border border-primary/20 rounded-lg p-5 shadow-lg space-y-4 animate-fade-in">
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-border/60">
                 <div className="flex items-center gap-2.5">

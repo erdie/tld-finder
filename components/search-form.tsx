@@ -151,7 +151,7 @@ export function SearchForm() {
     return (
         <div className="space-y-6">
             <div className="flex flex-col gap-4">
-                <div className="relative flex items-center gap-2">
+                <div className="relative flex items-center gap-3">
                     <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
                     <Input
                         id="tld-search-input"

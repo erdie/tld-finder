@@ -207,7 +207,7 @@ export default async function TldDetailPage({ params }: PageProps) {
                     </nav>
 
                     {/* Hero Section */}
-                    <section className="bg-gradient-to-r from-card via-card/90 to-card border border-border/80 rounded-2xl p-6 sm:p-8 shadow-xl relative overflow-hidden">
+                    <section className="bg-gradient-to-r from-card via-card/90 to-card border border-border/80 rounded-lg p-6 sm:p-8 shadow-xl relative overflow-hidden">
                         <div className="absolute -right-10 -bottom-10 w-60 h-60 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
                         
                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
@@ -229,7 +229,7 @@ export default async function TldDetailPage({ params }: PageProps) {
                             </div>
 
                             {/* Date Badges */}
-                            <div className="flex flex-col sm:flex-row md:flex-col gap-2 font-mono text-xs text-muted-foreground bg-muted/40 p-4 rounded-xl border border-border/50">
+                            <div className="flex flex-col sm:flex-row md:flex-col gap-2 font-mono text-xs text-muted-foreground bg-muted/40 p-4 rounded-lg border border-border/50">
                                 {detail?.registrationDate && (
                                     <div className="flex items-center gap-2">
                                         <Calendar className="w-4 h-4 text-blue-400" />
@@ -255,13 +255,13 @@ export default async function TldDetailPage({ params }: PageProps) {
 
                     {/* Registry Specs Overview Grid */}
                     <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                        <div className="bg-card border border-border/60 rounded-xl p-5 shadow-sm space-y-2">
+                        <div className="bg-card border border-border/60 rounded-lg p-5 shadow-sm space-y-2">
                             <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block">WHOIS Server</span>
                             <p className="font-mono text-sm font-bold text-foreground break-all">
                                 {detail?.whoisServer || 'Not Specified'}
                             </p>
                         </div>
-                        <div className="bg-card border border-border/60 rounded-xl p-5 shadow-sm space-y-2">
+                        <div className="bg-card border border-border/60 rounded-lg p-5 shadow-sm space-y-2">
                             <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block">RDAP Endpoint</span>
                             <p className="font-mono text-xs font-semibold text-blue-400 break-all">
                                 {detail?.rdapServer ? (
@@ -272,7 +272,7 @@ export default async function TldDetailPage({ params }: PageProps) {
                                 ) : 'Not Configured'}
                             </p>
                         </div>
-                        <div className="bg-card border border-border/60 rounded-xl p-5 shadow-sm space-y-2">
+                        <div className="bg-card border border-border/60 rounded-lg p-5 shadow-sm space-y-2">
                             <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block">Registry Services</span>
                             {detail?.registryUrl ? (
                                 <a 
@@ -288,7 +288,7 @@ export default async function TldDetailPage({ params }: PageProps) {
                                 <span className="text-xs text-muted-foreground">Direct URL N/A</span>
                             )}
                         </div>
-                        <div className="bg-card border border-border/60 rounded-xl p-5 shadow-sm space-y-2">
+                        <div className="bg-card border border-border/60 rounded-lg p-5 shadow-sm space-y-2">
                             <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block">Authoritative NS</span>
                             <p className="font-mono text-sm font-bold text-foreground">
                                 {detail?.nameServers?.length ? `${detail.nameServers.length} Servers` : 'Standard IANA Root'}
@@ -305,7 +305,7 @@ export default async function TldDetailPage({ params }: PageProps) {
 
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                             {/* Sponsoring Organisation */}
-                            <div className="bg-card border border-border/70 rounded-xl p-6 shadow-sm space-y-3 flex flex-col justify-between">
+                            <div className="bg-card border border-border/70 rounded-lg p-6 shadow-sm space-y-3 flex flex-col justify-between">
                                 <div>
                                     <div className="flex items-center gap-2 mb-3">
                                         <Building2 className="w-4 h-4 text-blue-400" />
@@ -324,7 +324,7 @@ export default async function TldDetailPage({ params }: PageProps) {
                             </div>
 
                             {/* Administrative Contact */}
-                            <div className="bg-card border border-border/70 rounded-xl p-6 shadow-sm space-y-3 flex flex-col justify-between">
+                            <div className="bg-card border border-border/70 rounded-lg p-6 shadow-sm space-y-3 flex flex-col justify-between">
                                 <div>
                                     <div className="flex items-center gap-2 mb-3">
                                         <UserCheck className="w-4 h-4 text-emerald-400" />
@@ -347,7 +347,7 @@ export default async function TldDetailPage({ params }: PageProps) {
                             </div>
 
                             {/* Technical Contact */}
-                            <div className="bg-card border border-border/70 rounded-xl p-6 shadow-sm space-y-3 flex flex-col justify-between">
+                            <div className="bg-card border border-border/70 rounded-lg p-6 shadow-sm space-y-3 flex flex-col justify-between">
                                 <div>
                                     <div className="flex items-center gap-2 mb-3">
                                         <Wrench className="w-4 h-4 text-indigo-400" />
@@ -379,7 +379,7 @@ export default async function TldDetailPage({ params }: PageProps) {
                                 Authoritative Name Servers ({detail.nameServers.length})
                             </h2>
 
-                            <div className="bg-card border border-border/70 rounded-xl overflow-hidden shadow-sm">
+                            <div className="bg-card border border-border/70 rounded-lg overflow-hidden shadow-sm">
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-left text-xs font-mono">
                                         <thead className="bg-muted/60 border-b border-border/60 text-muted-foreground font-sans font-semibold uppercase text-[11px]">
@@ -426,7 +426,7 @@ export default async function TldDetailPage({ params }: PageProps) {
                                         <Link 
                                             key={idx}
                                             href={`/tld/${clean}`}
-                                            className="p-3 bg-card hover:bg-muted/60 border border-border/50 hover:border-blue-500/40 rounded-xl transition-all text-center space-y-1 group"
+                                            className="p-3 bg-card hover:bg-muted/60 border border-border/50 hover:border-blue-500/40 rounded-lg transition-all text-center space-y-1 group"
                                         >
                                             <span className="font-mono font-bold text-sm text-foreground group-hover:text-blue-400 transition-colors block">
                                                 .{clean}

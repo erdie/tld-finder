@@ -74,16 +74,16 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
         return (
             <div className="space-y-6 animate-pulse">
                 {/* Status card skeleton */}
-                <div className="bg-muted/40 rounded-md p-6 border border-muted/60 space-y-4">
+                <div className="bg-muted/40 rounded-lg p-6 border border-muted/60 space-y-4">
                     <div className="h-8 bg-muted rounded w-1/3"></div>
                     <div className="h-4 bg-muted rounded w-2/3"></div>
                 </div>
                 {/* Details grid skeleton */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-muted/30 rounded-md p-4 h-24 border border-muted/40"></div>
-                    <div className="bg-muted/30 rounded-md p-4 h-24 border border-muted/40"></div>
-                    <div className="bg-muted/30 rounded-md p-4 h-24 border border-muted/40"></div>
-                    <div className="bg-muted/30 rounded-md p-4 h-24 border border-muted/40"></div>
+                    <div className="bg-muted/30 rounded-lg p-4 h-24 border border-muted/40"></div>
+                    <div className="bg-muted/30 rounded-lg p-4 h-24 border border-muted/40"></div>
+                    <div className="bg-muted/30 rounded-lg p-4 h-24 border border-muted/40"></div>
+                    <div className="bg-muted/30 rounded-lg p-4 h-24 border border-muted/40"></div>
                 </div>
             </div>
         );
@@ -91,7 +91,7 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
 
     if (error) {
         return (
-            <div className="bg-red-500/10 border border-red-500/20 rounded-md p-6 space-y-4 text-center">
+            <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-6 space-y-4 text-center">
                 <AlertTriangle className="h-10 w-10 text-red-500 mx-auto animate-bounce" />
                 <h3 className="text-lg font-semibold text-red-400">Lookup Failed</h3>
                 <p className="text-sm text-muted-foreground max-w-md mx-auto">{error}</p>
@@ -113,7 +113,7 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
 
     if (!isRegistered) {
         return (
-            <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-md p-8 text-center space-y-6 animate-fade-in relative overflow-hidden group shadow-lg shadow-emerald-500/5">
+            <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-8 text-center space-y-6 animate-fade-in relative overflow-hidden group shadow-lg shadow-emerald-500/5">
                 {/* Pulsing visual element */}
                 <div className="absolute -right-16 -top-16 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl group-hover:scale-150 transition-all duration-700" />
                 <div className="absolute -left-16 -bottom-16 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl group-hover:scale-150 transition-all duration-700" />
@@ -181,7 +181,7 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
     return (
         <div className="space-y-6 animate-fade-in">
             {/* Registered Domain Status Card */}
-            <div className="bg-muted/30 border rounded-md p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 relative overflow-hidden group shadow-xs">
+            <div className="bg-muted/30 border rounded-lg p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 relative overflow-hidden group shadow-xs">
                 <div className="space-y-1.5">
                     <div className="flex items-center gap-2.5 flex-wrap">
                         <h3 className="text-2xl font-mono font-bold tracking-tight">{domain}</h3>
@@ -256,7 +256,7 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
             {activeTab === 'summary' && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-fade-in">
                     {/* Dates Card */}
-                    <div className="bg-muted/30 border rounded-md p-4 space-y-3.5">
+                    <div className="bg-muted/30 border rounded-lg p-4 space-y-3.5">
                         <h4 className="text-sm font-bold text-muted-foreground flex items-center gap-2">
                             <Calendar className="h-4 w-4 text-blue-500" /> Important Dates
                         </h4>
@@ -273,7 +273,7 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
                     </div>
 
                     {/* Registry Operator/Details Card */}
-                    <div className="bg-muted/30 border rounded-md p-4 space-y-3.5">
+                    <div className="bg-muted/30 border rounded-lg p-4 space-y-3.5">
                         <h4 className="text-sm font-bold text-muted-foreground flex items-center gap-2">
                             <Globe className="h-4 w-4 text-purple-500" /> Registrar & Domain Status
                         </h4>
@@ -303,7 +303,7 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
 
                     {/* RDAP Entities Card if present */}
                     {parsed.entities && parsed.entities.length > 0 && (
-                        <div className="bg-muted/30 border rounded-md p-4 space-y-3.5 md:col-span-2">
+                        <div className="bg-muted/30 border rounded-lg p-4 space-y-3.5 md:col-span-2">
                             <h4 className="text-sm font-bold text-muted-foreground flex items-center gap-2">
                                 <Sparkles className="h-4 w-4 text-purple-400" /> RDAP Contact Entities
                             </h4>
@@ -320,7 +320,7 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
 
                     {/* Name Servers Card */}
                     {parsed.nameServers && parsed.nameServers.length > 0 && (
-                        <div className="bg-muted/30 border rounded-md p-4 space-y-3.5 md:col-span-2">
+                        <div className="bg-muted/30 border rounded-lg p-4 space-y-3.5 md:col-span-2">
                             <h4 className="text-sm font-bold text-muted-foreground flex items-center gap-2">
                                 <Globe className="h-4 w-4 text-emerald-500" /> DNS Nameservers
                             </h4>
@@ -358,7 +358,7 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
                             )}
                         </button>
                     </div>
-                    <pre className="bg-neutral-950 text-neutral-200 border border-neutral-800 rounded-md p-4 font-mono text-xs leading-relaxed overflow-x-auto overflow-y-auto max-h-[450px] shadow-inner custom-scrollbar selection:bg-neutral-700">
+                    <pre className="bg-neutral-950 text-neutral-200 border border-neutral-800 rounded-lg p-4 font-mono text-xs leading-relaxed overflow-x-auto overflow-y-auto max-h-[450px] shadow-inner custom-scrollbar selection:bg-neutral-700">
                         {raw || "No raw lookup records found."}
                     </pre>
                 </div>
@@ -502,8 +502,8 @@ export function TldList({
 
     if (isLoading) {
         return (
-            <div className="space-y-4">
-                {[...Array(5)].map((_, i) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {[...Array(6)].map((_, i) => (
                     <TldSkeleton key={i} />
                 ))}
             </div>
@@ -536,13 +536,13 @@ export function TldList({
 
     return (
         <TooltipProvider>
-            <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {visibleTlds.map((tld) => {
                     const cleanDomain = tld.domain.toLowerCase().replace(/^\./, '');
                     return (
                         <div
                             key={tld.domain}
-                            className="bg-muted/50 hover:bg-muted/70 transition-colors border border-border/40 rounded-lg p-4 space-y-2 group"
+                            className="bg-muted/50 hover:bg-muted/70 transition-colors border border-border/40 rounded-lg p-4 space-y-2 group flex flex-col justify-between"
                         >
                             <div className="flex items-center justify-between gap-3">
                                 <div className="flex items-center gap-3">
@@ -607,13 +607,13 @@ export function TldList({
                     );
                 })}
                 {!allItemsLoaded && isLoadingMore && (
-                    <div className="space-y-4">
-                        {[...Array(3)].map((_, i) => (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 col-span-1 md:col-span-2">
+                        {[...Array(4)].map((_, i) => (
                             <TldSkeleton key={i} />
                         ))}
                     </div>
                 )}
-                <div ref={loadMoreRef}></div>
+                <div ref={loadMoreRef} className="col-span-1 md:col-span-2"></div>
             </div>
         </TooltipProvider>
     );

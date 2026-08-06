@@ -55,7 +55,7 @@ export function TldDetailClient({ domain, whoisServer, rdapServer }: TldDetailCl
         <div className="space-y-6">
             {/* Quick Copy Action Bar */}
             {(whoisServer || rdapServer) && (
-                <div className="flex flex-wrap items-center gap-3 bg-card/60 backdrop-blur border border-border/60 rounded-xl p-4">
+                <div className="flex flex-wrap items-center gap-3 bg-card/60 backdrop-blur border border-border/60 rounded-lg p-4">
                     <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mr-1">Quick Copy:</span>
                     {whoisServer && (
                         <button
@@ -81,7 +81,7 @@ export function TldDetailClient({ domain, whoisServer, rdapServer }: TldDetailCl
             )}
 
             {/* Live Domain Availability & WHOIS Interactive Section */}
-            <div className="bg-gradient-to-br from-card via-card/90 to-blue-950/20 border border-blue-500/20 rounded-2xl p-6 shadow-xl space-y-5">
+            <div className="bg-gradient-to-br from-card via-card/90 to-blue-950/20 border border-blue-500/20 rounded-lg p-6 shadow-xl space-y-5">
                 <div className="flex items-center justify-between flex-wrap gap-3">
                     <div>
                         <h3 className="text-lg font-bold flex items-center gap-2 text-foreground">
@@ -131,7 +131,7 @@ export function TldDetailClient({ domain, whoisServer, rdapServer }: TldDetailCl
 
                 {/* Results Display */}
                 {error && (
-                    <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm flex items-start gap-3">
+                    <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm flex items-start gap-3">
                         <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
                         <div>
                             <span className="font-semibold block">Lookup Failure</span>
@@ -142,7 +142,7 @@ export function TldDetailClient({ domain, whoisServer, rdapServer }: TldDetailCl
 
                 {whoisResult && (
                     <div className="space-y-4 pt-2 border-t border-border/50 animate-in fade-in slide-in-from-top-2 duration-300">
-                        <div className="flex items-center justify-between flex-wrap gap-2 bg-muted/40 p-4 rounded-xl border border-border/40">
+                        <div className="flex items-center justify-between flex-wrap gap-2 bg-muted/40 p-4 rounded-lg border border-border/40">
                             <div className="flex items-center gap-3">
                                 <div className={`w-3 h-3 rounded-full ${whoisResult.isRegistered ? 'bg-amber-500 animate-pulse' : 'bg-emerald-500 animate-ping'}`} />
                                 <div>
