@@ -1,7 +1,7 @@
 # TLD Finder
 [![Netlify Status](https://api.netlify.com/api/v1/badges/2780d267-7fd3-42b0-b8d0-5005e2f3932d/deploy-status)](https://app.netlify.com/sites/hilarious-biscuit-90e43f/deploys)
 
-Explore the world's top-level domains, uncover the organizations that manage them, view complete IANA delegation records, and perform live, high-performance WHOIS & RDAP queries on any fully qualified domain name!
+Explore the world's top-level domains, uncover the organizations that manage them, view complete IANA delegation records, perform live, high-performance WHOIS & RDAP queries on any domain name, and schedule domain expiration reminders!
 
 TLD Finder is a modern, responsive Jamstack application built on **Next.js 16** (App Router) and deployed natively on **Netlify** serverless infrastructure.
 
@@ -12,7 +12,7 @@ TLD Finder is a modern, responsive Jamstack application built on **Next.js 16** 
 * **IANA Root Database Explorer**: Instantly search and filter through all 1,500+ registered top-level domains (TLDs) in the official IANA Root Zone by extension (e.g. `.com`, `.ai`, `.id`) or registry operator name.
 * **Dedicated SERP & SEO-Friendly TLD Detail Pages (`/tld/[domain]`)**:
   * Static Site Generation (SSG) for all 1,500+ top-level domains pre-rendering full HTML for instant load times and search engine indexing.
-  * Comprehensive SERP optimization: Dynamic `<title>`, meta descriptions, canonical URLs (`https://tld-finder.erdiawan.com/tld/[domain]`), OpenGraph tags, and Twitter Cards.
+  * Comprehensive SERP optimization: Dynamic `<title>`, meta descriptions, canonical URLs (`NEXT_PUBLIC_BASE_URL/tld/[domain]`), OpenGraph tags, and Twitter Cards.
   * Structured JSON-LD Data (Schema.org `BreadcrumbList`, `WebPage`, `Organization`) for rich search engine result snippets.
   * Deep delegation record metadata: Sponsoring Organisation, Administrative Contact, Technical Contact, Authoritative Name Servers, WHOIS Server, and RDAP Endpoint.
   * Interactive live WHOIS & domain availability lookup widget embedded on every detail page.
@@ -26,9 +26,15 @@ TLD Finder is a modern, responsive Jamstack application built on **Next.js 16** 
   * Real-time status display: **Registration Availability** (green pulsing indicator) vs **Registered Status** (blue indicator).
   * Key metrics: Registrar info, DNS Nameservers, Status badges, and active countdown of days remaining until expiration.
   * Includes a toggleable **Raw WHOIS/RDAP Record** dark terminal block with instant copy-to-clipboard actions.
+* **Google Calendar Expiration Reminders ("Remind Me")**:
+  * Integrated **Remind Me** button for registered domain WHOIS/RDAP lookups.
+  * Automatically calculates event date **30 days prior to domain expiration** at **09:00 AM WIB / Jakarta (GMT+7)**.
+  * Mobile-responsive layout (positioned on the right on mobile views and on the left on desktop views).
+* **Deep Linking / URL Query String Sync**:
+  * Automatically synchronizes search queries to the URL (`?domain=domainname.com` or `?q=...`) for instant deep linking and sharing.
+  * Cleans input prefixes (`https://`, `www.`) automatically and supports browser `popstate` Back/Forward history navigation.
 * **Domain Hack Generator**: Split-word algorithm generating creative domain hacks for any keyword (e.g., `antigravity` ➔ `anti.gr/avity`, `antigra.vi/ty`, `antigrav.it/y`).
 * **Automated Bi-weekly Data Pipeline**: A Netlify Scheduled Function (`0 0 1,15 * *`) triggering a build hook to auto-scrape, compile, and statically deploy the latest TLD records from IANA.
-* **Deep Linking / URL Parameter Sync**: Automatically updates the browser query string (`?domain=...` or `?q=...`) for instant deep linking and query sharing.
 
 ---
 
@@ -39,7 +45,7 @@ TLD Finder is a modern, responsive Jamstack application built on **Next.js 16** 
 * **Styling**: Tailwind CSS v4 + PostCSS
 * **Design System**: Radix UI Primitives (Checkbox, Select, Tooltip, Label, Slot) and CVA
 * **Query & Scraper Engines**: `got`, `jsdom`, `whoiser`, and custom RDAP RESTful client
-* **Iconography**: Lucide React
+* **Iconography**: Hugeicons (`@hugeicons/react` and `@hugeicons/core-free-icons`)
 * **Hosting**: Netlify (App Router Serverless Functions & Scheduled Functions)
 
 ---
@@ -62,15 +68,20 @@ tld-finder/
 │   ├── robots.ts               # Search engine crawler directive rules
 │   └── sitemap.ts              # Dynamic XML sitemap generator (includes all /tld/[domain] paths)
 ├── components/                 # Client and Server React components
-│   ├── tld-detail-client.tsx   # Interactive WHOIS checker & quick-copy widget for detail pages
+│   ├── tld-detail-client.tsx   # Interactive WHOIS checker, Google Calendar reminder & quick-copy widget
 │   ├── domain-hacks.tsx        # UI card grid for displaying domain hacks
-│   ├── search-form.tsx         # Search input, mode detection, protocol toggle
-│   ├── tld-list.tsx            # TLD cards grid & AI info trigger
+│   ├── search-form.tsx         # Search input, mode detection, protocol toggle, URL query sync
+│   ├── tld-list.tsx            # TLD cards grid, WHOIS result display & Google Calendar reminder
 │   └── ui/                     # Radix UI primitives
 ├── data/
 │   ├── iana-tld.json           # Scraped index of all IANA TLDs
 │   ├── iana-tld-details.json   # Scraped delegation details for 1,500+ TLDs
 │   └── tlds.ts                 # TypeScript types and data accessor helpers
+├── lib/
+│   ├── domain-hacks.ts         # Domain hack generator library
+│   ├── rdap.ts                 # RDAP protocol client
+│   ├── site-config.ts          # Centralized configuration helper (NEXT_PUBLIC_BASE_URL)
+│   └── utils.ts                # Utility functions
 ├── scripts/
 │   ├── scrape.js               # Web scraper for IANA master index (iana.org/domains/root/db)
 │   └── scrape-details.js       # Stealth scraper for individual IANA TLD detail pages
@@ -125,6 +136,7 @@ Configure environment variables in `.env.local` or **Netlify Site Configuration 
 
 | Variable Key | Description | Example |
 | :--- | :--- | :--- |
+| `NEXT_PUBLIC_BASE_URL` | Public Base URL for canonical tags, OpenGraph, sitemap, and CORS allowed origins | `tld-finder.erdiawan.com` or `https://tld-finder.erdiawan.com` |
 | `GEMINI_API_KEY` | Google Gemini API Key | `AIzaSy...` |
 | `NETLIFY_BUILD_HOOK_URL` | Netlify build webhook URL for automated bi-weekly builds | `https://api.netlify.com/build_hooks/...` |
 
