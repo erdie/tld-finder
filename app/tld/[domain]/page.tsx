@@ -11,6 +11,7 @@ import {
     Layers01Icon, SparklesIcon, CheckmarkCircle01Icon, ArrowRight01Icon 
 } from '@hugeicons/core-free-icons';
 import { scrapeTldDetail } from '@/scripts/scrape-details';
+import { getBaseUrl } from '@/lib/site-config';
 
 interface PageProps {
     params: Promise<{ domain: string }>;
@@ -30,10 +31,11 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
     const { domain: rawDomain } = await params;
     const cleanDomain = normalizeDomain(rawDomain);
+    const detail = getTldDetail(cleanDomain);
+    const tldBasic = tlds.find(t => t.domain.toLowerCase().replace(/^\./, '') === cleanDomain);
+    const baseUrl = getBaseUrl();
     
     // Find TLD meta
-    const tldBasic = tlds.find(t => t.domain.toLowerCase().replace(/^\./, '') === cleanDomain);
-    const detail = getTldDetail(cleanDomain);
 
     if (!tldBasic && !detail) {
         return {
@@ -49,7 +51,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
     const title = `.${domainUpper} TLD Delegation Record, Registry Manager & WHOIS | TLD Finder`;
     const description = `Explore official IANA delegation record for .${cleanDomain} (${typeLabel}). Registry manager: ${managerName}. ${whoisInfo} Authoritative name servers, RDAP endpoints, and domain availability lookup.`;
-    const canonicalUrl = `https://tld-finder.erdiawan.com/tld/${cleanDomain}`;
+    const canonicalUrl = `${baseUrl}/tld/${cleanDomain}`;
 
     return {
         title,
@@ -75,7 +77,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
             type: 'website',
             images: [
                 {
-                    url: `https://tld-finder.erdiawan.com/og-tld-${cleanDomain}.png`,
+                    url: `${baseUrl}/og-tld-${cleanDomain}.png`,
                     width: 1200,
                     height: 630,
                     alt: `.${domainUpper} Top-Level Domain Info`
@@ -100,6 +102,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function TldDetailPage({ params }: PageProps) {
     const { domain: rawDomain } = await params;
     const cleanDomain = normalizeDomain(rawDomain);
+    const baseUrl = getBaseUrl();
 
     const tldBasic = tlds.find(t => t.domain.toLowerCase().replace(/^\./, '') === cleanDomain);
     let detail: TLDDetail | null = getTldDetail(cleanDomain);
@@ -141,19 +144,19 @@ export default async function TldDetailPage({ params }: PageProps) {
                     "@type": "ListItem",
                     "position": 1,
                     "name": "Home",
-                    "item": "https://tld-finder.erdiawan.com/"
+                    "item": `${baseUrl}/`
                 },
                 {
                     "@type": "ListItem",
                     "position": 2,
                     "name": "TLD Directory",
-                    "item": "https://tld-finder.erdiawan.com/#tld-list"
+                    "item": `${baseUrl}/#tld-list`
                 },
                 {
                     "@type": "ListItem",
                     "position": 3,
                     "name": `.${domainUpper}`,
-                    "item": `https://tld-finder.erdiawan.com/tld/${cleanDomain}`
+                    "item": `${baseUrl}/tld/${cleanDomain}`
                 }
             ]
         },
@@ -162,7 +165,7 @@ export default async function TldDetailPage({ params }: PageProps) {
             "@type": "WebPage",
             "name": `.${domainUpper} TLD Delegation Record & Registry Details`,
             "description": `Detailed IANA delegation record for .${cleanDomain} top-level domain (${tldType}).`,
-            "url": `https://tld-finder.erdiawan.com/tld/${cleanDomain}`,
+            "url": `${baseUrl}/tld/${cleanDomain}`,
             "mainEntity": {
                 "@type": "Organization",
                 "name": managerName,

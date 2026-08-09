@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { getBaseUrl } from '@/lib/site-config'
 
 // Allowed origins for API requests
 const allowedOrigins = [
+    getBaseUrl(),
     'https://tld-finder.erdiawan.com',
     'http://localhost:3000',
 ]

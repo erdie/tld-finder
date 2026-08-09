@@ -1,8 +1,9 @@
 import type { MetadataRoute } from 'next';
 import { tlds } from '@/data/tlds';
+import { getBaseUrl } from '@/lib/site-config';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    const baseUrl = 'https://tld-finder.erdiawan.com';
+    const baseUrl = getBaseUrl();
     const now = new Date();
 
     const tldEntries: MetadataRoute.Sitemap = tlds.map(tld => {

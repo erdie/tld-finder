@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next'
+import { getBaseUrl } from '@/lib/site-config'
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -7,6 +8,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/api/'],
     },
-    sitemap: 'https://tld-finder.erdiawan.com/sitemap.xml',
+    sitemap: `${getBaseUrl()}/sitemap.xml`,
   }
 }

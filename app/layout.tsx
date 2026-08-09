@@ -2,11 +2,13 @@ import "@/app/globals.css"
 import { Inter } from 'next/font/google'
 import { ThemeProvider } from "@/components/theme-provider"
 import type { Metadata } from "next"
+import { getBaseUrl } from "@/lib/site-config"
 
 const inter = Inter({ subsets: ["latin"] })
+const baseUrl = getBaseUrl();
 
 export const metadata: Metadata = {
-    metadataBase: new URL("https://tld-finder.erdiawan.com"),
+    metadataBase: new URL(baseUrl),
     title: {
         default: "TLD Finder - Search Top-Level Domains, Registry Managers & WHOIS",
         template: "%s | TLD Finder"
@@ -44,7 +46,7 @@ export const metadata: Metadata = {
     openGraph: {
         type: "website",
         locale: "en_US",
-        url: "https://tld-finder.erdiawan.com",
+        url: baseUrl,
         title: "TLD Finder - Search Top-Level Domains, Registry Managers & WHOIS",
         description: "Explore 1,500+ IANA top-level domains, discover registry managers, generate domain hacks, and run live WHOIS/RDAP lookups.",
         siteName: "TLD Finder",
@@ -61,10 +63,10 @@ const jsonLd = [
         "@context": "https://schema.org",
         "@type": "WebSite",
         "name": "TLD Finder",
-        "url": "https://tld-finder.erdiawan.com",
+        "url": baseUrl,
         "potentialAction": {
             "@type": "SearchAction",
-            "target": "https://tld-finder.erdiawan.com/?q={search_term_string}",
+            "target": `${baseUrl}/?q={search_term_string}`,
             "query-input": "required name=search_term_string"
         }
     },
