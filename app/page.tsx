@@ -53,7 +53,7 @@ export default function Home() {
             </main>
 
             <footer className="border-t border-border/40 py-6 text-center text-xs text-muted-foreground">
-                <div className="container mx-auto px-4 max-w-4xl flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div className="container mx-auto px-4 max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-3">
                     <p>© {new Date().getFullYear()} TLD Finder — Explore IANA Root Zone Extensions &amp; Registry Managers</p>
                     <div className="flex items-center gap-4">
                         <a href="https://www.iana.org/domains/root/db" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition underline">IANA Database</a>

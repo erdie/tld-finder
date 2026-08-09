@@ -20,7 +20,7 @@
 - **UI Design System**: Radix UI primitives (`@radix-ui/react-checkbox`, `@radix-ui/react-label`, `@radix-ui/react-select`, `@radix-ui/react-slot`, `@radix-ui/react-tooltip`)
 - **Utility Libraries**: `class-variance-authority` (CVA), `clsx`, `tailwind-merge`
 - **Theming**: `next-themes` (Dark / Light mode support)
-- **Iconography**: `lucide-react`
+- **Iconography**: `@hugeicons/react` and `@hugeicons/core-free-icons`
 
 ### AI & Data Engine
 - **Gemini AI Integration**: `@google/generative-ai` (^0.24.1) querying `gemini-3.5-flash-lite` (with fallback to `gemini-3.1-flash-lite` and `gemini-2.5-flash-lite`) for real-time, concise Markdown overviews of TLD registry managers.

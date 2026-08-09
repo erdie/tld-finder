@@ -1,7 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { Search, Globe, Copy, Check, Terminal, ShieldCheck, AlertCircle, Calendar } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { 
+    Search01Icon, 
+    Globe02Icon, 
+    Copy01Icon, 
+    Tick01Icon, 
+    ComputerTerminal01Icon, 
+    Shield01Icon, 
+    AlertCircleIcon, 
+    Calendar01Icon 
+} from "@hugeicons/core-free-icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -99,7 +109,7 @@ export function TldDetailClient({ domain, whoisServer, rdapServer }: TldDetailCl
                             title="Copy WHOIS Server"
                         >
                             <span>WHOIS: {whoisServer}</span>
-                            {copiedText === whoisServer ? <Check className="w-3.5 h-3.5 text-green-500" /> : <Copy className="w-3.5 h-3.5 text-muted-foreground" />}
+                            {copiedText === whoisServer ? <HugeiconsIcon icon={Tick01Icon} className="w-3.5 h-3.5 text-green-500" /> : <HugeiconsIcon icon={Copy01Icon} className="w-3.5 h-3.5 text-muted-foreground" />}
                         </button>
                     )}
                     {rdapServer && (
@@ -109,7 +119,7 @@ export function TldDetailClient({ domain, whoisServer, rdapServer }: TldDetailCl
                             title="Copy RDAP Endpoint URL"
                         >
                             <span>RDAP Endpoint</span>
-                            {copiedText === rdapServer ? <Check className="w-3.5 h-3.5 text-green-500" /> : <Copy className="w-3.5 h-3.5 text-muted-foreground" />}
+                            {copiedText === rdapServer ? <HugeiconsIcon icon={Tick01Icon} className="w-3.5 h-3.5 text-green-500" /> : <HugeiconsIcon icon={Copy01Icon} className="w-3.5 h-3.5 text-muted-foreground" />}
                         </button>
                     )}
                 </div>
@@ -120,7 +130,7 @@ export function TldDetailClient({ domain, whoisServer, rdapServer }: TldDetailCl
                 <div className="flex items-center justify-between flex-wrap gap-3">
                     <div>
                         <h3 className="text-lg font-bold flex items-center gap-2 text-foreground">
-                            <Globe className="w-5 h-5 text-blue-500" />
+                            <HugeiconsIcon icon={Globe02Icon} className="w-5 h-5 text-blue-500" />
                             Live WHOIS & Availability Checker for .{domain.toUpperCase()}
                         </h3>
                         <p className="text-xs text-muted-foreground mt-0.5">
@@ -157,7 +167,7 @@ export function TldDetailClient({ domain, whoisServer, rdapServer }: TldDetailCl
                             </span>
                         ) : (
                             <span className="inline-flex items-center gap-2">
-                                <Search className="w-4 h-4" />
+                                <HugeiconsIcon icon={Search01Icon} className="w-4 h-4" />
                                 Check Status
                             </span>
                         )}
@@ -167,7 +177,7 @@ export function TldDetailClient({ domain, whoisServer, rdapServer }: TldDetailCl
                 {/* Results Display */}
                 {error && (
                     <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm flex items-start gap-3">
-                        <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                        <HugeiconsIcon icon={AlertCircleIcon} className="w-5 h-5 flex-shrink-0 mt-0.5" />
                         <div>
                             <span className="font-semibold block">Lookup Failure</span>
                             <span className="text-xs text-red-300/80">{error}</span>
@@ -222,7 +232,7 @@ export function TldDetailClient({ domain, whoisServer, rdapServer }: TldDetailCl
                                             className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-sans font-medium bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 hover:text-blue-300 border border-blue-500/20 transition-colors cursor-pointer"
                                             aria-label="Add to Google Calendar"
                                         >
-                                            <Calendar className="h-3.5 w-3.5" />
+                                            <HugeiconsIcon icon={Calendar01Icon} className="h-3.5 w-3.5" />
                                             <span>Remind Me</span>
                                         </a>
                                     </div>
@@ -246,7 +256,7 @@ export function TldDetailClient({ domain, whoisServer, rdapServer }: TldDetailCl
                         {whoisResult.raw && (
                             <details className="text-xs group">
                                 <summary className="cursor-pointer font-medium text-muted-foreground hover:text-foreground inline-flex items-center gap-1 py-1">
-                                    <Terminal className="w-3.5 h-3.5" />
+                                    <HugeiconsIcon icon={ComputerTerminal01Icon} className="w-3.5 h-3.5" />
                                     <span>View Raw WHOIS / RDAP Payload</span>
                                 </summary>
                                 <pre className="mt-2 p-3 bg-black/80 rounded-lg text-emerald-400 font-mono text-[11px] overflow-x-auto max-h-60 border border-emerald-900/30">

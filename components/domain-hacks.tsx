@@ -4,7 +4,17 @@ import React, { useState } from "react";
 import type { DomainHack } from "@/lib/domain-hacks";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Sparkles, ExternalLink, Search, Copy, Check, Scissors, Layers, Link as LinkIcon } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { 
+    SparklesIcon, 
+    ArrowUpRight01Icon, 
+    Search01Icon, 
+    Copy01Icon, 
+    Tick01Icon, 
+    Scissor01Icon, 
+    Layers01Icon, 
+    Link01Icon 
+} from "@hugeicons/core-free-icons";
 
 interface DomainHacksProps {
     hacks: DomainHack[];
@@ -39,7 +49,7 @@ export function DomainHacks({ hacks, query, onSelectHack }: DomainHacksProps) {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-border/60">
                 <div className="flex items-center gap-2.5">
                     <div className="p-2 rounded-lg bg-primary/10 text-primary">
-                        <Scissors className="h-5 w-5 animate-pulse" />
+                        <HugeiconsIcon icon={Scissor01Icon} className="h-5 w-5 animate-pulse" />
                     </div>
                     <div>
                         <h3 className="text-lg font-bold tracking-tight flex items-center gap-2">
@@ -162,7 +172,7 @@ export function DomainHacks({ hacks, query, onSelectHack }: DomainHacksProps) {
                                         onSelectHack(hack.domain);
                                     }}
                                 >
-                                    <Search className="h-3 w-3" /> Check RDAP/WHOIS
+                                    <HugeiconsIcon icon={Search01Icon} className="h-3 w-3" /> Check RDAP/WHOIS
                                 </Button>
 
                                 <div className="flex items-center gap-1">
@@ -174,9 +184,9 @@ export function DomainHacks({ hacks, query, onSelectHack }: DomainHacksProps) {
                                         onClick={(e) => handleCopy(e, hack)}
                                     >
                                         {copiedId === hack.id ? (
-                                            <Check className="h-3.5 w-3.5 text-emerald-400" />
+                                            <HugeiconsIcon icon={Tick01Icon} className="h-3.5 w-3.5 text-emerald-400" />
                                         ) : (
-                                            <Copy className="h-3.5 w-3.5" />
+                                            <HugeiconsIcon icon={Copy01Icon} className="h-3.5 w-3.5" />
                                         )}
                                     </Button>
 
@@ -188,7 +198,7 @@ export function DomainHacks({ hacks, query, onSelectHack }: DomainHacksProps) {
                                         title="Open URL"
                                         onClick={(e) => e.stopPropagation()}
                                     >
-                                        <ExternalLink className="h-3.5 w-3.5" />
+                                        <HugeiconsIcon icon={ArrowUpRight01Icon} className="h-3.5 w-3.5" />
                                     </a>
                                 </div>
                             </div>

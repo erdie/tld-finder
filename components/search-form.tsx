@@ -1,7 +1,8 @@
 "use client"
 
 import * as React from "react"
-import { Search, Filter, FilterX, Radio, Zap, ShieldAlert } from 'lucide-react'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { Search01Icon, FilterIcon, FilterRemoveIcon } from '@hugeicons/core-free-icons'
 import type { TLD } from "@/data/tlds"
 import { tlds } from "@/data/tlds"
 import { Input } from "@/components/ui/input"
@@ -58,63 +59,34 @@ export function SearchForm() {
     }, []);
 
     async function searchTlds() {
-        setIsLoading(true)
-        setWhoisError(null)
-
-        const trimmedQuery = query.trim()
-        const isExtensionQuery = trimmedQuery.startsWith(".") || (byExtensions && !byManagers);
-
-        // Generate Domain Hacks for non-empty search terms (skip for extension searches)
-        if (trimmedQuery.length >= 3 && !isExtensionQuery) {
-            const hacks = generateDomainHacks(trimmedQuery);
-            setDomainHacks(hacks);
-        } else {
-            setDomainHacks([]);
-        }
-
-        if (isDomainQuery(trimmedQuery)) {
-            setIsWhoisMode(true)
-            setResults([]) // clear TLD results
-            const cleanDomain = trimmedQuery.replace(/^\.+/, "")
-
-            // Sync to URL query parameters
-            if (typeof window !== "undefined") {
-                const newUrl = `${window.location.pathname}?domain=${encodeURIComponent(cleanDomain)}`
-                window.history.replaceState(null, '', newUrl)
-            }
-
+        if (isDomainQuery(query)) {
+            setIsWhoisMode(true);
+            setIsLoading(true);
+            setWhoisResult(null);
+            setWhoisError(null);
             try {
-                const response = await fetch(`/api/whois?domain=${encodeURIComponent(cleanDomain)}&protocol=${protocol}`)
-                if (!response.ok) {
-                    const errData = await response.json()
-                    throw new Error(errData.error || "Failed to fetch domain lookup info")
+                const targetDomain = query.trim().replace(/^\.+/, "");
+                const res = await fetch(`/api/whois?domain=${encodeURIComponent(targetDomain)}&protocol=${protocol}`);
+                const data = await res.json();
+                if (!res.ok) {
+                    throw new Error(data.error || data.details || "Failed to query WHOIS/RDAP information");
                 }
-                const data = await response.json()
-                setWhoisResult(data)
-            } catch (error: any) {
-                console.error("Error fetching domain lookup data:", error)
-                setWhoisError(error.message || "Failed to fetch domain lookup data")
-                setWhoisResult(null)
+                setWhoisResult(data);
+            } catch (err: any) {
+                setWhoisError(err.message || "An unexpected error occurred during domain lookup.");
             } finally {
-                setIsLoading(false)
+                setIsLoading(false);
             }
-            return
+            return;
         }
 
-        // Standard TLD Search Mode
-        setIsWhoisMode(false)
-        setWhoisResult(null)
+        setIsWhoisMode(false);
+        setWhoisResult(null);
+        setWhoisError(null);
+        setIsLoading(true);
 
-        // Remove domain param from URL if it exists
-        if (typeof window !== "undefined") {
-            const params = new URLSearchParams(window.location.search);
-            if (params.has("domain")) {
-                params.delete("domain");
-                const searchStr = params.toString();
-                const newUrl = `${window.location.pathname}${searchStr ? `?${searchStr}` : ""}`;
-                window.history.replaceState(null, '', newUrl);
-            }
-        }
+        const hacks = generateDomainHacks(query.trim());
+        setDomainHacks(hacks);
 
         try {
             const params = new URLSearchParams({
@@ -152,7 +124,7 @@ export function SearchForm() {
         <div className="space-y-6">
             <div className="flex flex-col gap-4">
                 <div className="relative flex items-center gap-3">
-                    <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+                    <HugeiconsIcon icon={Search01Icon} className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
                     <Input
                         id="tld-search-input"
                         type="search"
@@ -172,9 +144,9 @@ export function SearchForm() {
                         aria-label="Toggle search filters and lookup protocol settings"
                     >
                         {showAdvanced ? (
-                            <FilterX className="h-4 w-4" />
+                            <HugeiconsIcon icon={FilterRemoveIcon} className="h-4 w-4" />
                         ) : (
-                            <Filter className="h-4 w-4" />
+                            <HugeiconsIcon icon={FilterIcon} className="h-4 w-4" />
                         )}
                     </Button>
                 </div>
@@ -227,7 +199,7 @@ export function SearchForm() {
                     <div className="border rounded-lg p-4 bg-card text-card-foreground shadow-xs animate-fade-in space-y-4">
                         <div className="flex items-center justify-between border-b border-border/40 pb-2.5">
                             <span className="text-xs font-semibold text-foreground flex items-center gap-1.5">
-                                <Filter className="h-3.5 w-3.5 text-primary" /> Filter Options
+                                <HugeiconsIcon icon={FilterIcon} className="h-3.5 w-3.5 text-primary" /> Filter Options
                             </span>
                             <Badge variant="outline" className="font-mono text-xs bg-primary/10 text-primary border-primary/20">
                                 {isLoading ? "Counting..." : `${results.length} TLDs matching filter`}

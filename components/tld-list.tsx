@@ -1,7 +1,20 @@
 import Link from 'next/link';
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Sparkles, Calendar, ShieldCheck, Globe, Terminal, Copy, FileText, Check, AlertTriangle, ExternalLink, ChevronRight } from 'lucide-react';
+import { HugeiconsIcon } from "@hugeicons/react";
+import { 
+    SparklesIcon, 
+    Calendar01Icon, 
+    Shield01Icon, 
+    Globe02Icon, 
+    ComputerTerminal01Icon, 
+    Copy01Icon, 
+    File01Icon, 
+    Tick01Icon, 
+    Alert02Icon, 
+    ArrowUpRight01Icon, 
+    ArrowRight01Icon 
+} from "@hugeicons/core-free-icons";
 import type { TLD } from "@/data/tlds";
 import { useState, useEffect, useRef, useCallback } from "react";
 import type { ReactNode } from "react";
@@ -92,7 +105,7 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
     if (error) {
         return (
             <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-6 space-y-4 text-center">
-                <AlertTriangle className="h-10 w-10 text-red-500 mx-auto animate-bounce" />
+                <HugeiconsIcon icon={Alert02Icon} className="h-10 w-10 text-red-500 mx-auto animate-bounce" />
                 <h3 className="text-lg font-semibold text-red-400">Lookup Failed</h3>
                 <p className="text-sm text-muted-foreground max-w-md mx-auto">{error}</p>
             </div>
@@ -119,7 +132,7 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
                 <div className="absolute -left-16 -bottom-16 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl group-hover:scale-150 transition-all duration-700" />
 
                 <div className="bg-emerald-500/20 h-16 w-16 rounded-full flex items-center justify-center mx-auto text-emerald-400 border border-emerald-500/30 shadow-md">
-                    <ShieldCheck className="h-8 w-8" />
+                    <HugeiconsIcon icon={Shield01Icon} className="h-8 w-8" />
                 </div>
 
                 <div className="space-y-2">
@@ -146,7 +159,7 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-6 py-2.5 rounded-lg transition shadow-md shadow-emerald-700/20 cursor-pointer"
                     >
-                        Register Domain <ExternalLink className="h-4 w-4" />
+                        Register Domain <HugeiconsIcon icon={ArrowUpRight01Icon} className="h-4 w-4" />
                     </a>
                 </div>
             </div>
@@ -267,7 +280,7 @@ function createGoogleCalendarUrl(domainName: string, expiryDateStr: string | nul
                                                     className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-sans font-medium bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 hover:text-blue-300 border border-blue-500/20 hover:border-blue-500/40 transition-colors cursor-pointer"
                                                     aria-label={`Add ${domain} 30-day expiration reminder to Google Calendar`}
                                                 >
-                                                    <Calendar className="h-3.5 w-3.5" />
+                                                    <HugeiconsIcon icon={Calendar01Icon} className="h-3.5 w-3.5" />
                                                     <span>Remind Me</span>
                                                 </a>
                                             </TooltipTrigger>
@@ -300,7 +313,7 @@ function createGoogleCalendarUrl(domainName: string, expiryDateStr: string | nul
                     }`}
                 >
                     <span className="flex items-center gap-1.5">
-                        <FileText className="h-4 w-4" /> Structured Summary
+                        <HugeiconsIcon icon={File01Icon} className="h-4 w-4" /> Structured Summary
                     </span>
                 </button>
                 <button
@@ -312,7 +325,7 @@ function createGoogleCalendarUrl(domainName: string, expiryDateStr: string | nul
                     }`}
                 >
                     <span className="flex items-center gap-1.5">
-                        <Terminal className="h-4 w-4" /> {isRdap ? 'Raw RDAP JSON' : 'Raw WHOIS Record'}
+                        <HugeiconsIcon icon={ComputerTerminal01Icon} className="h-4 w-4" /> {isRdap ? 'Raw RDAP JSON' : 'Raw WHOIS Record'}
                     </span>
                 </button>
             </div>
@@ -323,7 +336,7 @@ function createGoogleCalendarUrl(domainName: string, expiryDateStr: string | nul
                     {/* Dates Card */}
                     <div className="bg-muted/30 border rounded-lg p-4 space-y-3.5">
                         <h4 className="text-sm font-bold text-muted-foreground flex items-center gap-2">
-                            <Calendar className="h-4 w-4 text-blue-500" /> Important Dates
+                            <HugeiconsIcon icon={Calendar01Icon} className="h-4 w-4 text-blue-500" /> Important Dates
                         </h4>
                         <div className="grid grid-cols-2 gap-2 text-xs font-light">
                             <div className="text-muted-foreground">Registered:</div>
@@ -340,7 +353,7 @@ function createGoogleCalendarUrl(domainName: string, expiryDateStr: string | nul
                     {/* Registry Operator/Details Card */}
                     <div className="bg-muted/30 border rounded-lg p-4 space-y-3.5">
                         <h4 className="text-sm font-bold text-muted-foreground flex items-center gap-2">
-                            <Globe className="h-4 w-4 text-purple-500" /> Registrar & Domain Status
+                            <HugeiconsIcon icon={Globe02Icon} className="h-4 w-4 text-purple-500" /> Registrar & Domain Status
                         </h4>
                         <div className="grid grid-cols-2 gap-2 text-xs font-light">
                             <div className="text-muted-foreground">Registrar:</div>
@@ -370,7 +383,7 @@ function createGoogleCalendarUrl(domainName: string, expiryDateStr: string | nul
                     {parsed.entities && parsed.entities.length > 0 && (
                         <div className="bg-muted/30 border rounded-lg p-4 space-y-3.5 md:col-span-2">
                             <h4 className="text-sm font-bold text-muted-foreground flex items-center gap-2">
-                                <Sparkles className="h-4 w-4 text-purple-400" /> RDAP Contact Entities
+                                <HugeiconsIcon icon={SparklesIcon} className="h-4 w-4 text-purple-400" /> RDAP Contact Entities
                             </h4>
                             <div className="flex flex-wrap gap-2">
                                 {parsed.entities.map((ent: { role: string; name: string }, idx: number) => (
@@ -387,7 +400,7 @@ function createGoogleCalendarUrl(domainName: string, expiryDateStr: string | nul
                     {parsed.nameServers && parsed.nameServers.length > 0 && (
                         <div className="bg-muted/30 border rounded-lg p-4 space-y-3.5 md:col-span-2">
                             <h4 className="text-sm font-bold text-muted-foreground flex items-center gap-2">
-                                <Globe className="h-4 w-4 text-emerald-500" /> DNS Nameservers
+                                <HugeiconsIcon icon={Globe02Icon} className="h-4 w-4 text-emerald-500" /> DNS Nameservers
                             </h4>
                             <div className="flex flex-wrap gap-2">
                                 {parsed.nameServers.map((ns: string, idx: number) => (
@@ -414,11 +427,11 @@ function createGoogleCalendarUrl(domainName: string, expiryDateStr: string | nul
                         >
                             {copied ? (
                                 <>
-                                    <Check className="h-3.5 w-3.5 text-emerald-400" /> Copied!
+                                    <HugeiconsIcon icon={Tick01Icon} className="h-3.5 w-3.5 text-emerald-400" /> Copied!
                                 </>
                             ) : (
                                 <>
-                                    <Copy className="h-3.5 w-3.5" /> Copy Record
+                                    <HugeiconsIcon icon={Copy01Icon} className="h-3.5 w-3.5" /> Copy Record
                                 </>
                             )}
                         </button>
@@ -629,7 +642,7 @@ export function TldList({
                                     className="text-xs font-medium text-blue-500 hover:text-blue-400 opacity-80 group-hover:opacity-100 transition-all flex items-center gap-0.5"
                                 >
                                     <span>Record Details</span>
-                                    <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                                    <HugeiconsIcon icon={ArrowRight01Icon} className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
                                 </Link>
                             </div>
                             <div className="flex items-center justify-between">
@@ -650,7 +663,7 @@ export function TldList({
                                                     }}
                                                     className="cursor-pointer hover:opacity-80 transition duration-300"
                                                 >
-                                                    <Sparkles className="h-4 w-4 text-amber-400" />
+                                                    <HugeiconsIcon icon={SparklesIcon} className="h-4 w-4 text-amber-400" />
                                                     <span className="sr-only">Get AI Info</span>
                                                 </span>
                                             </TooltipTrigger>

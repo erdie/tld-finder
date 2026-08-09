@@ -4,11 +4,12 @@ import { notFound } from 'next/navigation';
 import { getTldDetail, tlds, TLDDetail, TLD } from '@/data/tlds';
 import { TldDetailClient } from '@/components/tld-detail-client';
 import { Badge } from '@/components/ui/badge';
+import { HugeiconsIcon } from '@hugeicons/react';
 import { 
-    Globe, Building2, UserCheck, Wrench, Server, 
-    Calendar, Clock, ArrowLeft, ExternalLink, ShieldCheck, 
-    Layers, Sparkles, CheckCircle2, ChevronRight 
-} from 'lucide-react';
+    Globe02Icon, Building01Icon, UserCheck01Icon, Wrench01Icon, ServerStack01Icon, 
+    Calendar01Icon, Clock01Icon, ArrowLeft01Icon, ArrowUpRight01Icon, Shield01Icon, 
+    Layers01Icon, SparklesIcon, CheckmarkCircle01Icon, ArrowRight01Icon 
+} from '@hugeicons/core-free-icons';
 import { scrapeTldDetail } from '@/scripts/scrape-details';
 
 interface PageProps {
@@ -83,7 +84,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         },
         twitter: {
             card: 'summary_large_image',
-            title: `.${domainUpper} TLD Delegation Record & Registry Details`,
+            title,
             description,
         },
         robots: {
@@ -185,7 +186,7 @@ export default async function TldDetailPage({ params }: PageProps) {
                             href="/" 
                             className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors group"
                         >
-                            <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+                            <HugeiconsIcon icon={ArrowLeft01Icon} className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
                             <span>Back to TLD Directory</span>
                         </Link>
                         <div className="flex items-center gap-3">
@@ -200,9 +201,9 @@ export default async function TldDetailPage({ params }: PageProps) {
                     {/* Breadcrumbs */}
                     <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-muted-foreground">
                         <Link href="/" className="hover:text-foreground transition-colors">Home</Link>
-                        <ChevronRight className="w-3.5 h-3.5" />
+                        <HugeiconsIcon icon={ArrowRight01Icon} className="w-3.5 h-3.5" />
                         <Link href="/#tld-list" className="hover:text-foreground transition-colors">TLDs</Link>
-                        <ChevronRight className="w-3.5 h-3.5" />
+                        <HugeiconsIcon icon={ArrowRight01Icon} className="w-3.5 h-3.5" />
                         <span className="font-mono font-semibold text-foreground">.{cleanDomain}</span>
                     </nav>
 
@@ -220,7 +221,7 @@ export default async function TldDetailPage({ params }: PageProps) {
                                         {tldType}
                                     </Badge>
                                     <Badge variant="outline" className="text-xs border-emerald-500/30 text-emerald-400 bg-emerald-500/10 flex items-center gap-1">
-                                        <CheckCircle2 className="w-3 h-3" /> Delegated
+                                        <HugeiconsIcon icon={CheckmarkCircle01Icon} className="w-3 h-3" /> Delegated
                                     </Badge>
                                 </div>
                                 <p className="text-base text-muted-foreground max-w-2xl">
@@ -232,13 +233,13 @@ export default async function TldDetailPage({ params }: PageProps) {
                             <div className="flex flex-col sm:flex-row md:flex-col gap-2 font-mono text-xs text-muted-foreground bg-muted/40 p-4 rounded-lg border border-border/50">
                                 {detail?.registrationDate && (
                                     <div className="flex items-center gap-2">
-                                        <Calendar className="w-4 h-4 text-blue-400" />
+                                        <HugeiconsIcon icon={Calendar01Icon} className="w-4 h-4 text-blue-400" />
                                         <span>Registered: <strong className="text-foreground">{detail.registrationDate}</strong></span>
                                     </div>
                                 )}
                                 {detail?.lastUpdated && (
                                     <div className="flex items-center gap-2">
-                                        <Clock className="w-4 h-4 text-amber-400" />
+                                        <HugeiconsIcon icon={Clock01Icon} className="w-4 h-4 text-amber-400" />
                                         <span>Updated: <strong className="text-foreground">{detail.lastUpdated}</strong></span>
                                     </div>
                                 )}
@@ -267,7 +268,7 @@ export default async function TldDetailPage({ params }: PageProps) {
                                 {detail?.rdapServer ? (
                                     <a href={detail.rdapServer} target="_blank" rel="noopener noreferrer" className="hover:underline flex items-center gap-1">
                                         <span>Available</span>
-                                        <ExternalLink className="w-3 h-3" />
+                                        <HugeiconsIcon icon={ArrowUpRight01Icon} className="w-3 h-3" />
                                     </a>
                                 ) : 'Not Configured'}
                             </p>
@@ -282,7 +283,7 @@ export default async function TldDetailPage({ params }: PageProps) {
                                     className="font-medium text-xs text-blue-500 hover:text-blue-400 underline inline-flex items-center gap-1 break-all"
                                 >
                                     <span>Official Website</span>
-                                    <ExternalLink className="w-3 h-3" />
+                                    <HugeiconsIcon icon={ArrowUpRight01Icon} className="w-3 h-3" />
                                 </a>
                             ) : (
                                 <span className="text-xs text-muted-foreground">Direct URL N/A</span>
@@ -299,7 +300,7 @@ export default async function TldDetailPage({ params }: PageProps) {
                     {/* Sponsoring Organisation & Contact Information */}
                     <section className="space-y-4">
                         <h2 className="text-xl font-bold flex items-center gap-2 text-foreground">
-                            <Building2 className="w-5 h-5 text-blue-500" />
+                            <HugeiconsIcon icon={Building01Icon} className="w-5 h-5 text-blue-500" />
                             Registry Contacts & Delegation Record
                         </h2>
 
@@ -308,7 +309,7 @@ export default async function TldDetailPage({ params }: PageProps) {
                             <div className="bg-card border border-border/70 rounded-lg p-6 shadow-sm space-y-3 flex flex-col justify-between">
                                 <div>
                                     <div className="flex items-center gap-2 mb-3">
-                                        <Building2 className="w-4 h-4 text-blue-400" />
+                                        <HugeiconsIcon icon={Building01Icon} className="w-4 h-4 text-blue-400" />
                                         <h3 className="font-bold text-sm text-foreground uppercase tracking-wide">
                                             Sponsoring Organisation
                                         </h3>
@@ -327,7 +328,7 @@ export default async function TldDetailPage({ params }: PageProps) {
                             <div className="bg-card border border-border/70 rounded-lg p-6 shadow-sm space-y-3 flex flex-col justify-between">
                                 <div>
                                     <div className="flex items-center gap-2 mb-3">
-                                        <UserCheck className="w-4 h-4 text-emerald-400" />
+                                        <HugeiconsIcon icon={UserCheck01Icon} className="w-4 h-4 text-emerald-400" />
                                         <h3 className="font-bold text-sm text-foreground uppercase tracking-wide">
                                             Administrative Contact
                                         </h3>
@@ -350,7 +351,7 @@ export default async function TldDetailPage({ params }: PageProps) {
                             <div className="bg-card border border-border/70 rounded-lg p-6 shadow-sm space-y-3 flex flex-col justify-between">
                                 <div>
                                     <div className="flex items-center gap-2 mb-3">
-                                        <Wrench className="w-4 h-4 text-indigo-400" />
+                                        <HugeiconsIcon icon={Wrench01Icon} className="w-4 h-4 text-indigo-400" />
                                         <h3 className="font-bold text-sm text-foreground uppercase tracking-wide">
                                             Technical Contact
                                         </h3>
@@ -375,7 +376,7 @@ export default async function TldDetailPage({ params }: PageProps) {
                     {detail?.nameServers && detail.nameServers.length > 0 && (
                         <section className="space-y-4">
                             <h2 className="text-xl font-bold flex items-center gap-2 text-foreground">
-                                <Server className="w-5 h-5 text-blue-500" />
+                                <HugeiconsIcon icon={ServerStack01Icon} className="w-5 h-5 text-blue-500" />
                                 Authoritative Name Servers ({detail.nameServers.length})
                             </h2>
 
@@ -416,7 +417,7 @@ export default async function TldDetailPage({ params }: PageProps) {
                     {relatedTlds.length > 0 && (
                         <section className="space-y-4 pt-4 border-t border-border/60">
                             <h2 className="text-lg font-bold flex items-center gap-2 text-foreground">
-                                <Layers className="w-5 h-5 text-blue-500" />
+                                <HugeiconsIcon icon={Layers01Icon} className="w-5 h-5 text-blue-500" />
                                 Explore Related Top-Level Domains
                             </h2>
                             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
