@@ -22,18 +22,35 @@ function createGoogleCalendarUrl(domainName: string, expiryDateStr: string | nul
     if (expiryDateStr) {
         const d = new Date(expiryDateStr);
         if (!isNaN(d.getTime())) {
-            const reminderDate = new Date(d.getTime() - 30 * 24 * 60 * 60 * 1000);
-            const startISO = reminderDate.toISOString();
-            const startDateStr = startISO.replace(/[-:]/g, '').split('.')[0] + 'Z';
-            const endD = new Date(reminderDate.getTime() + 60 * 60 * 1000);
-            const endISO = endD.toISOString();
-            const endDateStr = endISO.replace(/[-:]/g, '').split('.')[0] + 'Z';
-            datesParam = `${startDateStr}/${endDateStr}`;
+            // Set reminder reference 30 days before expiration date
+            const reminderRef = new Date(d.getTime() - 30 * 24 * 60 * 60 * 1000);
+
+            // Get year, month, day in Asia/Jakarta (GMT+7) timezone
+            const formatter = new Intl.DateTimeFormat('en-US', {
+                timeZone: 'Asia/Jakarta',
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            });
+            const parts = formatter.formatToParts(reminderRef);
+            const year = Number(parts.find(p => p.type === 'year')?.value);
+            const month = Number(parts.find(p => p.type === 'month')?.value);
+            const day = Number(parts.find(p => p.type === 'day')?.value);
+
+            // 09:00 AM Jakarta (GMT+7) = 02:00:00 UTC
+            const startDate = new Date(Date.UTC(year, month - 1, day, 2, 0, 0));
+            // 10:00 AM Jakarta (GMT+7) = 03:00:00 UTC (1 hour duration)
+            const endDate = new Date(Date.UTC(year, month - 1, day, 3, 0, 0));
+
+            const startStr = startDate.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+            const endStr = endDate.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+
+            datesParam = `${startStr}/${endStr}`;
         }
     }
 
     const title = `${domainName} Expiration Reminder (30 Days Before)`;
-    let details = `Reminder: Domain ${domainName} is scheduled to expire on ${expiryDateStr || 'the expiry date'} (in 30 days).`;
+    let details = `Reminder: Domain ${domainName} is scheduled to expire on ${expiryDateStr || 'the expiry date'} (in 30 days).\nScheduled for 09:00 AM WIB (GMT+7).`;
     if (registrar) {
         details += `\nRegistrar: ${registrar}`;
     }
