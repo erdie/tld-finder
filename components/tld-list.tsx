@@ -256,27 +256,29 @@ function createGoogleCalendarUrl(domainName: string, expiryDateStr: string | nul
                         </div>
                         <div className="flex items-center gap-2 mt-0.5">
                             {isDateValid && (
-                                <TooltipProvider>
-                                    <Tooltip>
-                                        <TooltipTrigger asChild>
-                                            <a
-                                                href={createGoogleCalendarUrl(domain, parsed.expiryDate, parsed.registrar)}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-sans font-medium bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 hover:text-blue-300 border border-blue-500/20 hover:border-blue-500/40 transition-colors cursor-pointer"
-                                                aria-label={`Add ${domain} 30-day expiration reminder to Google Calendar`}
-                                            >
-                                                <Calendar className="h-3.5 w-3.5" />
-                                                <span>Remind Me</span>
-                                            </a>
-                                        </TooltipTrigger>
-                                        <TooltipContent side="top">
-                                            <p>Add 30-day expiry reminder for {domain} to Google Calendar</p>
-                                        </TooltipContent>
-                                    </Tooltip>
-                                </TooltipProvider>
+                                <div className="order-2 md:order-1">
+                                    <TooltipProvider>
+                                        <Tooltip>
+                                            <TooltipTrigger asChild>
+                                                <a
+                                                    href={createGoogleCalendarUrl(domain, parsed.expiryDate, parsed.registrar)}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-sans font-medium bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 hover:text-blue-300 border border-blue-500/20 hover:border-blue-500/40 transition-colors cursor-pointer"
+                                                    aria-label={`Add ${domain} 30-day expiration reminder to Google Calendar`}
+                                                >
+                                                    <Calendar className="h-3.5 w-3.5" />
+                                                    <span>Remind Me</span>
+                                                </a>
+                                            </TooltipTrigger>
+                                            <TooltipContent side="top">
+                                                <p>Add 30-day expiry reminder for {domain} to Google Calendar</p>
+                                            </TooltipContent>
+                                        </Tooltip>
+                                    </TooltipProvider>
+                                </div>
                             )}
-                            <div className={`text-xl font-bold font-mono ${daysRemaining < 90 ? 'text-rose-500' : 'text-blue-400'}`}>
+                            <div className={`text-xl font-bold font-mono order-1 md:order-2 ${daysRemaining < 90 ? 'text-rose-500' : 'text-blue-400'}`}>
                                 {daysRemaining > 0 ? `${daysRemaining} days left` : 'Expired'}
                             </div>
                         </div>
