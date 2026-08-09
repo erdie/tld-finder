@@ -3,8 +3,44 @@ import { ThemeToggle } from "@/components/theme-toggle"
 import { GithubStarButton } from "@/components/github-star"
 import { JetBrains_Mono } from 'next/font/google'
 import { tlds } from "@/data/tlds"
+import type { Metadata } from "next"
+import { getBaseUrl } from "@/lib/site-config"
 
 const mono = JetBrains_Mono({ subsets: ["latin"] })
+
+interface PageProps {
+    searchParams: Promise<{ q?: string; domain?: string }>;
+}
+
+export async function generateMetadata({ searchParams }: PageProps): Promise<Metadata> {
+    const { q, domain } = await searchParams;
+    const baseUrl = getBaseUrl();
+    const queryTerm = q || domain || "";
+
+    if (queryTerm) {
+        return {
+            title: `Search results for "${queryTerm}" | TLD Finder`,
+            description: `Explore top-level domain extensions, registry operators, and WHOIS/RDAP results matching "${queryTerm}".`,
+            alternates: {
+                canonical: baseUrl,
+            },
+            robots: {
+                index: false,
+                follow: true,
+            },
+        };
+    }
+
+    return {
+        alternates: {
+            canonical: baseUrl,
+        },
+        robots: {
+            index: true,
+            follow: true,
+        },
+    };
+}
 
 export default function Home() {
     return (
