@@ -1,10 +1,45 @@
 "use client";
 
 import { useState } from "react";
-import { Search, Globe, Copy, Check, Terminal, ShieldCheck, AlertCircle } from "lucide-react";
+import { Search, Globe, Copy, Check, Terminal, ShieldCheck, AlertCircle, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+
+function createGoogleCalendarUrl(domainName: string, expiryDateStr: string | null, registrar?: string): string {
+    let datesParam = '';
+
+    if (expiryDateStr) {
+        const d = new Date(expiryDateStr);
+        if (!isNaN(d.getTime())) {
+            const reminderDate = new Date(d.getTime() - 30 * 24 * 60 * 60 * 1000);
+            const startISO = reminderDate.toISOString();
+            const startDateStr = startISO.replace(/[-:]/g, '').split('.')[0] + 'Z';
+            const endD = new Date(reminderDate.getTime() + 60 * 60 * 1000);
+            const endISO = endD.toISOString();
+            const endDateStr = endISO.replace(/[-:]/g, '').split('.')[0] + 'Z';
+            datesParam = `${startDateStr}/${endDateStr}`;
+        }
+    }
+
+    const title = `${domainName} Expiration Reminder (30 Days Before)`;
+    let details = `Reminder: Domain ${domainName} is scheduled to expire on ${expiryDateStr || 'the expiry date'} (in 30 days).`;
+    if (registrar) {
+        details += `\nRegistrar: ${registrar}`;
+    }
+
+    const params = new URLSearchParams({
+        action: 'TEMPLATE',
+        text: title,
+        details: details,
+    });
+
+    if (datesParam) {
+        params.append('dates', datesParam);
+    }
+
+    return `https://calendar.google.com/calendar/render?${params.toString()}`;
+}
 
 interface TldDetailClientProps {
     domain: string;
@@ -175,9 +210,21 @@ export function TldDetailClient({ domain, whoisServer, rdapServer }: TldDetailCl
                                     </div>
                                 )}
                                 {whoisResult.parsed.expiryDate && (
-                                    <div className="p-3 bg-muted/30 rounded-lg border border-border/30">
-                                        <span className="text-muted-foreground font-semibold block">Expiry Date</span>
-                                        <span className="font-mono text-foreground">{whoisResult.parsed.expiryDate}</span>
+                                    <div className="p-3 bg-muted/30 rounded-lg border border-border/30 flex items-center justify-between gap-2">
+                                        <div>
+                                            <span className="text-muted-foreground font-semibold block">Expiry Date</span>
+                                            <span className="font-mono text-foreground">{whoisResult.parsed.expiryDate}</span>
+                                        </div>
+                                        <a
+                                            href={createGoogleCalendarUrl(whoisResult.domain || fullDomain, whoisResult.parsed.expiryDate, whoisResult.parsed.registrar)}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-sans font-medium bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 hover:text-blue-300 border border-blue-500/20 transition-colors cursor-pointer"
+                                            aria-label="Add to Google Calendar"
+                                        >
+                                            <Calendar className="h-3.5 w-3.5" />
+                                            <span>Remind Me</span>
+                                        </a>
                                     </div>
                                 )}
                                 {whoisResult.parsed.nameServers && whoisResult.parsed.nameServers.length > 0 && (
