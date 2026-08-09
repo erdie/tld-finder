@@ -15,8 +15,17 @@ import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 
+function cleanDomainInput(input: string): string {
+    return input
+        .trim()
+        .replace(/^(https?:\/\/)?(www\.)?/, "")
+        .replace(/^\.+/, "")
+        .replace(/\/.*$/, "")
+        .toLowerCase();
+}
+
 function isDomainQuery(q: string): boolean {
-    const clean = q.trim().replace(/^\.+/, "");
+    const clean = cleanDomainInput(q);
     return clean.includes(".") && clean.split(".").filter(Boolean).length >= 2;
 }
 
@@ -47,25 +56,50 @@ export function SearchForm() {
 
     const hasActiveFilters = type !== "all" || assignment !== "all" || protocol !== "auto" || byExtensions || byManagers;
 
-    // Read initial query string on mount
+    // Read initial query string on mount & popstate
     React.useEffect(() => {
-        if (typeof window !== "undefined") {
-            const params = new URLSearchParams(window.location.search);
-            const initialDomain = params.get("domain") || params.get("q") || "";
-            if (initialDomain) {
-                setQuery(initialDomain);
+        const syncFromUrl = () => {
+            if (typeof window !== "undefined") {
+                const params = new URLSearchParams(window.location.search);
+                const initialDomain = params.get("domain") || params.get("q") || "";
+                if (initialDomain) {
+                    setQuery(initialDomain);
+                }
             }
+        };
+
+        syncFromUrl();
+        if (typeof window !== "undefined") {
+            window.addEventListener("popstate", syncFromUrl);
         }
+
+        return () => {
+            if (typeof window !== "undefined") {
+                window.removeEventListener("popstate", syncFromUrl);
+            }
+        };
     }, []);
 
     async function searchTlds() {
-        if (isDomainQuery(query)) {
+        const trimmedQuery = query.trim();
+
+        if (isDomainQuery(trimmedQuery)) {
+            const targetDomain = cleanDomainInput(trimmedQuery);
             setIsWhoisMode(true);
             setIsLoading(true);
             setWhoisResult(null);
             setWhoisError(null);
+
+            // Sync URL query string to ?domain=domainname.com
+            if (typeof window !== "undefined") {
+                const currentParams = new URLSearchParams(window.location.search);
+                if (currentParams.get("domain") !== targetDomain) {
+                    const newUrl = `${window.location.pathname}?domain=${encodeURIComponent(targetDomain)}`;
+                    window.history.replaceState(null, '', newUrl);
+                }
+            }
+
             try {
-                const targetDomain = query.trim().replace(/^\.+/, "");
                 const res = await fetch(`/api/whois?domain=${encodeURIComponent(targetDomain)}&protocol=${protocol}`);
                 const data = await res.json();
                 if (!res.ok) {
@@ -80,17 +114,45 @@ export function SearchForm() {
             return;
         }
 
+        // TLD Search Mode or empty search
         setIsWhoisMode(false);
         setWhoisResult(null);
         setWhoisError(null);
         setIsLoading(true);
 
-        const hacks = generateDomainHacks(query.trim());
+        // Sync URL for TLD search mode
+        if (typeof window !== "undefined") {
+            const currentParams = new URLSearchParams(window.location.search);
+            let updated = false;
+
+            if (currentParams.has("domain")) {
+                currentParams.delete("domain");
+                updated = true;
+            }
+
+            if (trimmedQuery) {
+                if (currentParams.get("q") !== trimmedQuery) {
+                    currentParams.set("q", trimmedQuery);
+                    updated = true;
+                }
+            } else if (currentParams.has("q")) {
+                currentParams.delete("q");
+                updated = true;
+            }
+
+            if (updated) {
+                const searchStr = currentParams.toString();
+                const newUrl = `${window.location.pathname}${searchStr ? `?${searchStr}` : ""}`;
+                window.history.replaceState(null, '', newUrl);
+            }
+        }
+
+        const hacks = generateDomainHacks(trimmedQuery);
         setDomainHacks(hacks);
 
         try {
             const params = new URLSearchParams({
-                q: query,
+                q: trimmedQuery,
                 type: type !== "all" ? type : "",
                 assignment: assignment !== "all" ? assignment : "",
                 byExtensions: byExtensions.toString(),
