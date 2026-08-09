@@ -1,9 +1,9 @@
 # MEMORY.md - Project Knowledge Base & Technical Context
 
 ## 📌 Project Overview
-**TLD Finder** (`tld-finder`) is a modern, responsive Jamstack web application designed to explore top-level domains (TLDs) from the IANA Root Zone, provide SERP & SEO friendly dedicated TLD detail pages (`/tld/[domain]`), deliver AI-powered insights into TLD registry managers via Google Gemini, and perform live, real-time WHOIS & RDAP lookups and domain availability checks.
+**TLD Finder** (`tld-finder`) is a modern, responsive Jamstack web application designed to explore top-level domains (TLDs) from the IANA Root Zone, provide SERP & SEO friendly dedicated TLD detail pages (`/tld/[domain]`), deliver AI-powered insights into TLD registry managers via Google Gemini, perform live real-time WHOIS & RDAP lookups, and schedule domain expiration reminders to Google Calendar.
 
-- **Production URL**: Netlify deployed Jamstack app (`https://tld-finder.erdiawan.com`)
+- **Production Base URL**: Configured via `NEXT_PUBLIC_BASE_URL` (`https://tld-finder.erdiawan.com`)
 - **Primary Repository Workspace**: `/Users/erdi/Data/Codes/tld-finder`
 
 ---
@@ -20,7 +20,7 @@
 - **UI Design System**: Radix UI primitives (`@radix-ui/react-checkbox`, `@radix-ui/react-label`, `@radix-ui/react-select`, `@radix-ui/react-slot`, `@radix-ui/react-tooltip`)
 - **Utility Libraries**: `class-variance-authority` (CVA), `clsx`, `tailwind-merge`
 - **Theming**: `next-themes` (Dark / Light mode support)
-- **Iconography**: `@hugeicons/react` and `@hugeicons/core-free-icons`
+- **Iconography**: Hugeicons (`@hugeicons/react` and `@hugeicons/core-free-icons`)
 
 ### AI & Data Engine
 - **Gemini AI Integration**: `@google/generative-ai` (^0.24.1) querying `gemini-3.5-flash-lite` (with fallback to `gemini-3.1-flash-lite` and `gemini-2.5-flash-lite`) for real-time, concise Markdown overviews of TLD registry managers.
@@ -32,6 +32,7 @@
 
 ### Hosting & Infrastructure
 - **Platform**: Netlify (Serverless API Routes & Scheduled Functions)
+- **Environment Configuration**: Centralized base URL handler in `lib/site-config.ts` powered by `NEXT_PUBLIC_BASE_URL`.
 - **Automated Data Maintenance**: Netlify Scheduled Function (`netlify/functions/trigger-build.js`) configured with cron (`0 0 1,15 * *`) to auto-trigger a Netlify Build Hook, executing `yarn scrape:all && next build` bi-weekly.
 
 ---
@@ -44,25 +45,34 @@
 
 2. **SERP & SEO-Friendly TLD Detail Pages (`/tld/[domain]`)**
    - Pre-rendered static pages (SSG via `generateStaticParams`) for all 1,500+ TLDs.
-   - Dynamic meta tags, canonical links, OpenGraph images, Twitter cards.
+   - Dynamic meta tags, canonical links, OpenGraph images, Twitter cards powered by `NEXT_PUBLIC_BASE_URL`.
    - JSON-LD structured data (Schema.org `BreadcrumbList`, `WebPage`, `Organization`).
    - Detailed Sponsoring Organisation, Administrative Contact, Technical Contact, Authoritative Name Servers, WHOIS/RDAP endpoints, and embedded live domain availability checker.
    - Related TLDs cross-linking for search engine crawl depth.
 
-3. **Browser-Mimicking Stealth Detail Scraper**
+3. **Google Calendar Expiration Reminders ("Remind Me")**
+   - Integrated **Remind Me** button for registered domain WHOIS/RDAP lookups.
+   - Automatically calculates event date **30 days prior to domain expiration** scheduled at **09:00 AM WIB / Jakarta (GMT+7)**.
+   - Responsive layout alignment (right side on mobile `< md`, left side on desktop `>= md`).
+
+4. **URL Query String Synchronization & Deep Linking**
+   - Synchronizes domain queries (`?domain=domainname.com`) and search terms (`?q=...`) dynamically into browser URL using `replaceState`.
+   - Cleans protocol prefixes (`https://`, `www.`) automatically and supports browser `popstate` history navigation.
+
+5. **Browser-Mimicking Stealth Detail Scraper**
    - Scrapes individual IANA delegation pages safely using realistic browser navigation headers (`Sec-Fetch-*`, `Sec-Ch-Ua`, `User-Agent` pool, `Referer`), jitter delays, and IDN Punycode support.
 
-4. **Gemini AI Registry Insights (`gemini-3.5-flash-lite`)**
+6. **Gemini AI Registry Insights (`gemini-3.5-flash-lite`)**
    - On-demand AI summary generation for any TLD registry manager.
 
-5. **RDAP & WHOIS Domain Availability Engine**
+7. **RDAP & WHOIS Domain Availability Engine**
    - Auto protocol selection (RDAP RESTful JSON preferred with WHOIS port 43 fallback).
    - Real-time status indication (Registered vs Available for registration).
 
-6. **Domain Hack Generator (`lib/domain-hacks.ts`)**
+8. **Domain Hack Generator (`lib/domain-hacks.ts`)**
    - Automatic split-word matching against 1,500+ active IANA TLDs (Direct, Path, Subdomain splits).
 
-7. **Automated Bi-weekly Data Pipeline**
+9. **Automated Bi-weekly Data Pipeline**
    - Netlify Scheduled Function triggers build hook on the 1st and 15th of every month (`0 0 1,15 * *`).
 
 ---
@@ -85,10 +95,10 @@ tld-finder/
 │   ├── robots.ts               # Robots.txt generator
 │   └── sitemap.ts              # Dynamic XML sitemap generator
 ├── components/                 # Client and Server React components
-│   ├── tld-detail-client.tsx   # Interactive WHOIS checker & quick-copy widget for detail pages
+│   ├── tld-detail-client.tsx   # Interactive WHOIS checker, Google Calendar reminder & quick-copy widget
 │   ├── domain-hacks.tsx        # UI card grid for domain hack suggestions
-│   ├── search-form.tsx         # Search input, mode detection, protocol toggle
-│   ├── tld-list.tsx            # TLD cards grid & AI info trigger
+│   ├── search-form.tsx         # Search input, mode detection, protocol toggle, URL query sync
+│   ├── tld-list.tsx            # TLD cards grid, WHOIS display & Google Calendar reminder
 │   └── ui/                     # Radix UI primitives
 ├── data/
 │   ├── iana-tld.json           # Scraped index of all IANA TLDs
@@ -97,6 +107,7 @@ tld-finder/
 ├── lib/
 │   ├── domain-hacks.ts         # Domain hack generator library
 │   ├── rdap.ts                 # RDAP protocol client
+│   ├── site-config.ts          # Base URL configuration helper (NEXT_PUBLIC_BASE_URL)
 │   └── utils.ts                # Utility functions
 ├── netlify/
 │   └── functions/
