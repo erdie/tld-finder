@@ -16,11 +16,10 @@
 - **Package Manager**: Yarn (`yarn.lock`)
 
 ### Frontend & Styling
-- **CSS Framework**: Tailwind CSS v4 (`@tailwindcss/postcss` ^4.0.0, PostCSS ^8)
-- **UI Design System**: Radix UI primitives (`@radix-ui/react-checkbox`, `@radix-ui/react-label`, `@radix-ui/react-select`, `@radix-ui/react-slot`, `@radix-ui/react-tooltip`)
+- **UI Design System**: Native Material Design 3 (M3 / Material You) Components (Pure M3 Popovers, M3 Select Dropdowns, M3 Checkboxes, M3 Tooltips, M3 Buttons, M3 Badges & Chips)
 - **Utility Libraries**: `class-variance-authority` (CVA), `clsx`, `tailwind-merge`
 - **Theming**: `next-themes` (Dark / Light mode support)
-- **Iconography**: Hugeicons (`@hugeicons/react` and `@hugeicons/core-free-icons`)
+- **Iconography**: Google Material Symbols (`material-symbols`)
 
 ### AI & Data Engine
 - **Gemini AI Integration**: `@google/generative-ai` (^0.24.1) querying `gemini-3.5-flash-lite` (with fallback to `gemini-3.1-flash-lite` and `gemini-2.5-flash-lite`) for real-time, concise Markdown overviews of TLD registry managers.
