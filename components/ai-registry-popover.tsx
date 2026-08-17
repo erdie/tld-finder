@@ -111,12 +111,12 @@ export function AiRegistryPopover({
                 align="center"
                 sideOffset={10}
                 collisionPadding={16}
-                className="w-[calc(100vw-2rem)] sm:w-[390px] max-w-[420px] p-0 rounded-3xl border border-outline-variant/60 bg-surface-container-high dark:bg-surface-container-highest shadow-elevation-3 backdrop-blur-xl text-foreground overflow-hidden"
+                className="w-[calc(100vw-2rem)] sm:w-[390px] max-w-[420px] p-0 rounded-3xl bg-surface-container-high dark:bg-surface-container-highest shadow-elevation-3 backdrop-blur-xl text-foreground overflow-hidden"
             >
                 {/* Material Design 3 Header */}
-                <div className="flex items-center justify-between px-5 py-3.5 border-b border-outline-variant/40 bg-surface-container/70 dark:bg-surface-container/40">
+                <div className="flex items-center justify-between px-5 py-3.5 border-b border-surface-container-highest/60 bg-surface-container/70 dark:bg-surface-container/40">
                     <div className="flex items-center gap-3 min-w-0 pr-2">
-                        <div className="h-8 w-8 rounded-full bg-amber-500/15 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0 border border-amber-500/25 shadow-xs">
+                        <div className="h-8 w-8 rounded-full bg-amber-500/15 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0 shadow-xs">
                             <MaterialIcon name="auto_awesome" className="text-[18px]" />
                         </div>
                         <div className="min-w-0 space-y-0.5">
@@ -124,7 +124,7 @@ export function AiRegistryPopover({
                                 <h4 className="text-sm font-bold text-foreground tracking-tight truncate">
                                     Registry Insights
                                 </h4>
-                                <span className="font-mono text-xs font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full border border-primary/20">
+                                <span className="font-mono text-xs font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">
                                     .{cleanDomain}
                                 </span>
                             </div>
@@ -161,7 +161,7 @@ export function AiRegistryPopover({
                             </div>
                         </div>
                     ) : data.error ? (
-                        <div className="bg-m3-error-container/30 border border-m3-error/20 rounded-2xl p-4 space-y-3 text-m3-on-error-container">
+                        <div className="bg-m3-error-container/30 rounded-2xl p-4 space-y-3 text-m3-on-error-container">
                             <div className="flex items-center gap-2 text-xs font-bold text-destructive">
                                 <MaterialIcon name="error" className="text-[18px]" />
                                 <span>Could not load insights</span>
@@ -172,7 +172,7 @@ export function AiRegistryPopover({
                             <button
                                 type="button"
                                 onClick={handleRetry}
-                                className="inline-flex items-center gap-1.5 text-xs font-semibold px-3.5 py-1.5 rounded-full bg-surface-container hover:bg-surface-container-highest border border-outline-variant/60 text-foreground transition-all duration-150 active:scale-95 cursor-pointer shadow-xs"
+                                className="inline-flex items-center gap-1.5 text-xs font-semibold px-3.5 py-1.5 rounded-full bg-surface-container hover:bg-surface-container-highest text-foreground transition-all duration-150 active:scale-95 cursor-pointer shadow-xs"
                             >
                                 <MaterialIcon name="refresh" className="text-[14px]" />
                                 <span>Retry</span>
@@ -189,7 +189,7 @@ export function AiRegistryPopover({
 
                 {/* Material Design 3 Footer */}
                 {data.text && !data.loading && (
-                    <div className="flex items-center justify-between px-5 py-3 border-t border-outline-variant/40 bg-surface-container/40 dark:bg-surface-container/20">
+                    <div className="flex items-center justify-between px-5 py-3 border-t border-surface-container-highest/60 bg-surface-container/40 dark:bg-surface-container/20">
                         <div className="flex items-center gap-1.5 text-[11px] font-medium text-muted-foreground">
                             <MaterialIcon name="auto_awesome" className="text-[14px] text-amber-500" />
                             <span>Powered by Gemini AI</span>
@@ -198,13 +198,13 @@ export function AiRegistryPopover({
                         <button
                             type="button"
                             onClick={handleCopy}
-                            className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-semibold bg-surface-container-highest hover:bg-surface-container-highest/80 text-foreground border border-outline-variant/50 transition-all duration-150 active:scale-95 cursor-pointer shadow-xs"
+                            className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-semibold bg-surface-container-highest hover:bg-surface-container-highest/80 text-foreground transition-all duration-150 active:scale-95 cursor-pointer shadow-xs"
                             title="Copy overview text"
                         >
                             {copied ? (
                                 <>
-                                    <MaterialIcon name="check" className="text-[15px] text-m3-success" />
-                                    <span className="text-m3-success font-semibold">Copied!</span>
+                                    <MaterialIcon name="check" className="text-[15px] text-primary" />
+                                    <span className="text-primary font-semibold">Copied!</span>
                                 </>
                             ) : (
                                 <>
