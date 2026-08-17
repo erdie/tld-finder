@@ -1,0 +1,63 @@
+# TLD Finder — Complete Technical Documentation
+
+> Complete guide, API specifications, delegation schemas, and registry data for TLD Finder and the IANA Root Zone Database.
+
+## Overview
+TLD Finder is a high-performance web application and API service for searching and inspecting top-level domains (TLDs) delegated by the Internet Assigned Numbers Authority (IANA). It indexes over 1,500 TLDs covering:
+- **Generic TLDs (gTLDs)**: e.g., .com, .net, .dev, .app, .online, .store, .tech
+- **Country-Code TLDs (ccTLDs)**: e.g., .id, .uk, .jp, .ai, .io, .de, .fr
+- **Sponsored TLDs (sTLDs)**: e.g., .edu, .gov, .mil, .museum, .aero
+
+## Features & Capabilities
+
+### 1. In-Memory Search Engine
+- Real-time zero-latency search by domain extension (e.g. `.ai`) or registry operator name.
+- Filter by TLD category: Generic, Country-Code, Sponsored.
+- Filter by assignment status: Assigned vs Unassigned delegation status.
+
+### 2. Live RDAP & WHOIS Lookups
+- Automated protocol negotiation: RESTful RDAP JSON preferred, falling back to port 43 WHOIS.
+- Parsed metadata: Registration availability, registrar name, creation date, updated date, expiration date, registry domain ID, status flags, and authoritative DNS nameservers.
+- Raw WHOIS/RDAP payload output for full auditing.
+
+### 3. Domain Hack Generation
+- Algorithmically splits keywords into matching domain extensions (e.g. `delicious` -> `deliciou.s`, `antigravity` -> `anti.gr/avity`, `antigra.vi/ty`).
+
+## WebMCP (Web Model Context Protocol) Tools
+
+AI agents interacting with TLD Finder via WebMCP-enabled browsers (e.g. Chrome 150+ with `document.modelContext`) have access to the following registered client-side tools:
+
+### `search_tlds`
+- **Description**: Search and filter 1,500+ IANA top-level domains by extension, manager, or keyword.
+- **Parameters**:
+  - `query` (string, optional): Search term or TLD name (e.g., ".com", "google", "id").
+  - `type` (string, enum: ["all", "generic", "country-code", "sponsored"]): Filter by category.
+  - `assignment` (string, enum: ["all", "assigned", "unassigned"]): Filter by delegation status.
+
+### `lookup_domain`
+- **Description**: Real-time domain registration availability and expiration date lookup.
+- **Parameters**:
+  - `domain` (string, required): Domain name to query (e.g., "example.com").
+  - `protocol` (string, enum: ["auto", "rdap", "whois"], default: "auto"): Query protocol.
+
+### `generate_domain_hacks`
+- **Description**: Generate split-word creative domain hack ideas for any brand or keyword.
+- **Parameters**:
+  - `keyword` (string, required): Word or brand name to split into domain hacks.
+
+## REST API Endpoints
+
+### 1. `GET /api/tld`
+Returns JSON array of matching TLDs.
+- `q`: Search keyword.
+- `type`: `generic`, `country-code`, `sponsored`, or empty for all.
+- `assignment`: `assigned`, `unassigned`, or empty for all.
+
+### 2. `GET /api/whois`
+Performs WHOIS/RDAP lookup.
+- `domain`: Target domain name.
+- `protocol`: `auto`, `rdap`, or `whois`.
+
+### 3. `GET /api/domain-hacks`
+Generates domain hacks.
+- `q`: Keyword to split.

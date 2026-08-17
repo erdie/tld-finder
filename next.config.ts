@@ -11,6 +11,15 @@ const nextConfig: NextConfig = {
     config.resolve.modules = [
       path.resolve(__dirname, "node_modules"),
     ];
+
+    // Alias legacy Next.js polyfills for modern browser targets to pass Lighthouse Legacy JS audit
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      [path.resolve(__dirname, "node_modules/next/dist/build/polyfills/polyfill-module.js")]: path.resolve(__dirname, "lib/empty-polyfill.js"),
+      [path.resolve(__dirname, "node_modules/next/dist/build/polyfills/polyfill-nomodule.js")]: path.resolve(__dirname, "lib/empty-polyfill.js"),
+      [path.resolve(__dirname, "node_modules/next/dist/build/polyfills/object.assign/polyfill.js")]: path.resolve(__dirname, "lib/empty-polyfill.js"),
+    };
+
     return config;
   },
 };

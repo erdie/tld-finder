@@ -1,5 +1,6 @@
 import "@/app/globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
+import { WebMCPProvider } from "@/components/webmcp-provider"
 import type { Metadata, Viewport } from "next"
 import { getBaseUrl } from "@/lib/site-config"
 
@@ -129,12 +130,16 @@ export default function RootLayout({
 
                 <link
                     rel="stylesheet"
-                    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block"
+                    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
                 />
                 <link
                     rel="stylesheet"
                     href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..700&family=Google+Sans+Code:wght@400..700&display=swap"
                 />
+                {/* LLM & Agentic Discovery links */}
+                <link rel="alternate" type="text/markdown" href="/llms.txt" title="LLM Content" />
+                <link rel="alternate" type="text/markdown" href="/llms-full.txt" title="Full LLM Content" />
+
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -147,6 +152,7 @@ export default function RootLayout({
                     enableSystem={false}
                     disableTransitionOnChange
                 >
+                    <WebMCPProvider />
                     {children}
                 </ThemeProvider>
             </body>

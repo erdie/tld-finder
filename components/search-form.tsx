@@ -232,13 +232,26 @@ export function SearchForm() {
     return (
         <div className="space-y-6">
             <div className="flex flex-col gap-4">
-                {/* Material Design 3 Search Bar */}
-                <div className="relative flex items-center bg-surface-container-high hover:bg-surface-container-highest transition-all duration-300 ease-m3-emphasized rounded-full border border-outline-variant/60 shadow-elevation-1 focus-within:shadow-elevation-2 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/15 px-4 h-14 group">
+                {/* Material Design 3 Search Bar with WebMCP Form Annotations */}
+                <form
+                    onSubmit={(e) => e.preventDefault()}
+                    action="/"
+                    method="GET"
+                    {...({
+                        toolname: "search_tlds",
+                        tooldescription: "Search 1,500+ IANA top-level domains by extension or registry manager, or perform live RDAP/WHOIS domain lookup"
+                    } as any)}
+                    className="relative flex items-center bg-surface-container-high hover:bg-surface-container-highest transition-all duration-300 ease-m3-emphasized rounded-full border border-outline-variant/60 shadow-elevation-1 focus-within:shadow-elevation-2 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/15 px-4 h-14 group"
+                >
                     <MaterialIcon name="search" className="text-[22px] text-muted-foreground group-focus-within:text-primary transition-colors duration-200 ease-m3-standard flex-shrink-0 mr-3" />
                     
                     <input
                         id="tld-search-input"
+                        name="q"
                         type="text"
+                        {...({
+                            toolparamdescription: "Top-level domain (e.g., .com, .id), domain name for live WHOIS (e.g., google.com), or keyword"
+                        } as any)}
                         placeholder="Search TLD (e.g., .com), lookup domain (e.g., google.com), or keyword..."
                         className="w-full bg-transparent border-0 text-foreground placeholder:text-muted-foreground text-sm sm:text-base font-normal focus:outline-hidden focus:ring-0 shadow-none appearance-none"
                         value={query}
@@ -266,6 +279,7 @@ export function SearchForm() {
 
                     <Button
                         id="filter-toggle-button"
+                        type="button"
                         variant={hasActiveFilters ? "default" : "ghost"}
                         size="icon-sm"
                         onClick={() => setShowAdvanced(!showAdvanced)}
@@ -283,7 +297,7 @@ export function SearchForm() {
                             <MaterialIcon name="tune" className="text-[18px] transition-transform duration-200 ease-m3-standard" />
                         )}
                     </Button>
-                </div>
+                </form>
 
                 {/* Domain Lookup Active M3 Notice Card */}
                 {isDomainQuery(query) && (

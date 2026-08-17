@@ -217,13 +217,24 @@ export function TldDetailClient({ domain, whoisServer, rdapServer }: TldDetailCl
                 </div>
 
                 {/* M3 Search Input Form */}
-                <form onSubmit={handleLookup} className="flex flex-col sm:flex-row gap-3">
+                <form
+                    onSubmit={handleLookup}
+                    {...({
+                        toolname: "lookup_domain_whois_rdap",
+                        tooldescription: `Lookup live WHOIS and RDAP registration status and expiration date for any domain under .${domain}`
+                    } as any)}
+                    className="flex flex-col sm:flex-row gap-3"
+                >
                     <div className="relative flex-1 group">
                         <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors duration-200 ease-m3-standard pointer-events-none flex items-center justify-center">
                             <MaterialIcon name="search" className="text-[20px]" />
                         </div>
                         <input
+                            name="domain"
                             type="text"
+                            {...({
+                                toolparamdescription: `Subdomain or full domain name to check under .${domain} (e.g. brand)`
+                            } as any)}
                             placeholder={`e.g. brand (checks brand.${domain})`}
                             value={subdomain}
                             onChange={(e) => setSubdomain(e.target.value)}
