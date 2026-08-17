@@ -1,8 +1,6 @@
 "use client"
 
 import * as React from "react"
-import { HugeiconsIcon } from '@hugeicons/react'
-import { Search01Icon, FilterIcon, FilterRemoveIcon } from '@hugeicons/core-free-icons'
 import type { TLD } from "@/data/tlds"
 import { tlds } from "@/data/tlds"
 import { Input } from "@/components/ui/input"
@@ -14,6 +12,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { MaterialIcon } from "@/components/ui/material-icon"
 
 function cleanDomainInput(input: string): string {
     return input
@@ -185,92 +184,117 @@ export function SearchForm() {
     return (
         <div className="space-y-6">
             <div className="flex flex-col gap-4">
-                <div className="relative flex items-center gap-3">
-                    <HugeiconsIcon icon={Search01Icon} className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
-                    <Input
+                {/* Material Design 3 Search Bar */}
+                <div className="relative flex items-center bg-surface-container-high hover:bg-surface-container-highest transition-all duration-300 ease-m3-emphasized rounded-full border border-outline-variant/60 shadow-elevation-1 focus-within:shadow-elevation-2 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/15 px-4 h-14 group">
+                    <MaterialIcon name="search" className="text-[22px] text-muted-foreground group-focus-within:text-primary transition-colors duration-200 ease-m3-standard flex-shrink-0 mr-3" />
+                    
+                    <input
                         id="tld-search-input"
-                        type="search"
-                        placeholder="Search TLD (e.g., .com), lookup domain (e.g., google.com), or type keyword for Domain Hacks..."
-                        className="pl-10 pr-4 bg-muted/50 text-base font-light py-3"
+                        type="text"
+                        placeholder="Search TLD (e.g., .com), lookup domain (e.g., google.com), or keyword..."
+                        className="w-full bg-transparent border-0 text-foreground placeholder:text-muted-foreground text-sm sm:text-base font-normal focus:outline-hidden"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                         aria-label="Search top-level domain or lookup domain"
                     />
+
+                    {query && (
+                        <button
+                            type="button"
+                            onClick={() => setQuery("")}
+                            className="p-1.5 rounded-full text-muted-foreground hover:text-foreground hover:bg-foreground/8 transition-all duration-150 ease-m3-standard active:scale-90 cursor-pointer mr-1"
+                            title="Clear search"
+                            aria-label="Clear search query"
+                        >
+                            <MaterialIcon name="close" className="text-[18px]" />
+                        </button>
+                    )}
+
+                    <div className="h-6 w-px bg-outline-variant/60 mx-1 flex-shrink-0" />
+
                     <Button
                         id="filter-toggle-button"
-                        variant={hasActiveFilters ? "default" : "outline"}
-                        size="icon"
+                        variant={hasActiveFilters ? "default" : "ghost"}
+                        size="icon-sm"
                         onClick={() => setShowAdvanced(!showAdvanced)}
-                        className={`cursor-pointer ${hasActiveFilters ? "shadow-sm" : "bg-muted/50"}`}
+                        className={`cursor-pointer rounded-full ml-1 transition-all duration-200 ease-m3-standard active:scale-90 ${
+                            hasActiveFilters
+                                ? "bg-primary text-primary-foreground shadow-xs"
+                                : "text-muted-foreground hover:text-foreground hover:bg-foreground/8"
+                        }`}
                         title="Toggle filters & protocol settings"
                         aria-label="Toggle search filters and lookup protocol settings"
                     >
                         {showAdvanced ? (
-                            <HugeiconsIcon icon={FilterRemoveIcon} className="h-4 w-4" />
+                            <MaterialIcon name="filter_alt_off" className="text-[18px] transition-transform duration-200 ease-m3-standard" />
                         ) : (
-                            <HugeiconsIcon icon={FilterIcon} className="h-4 w-4" />
+                            <MaterialIcon name="tune" className="text-[18px] transition-transform duration-200 ease-m3-standard" />
                         )}
                     </Button>
                 </div>
 
+                {/* Domain Lookup Active M3 Notice Card */}
                 {isDomainQuery(query) && (
-                    <div className="flex flex-wrap items-center justify-between gap-3 bg-blue-500/10 border border-blue-500/20 px-3.5 py-2 rounded-lg animate-fade-in text-xs">
-                        <div className="flex items-center gap-2 text-blue-400 font-mono">
-                            <span className="h-2 w-2 rounded-full bg-blue-400 animate-pulse" />
-                            Domain Lookup Active: checking "{query.trim().replace(/^\.+/, "")}"
+                    <div className="flex flex-wrap items-center justify-between gap-3 bg-secondary text-secondary-foreground border border-outline-variant/40 px-4 py-3 rounded-2xl animate-shared-axis-y text-xs shadow-xs transition-all duration-300 ease-m3-emphasized">
+                        <div className="flex items-center gap-2.5 font-mono">
+                            <span className="h-2.5 w-2.5 rounded-full bg-primary animate-pulse" />
+                            <span className="font-medium">
+                                Domain Lookup Active: <strong className="font-bold text-foreground">"{query.trim().replace(/^\.+/, "")}"</strong>
+                            </span>
                         </div>
 
-                        {/* Protocol Selection Toggle */}
-                        <div className="flex items-center gap-1.5 font-sans">
-                            <span className="text-muted-foreground font-medium">Protocol:</span>
+                        {/* M3 Segmented Buttons for Protocol Selection */}
+                        <div className="flex items-center gap-1 bg-surface-container-lowest/80 dark:bg-surface-container-low p-1 rounded-full border border-outline-variant/60 shadow-xs">
                             <button
                                 onClick={() => setProtocol("auto")}
-                                className={`px-2 py-0.5 rounded text-[11px] font-medium transition cursor-pointer ${
+                                className={`px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 ease-m3-standard active:scale-95 cursor-pointer ${
                                     protocol === "auto"
-                                        ? "bg-blue-600 text-white shadow-xs"
-                                        : "bg-muted/80 text-muted-foreground hover:text-foreground"
+                                        ? "bg-primary text-primary-foreground shadow-xs font-semibold"
+                                        : "text-muted-foreground hover:text-foreground hover:bg-foreground/5"
                                 }`}
                             >
                                 Auto (RDAP preferred)
                             </button>
                             <button
                                 onClick={() => setProtocol("rdap")}
-                                className={`px-2 py-0.5 rounded text-[11px] font-medium transition cursor-pointer ${
+                                className={`px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 ease-m3-standard active:scale-95 cursor-pointer ${
                                     protocol === "rdap"
-                                        ? "bg-purple-600 text-white shadow-xs"
-                                        : "bg-muted/80 text-muted-foreground hover:text-foreground"
+                                        ? "bg-primary text-primary-foreground shadow-xs font-semibold"
+                                        : "text-muted-foreground hover:text-foreground hover:bg-foreground/5"
                                 }`}
                             >
-                                RDAP (RESTful JSON)
+                                ⚡ RDAP (JSON)
                             </button>
                             <button
                                 onClick={() => setProtocol("whois")}
-                                className={`px-2 py-0.5 rounded text-[11px] font-medium transition cursor-pointer ${
+                                className={`px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 ease-m3-standard active:scale-95 cursor-pointer ${
                                     protocol === "whois"
-                                        ? "bg-amber-600 text-white shadow-xs"
-                                        : "bg-muted/80 text-muted-foreground hover:text-foreground"
+                                        ? "bg-primary text-primary-foreground shadow-xs font-semibold"
+                                        : "text-muted-foreground hover:text-foreground hover:bg-foreground/5"
                                 }`}
                             >
-                                WHOIS (Port 43)
+                                📜 WHOIS (Port 43)
                             </button>
                         </div>
                     </div>
                 )}
 
+                {/* Filter Options Panel - M3 Elevated Sheet Card */}
                 {showAdvanced && (
-                    <div className="border rounded-lg p-4 bg-card text-card-foreground shadow-xs animate-fade-in space-y-4">
-                        <div className="flex items-center justify-between border-b border-border/40 pb-2.5">
-                            <span className="text-xs font-semibold text-foreground flex items-center gap-1.5">
-                                <HugeiconsIcon icon={FilterIcon} className="h-3.5 w-3.5 text-primary" /> Filter Options
+                    <div className="border border-outline-variant/60 rounded-3xl p-5 sm:p-6 bg-surface-container-low text-foreground shadow-elevation-1 animate-expand-container space-y-5 transition-all duration-300 ease-m3-emphasized">
+                        <div className="flex items-center justify-between border-b border-outline-variant/40 pb-3">
+                            <span className="text-sm font-bold text-foreground flex items-center gap-2">
+                                <MaterialIcon name="tune" className="text-[18px] text-primary" /> Filter Options
                             </span>
-                            <Badge variant="outline" className="font-mono text-xs bg-primary/10 text-primary border-primary/20">
-                                {isLoading ? "Counting..." : `${results.length} TLDs matching filter`}
+                            <Badge variant="secondary" className="font-mono text-xs bg-secondary text-secondary-foreground border border-outline-variant/40">
+                                {isLoading ? "Counting..." : `${results.length} TLDs matching`}
                             </Badge>
                         </div>
 
+
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             <div>
-                                <Label className="text-xs text-muted-foreground mb-1.5 block">TLD Type Filter</Label>
+                                <Label className="text-xs font-medium text-muted-foreground mb-2 block">TLD Type Filter</Label>
                                 <Select value={type} onValueChange={setType}>
                                     <SelectTrigger className="cursor-pointer w-full">
                                         <SelectValue placeholder="Type" />
@@ -285,7 +309,7 @@ export function SearchForm() {
                             </div>
 
                             <div>
-                                <Label className="text-xs text-muted-foreground mb-1.5 block">Assignment Filter</Label>
+                                <Label className="text-xs font-medium text-muted-foreground mb-2 block">Assignment Filter</Label>
                                 <Select value={assignment} onValueChange={setAssignment}>
                                     <SelectTrigger className="cursor-pointer w-full">
                                         <SelectValue placeholder="Assignment Status" />
@@ -299,7 +323,7 @@ export function SearchForm() {
                             </div>
 
                             <div>
-                                <Label className="text-xs text-muted-foreground mb-1.5 block">Lookup Protocol</Label>
+                                <Label className="text-xs font-medium text-muted-foreground mb-2 block">Lookup Protocol</Label>
                                 <Select value={protocol} onValueChange={(val: any) => setProtocol(val)}>
                                     <SelectTrigger className="cursor-pointer w-full">
                                         <SelectValue placeholder="Protocol" />
@@ -313,8 +337,8 @@ export function SearchForm() {
                             </div>
                         </div>
 
-                        <div className="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-border/40 text-xs">
-                            <div className="flex items-center space-x-4">
+                        <div className="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-outline-variant/40 text-xs">
+                            <div className="flex items-center space-x-5">
                                 <span className="text-muted-foreground font-medium">Search Scope:</span>
                                 <div className="flex items-center space-x-2">
                                     <Checkbox
@@ -323,7 +347,7 @@ export function SearchForm() {
                                         onCheckedChange={(checked) => setByExtensions(checked as boolean)}
                                         className="cursor-pointer"
                                     />
-                                    <Label htmlFor="byExtensions" className="cursor-pointer">Extensions</Label>
+                                    <Label htmlFor="byExtensions" className="cursor-pointer text-xs font-medium text-foreground">Extensions</Label>
                                 </div>
                                 <div className="flex items-center space-x-2">
                                     <Checkbox
@@ -332,7 +356,7 @@ export function SearchForm() {
                                         onCheckedChange={(checked) => setByManagers(checked as boolean)}
                                         className="cursor-pointer"
                                     />
-                                    <Label htmlFor="byManagers" className="cursor-pointer">Managers</Label>
+                                    <Label htmlFor="byManagers" className="cursor-pointer text-xs font-medium text-foreground">Managers</Label>
                                 </div>
                             </div>
 
@@ -343,7 +367,7 @@ export function SearchForm() {
                                     onCheckedChange={(checked) => setAssignment(checked ? "assigned" : "all")}
                                     className="cursor-pointer"
                                 />
-                                <Label htmlFor="hideUnassigned" className="cursor-pointer font-medium">
+                                <Label htmlFor="hideUnassigned" className="cursor-pointer text-xs font-medium text-foreground">
                                     Hide "Not assigned" TLDs
                                 </Label>
                             </div>
@@ -351,36 +375,37 @@ export function SearchForm() {
                     </div>
                 )}
 
+                {/* Filter Chips & Count indicator */}
                 {!isWhoisMode && (
-                    <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-muted-foreground px-1 font-mono">
+                    <div className="flex flex-wrap items-center justify-between gap-2.5 text-xs text-muted-foreground px-1 font-mono">
                         <div>
                             Showing <strong className="text-foreground">{isLoading ? '...' : results.length}</strong> of <strong className="text-foreground">{totalTldsCount}</strong> TLDs
                         </div>
                         {hasActiveFilters && (
-                            <div className="flex items-center gap-1.5 flex-wrap">
+                            <div className="flex items-center gap-2 flex-wrap animate-fade-in">
                                 {type !== "all" && (
-                                    <Badge variant="secondary" className="text-[10px] py-0.5 px-2 flex items-center gap-1 font-sans">
+                                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary text-secondary-foreground text-xs font-sans font-medium border border-outline-variant/40 shadow-xs">
                                         Type: {type}
-                                        <button onClick={() => setType("all")} className="hover:text-foreground cursor-pointer ml-0.5">✕</button>
-                                    </Badge>
+                                        <button onClick={() => setType("all")} className="hover:text-foreground cursor-pointer ml-0.5 text-xs">✕</button>
+                                    </span>
                                 )}
                                 {assignment !== "all" && (
-                                    <Badge variant="secondary" className="text-[10px] py-0.5 px-2 flex items-center gap-1 font-sans">
+                                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary text-secondary-foreground text-xs font-sans font-medium border border-outline-variant/40 shadow-xs">
                                         Assignment: {assignment}
-                                        <button onClick={() => setAssignment("all")} className="hover:text-foreground cursor-pointer ml-0.5">✕</button>
-                                    </Badge>
+                                        <button onClick={() => setAssignment("all")} className="hover:text-foreground cursor-pointer ml-0.5 text-xs">✕</button>
+                                    </span>
                                 )}
                                 {byExtensions && (
-                                    <Badge variant="secondary" className="text-[10px] py-0.5 px-2 flex items-center gap-1 font-sans">
+                                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary text-secondary-foreground text-xs font-sans font-medium border border-outline-variant/40 shadow-xs">
                                         Scope: Extensions
-                                        <button onClick={() => setByExtensions(false)} className="hover:text-foreground cursor-pointer ml-0.5">✕</button>
-                                    </Badge>
+                                        <button onClick={() => setByExtensions(false)} className="hover:text-foreground cursor-pointer ml-0.5 text-xs">✕</button>
+                                    </span>
                                 )}
                                 {byManagers && (
-                                    <Badge variant="secondary" className="text-[10px] py-0.5 px-2 flex items-center gap-1 font-sans">
+                                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary text-secondary-foreground text-xs font-sans font-medium border border-outline-variant/40 shadow-xs">
                                         Scope: Managers
-                                        <button onClick={() => setByManagers(false)} className="hover:text-foreground cursor-pointer ml-0.5">✕</button>
-                                    </Badge>
+                                        <button onClick={() => setByManagers(false)} className="hover:text-foreground cursor-pointer ml-0.5 text-xs">✕</button>
+                                    </span>
                                 )}
                                 <button
                                     onClick={() => {
@@ -390,7 +415,7 @@ export function SearchForm() {
                                         setByExtensions(false);
                                         setByManagers(false);
                                     }}
-                                    className="text-[11px] text-muted-foreground hover:text-foreground underline cursor-pointer ml-1 font-sans"
+                                    className="text-xs text-primary hover:underline font-medium cursor-pointer ml-1 font-sans"
                                 >
                                     Reset filters
                                 </button>
@@ -420,3 +445,5 @@ export function SearchForm() {
         </div>
     )
 }
+
+
