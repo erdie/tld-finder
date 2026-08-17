@@ -10,6 +10,11 @@ TLD Finder is a modern, responsive Jamstack application built on **Next.js 16** 
 ## 🚀 Key Features
 
 * **IANA Root Database Explorer**: Instantly search and filter through all 1,500+ registered top-level domains (TLDs) in the official IANA Root Zone by extension (e.g. `.com`, `.ai`, `.id`) or registry operator name.
+* **Green Material Design 3 (M3 / Material You) System**:
+  * Forest Emerald & Mint tonal palette adhering to the latest official M3 design token guidelines (`#006d3a` light / `#74da96` dark).
+  * Authentic M3 **borderless filled cards** utilizing soft tonal surface containers (`surface-container-low` / `surface-container-high`).
+  * Custom M3 **wavy / squiggly border dividers** (`<WavyDivider />`) with repeating sine-wave vector rendering.
+  * Universal browser autofill background reset eliminating browser autocomplete highlight boxes.
 * **Dedicated SERP & SEO-Friendly TLD Detail Pages (`/tld/[domain]`)**:
   * Static Site Generation (SSG) for all 1,500+ top-level domains pre-rendering full HTML for instant load times and search engine indexing.
   * Comprehensive SERP optimization: Dynamic `<title>`, meta descriptions, canonical URLs (`NEXT_PUBLIC_BASE_URL/tld/[domain]`), OpenGraph tags, and Twitter Cards.
@@ -23,7 +28,7 @@ TLD Finder is a modern, responsive Jamstack application built on **Next.js 16** 
 * **Gemini AI Registry Insights**: Harnesses Google's `gemini-3.5-flash-lite` model (with dynamic fallbacks) to fetch real-time, concise Markdown summaries about registry operators.
 * **Live Domain WHOIS & RDAP Lookup**: 
   * Automatically detects domain queries (e.g., `erdiawan.com`) and queries RDAP bootstrap servers with automatic fallback to traditional WHOIS (`whoiser`).
-  * Real-time status display: **Registration Availability** (green pulsing indicator) vs **Registered Status** (blue indicator).
+  * Real-time status display: **Registration Availability** (green pulsing indicator) vs **Registered Status** (emerald indicator).
   * Key metrics: Registrar info, DNS Nameservers, Status badges, and active countdown of days remaining until expiration.
   * Includes a toggleable **Raw WHOIS/RDAP Record** dark terminal block with instant copy-to-clipboard actions.
 * **Google Calendar Expiration Reminders ("Remind Me")**:
@@ -43,9 +48,8 @@ TLD Finder is a modern, responsive Jamstack application built on **Next.js 16** 
 * **Frontend Framework**: Next.js 16 (React 19 & Next.js App Router with Turbopack)
 * **Language**: TypeScript 5
 * **Styling**: Tailwind CSS v4 + PostCSS
-* **Design System**: Native Material Design 3 (M3 / Material You) pure component system (Popovers, Selects, Checkboxes, Tooltips, Buttons, Labels, Badges & Chips) built with CVA and smooth M3 tonal palettes
+* **Design System**: Native Material Design 3 (M3 / Material You) pure component system (Popovers, Selects, Checkboxes, Tooltips, Buttons, Labels, Badges, Chips & Wavy Dividers) with soft forest & mint tonal palettes
 * **Iconography**: Google Material Symbols (`material-symbols`)
-
 * **Hosting**: Netlify (App Router Serverless Functions & Scheduled Functions)
 
 ---
@@ -62,17 +66,21 @@ tld-finder/
 │   │   └── whois/route.ts      # GET: Live RDAP & WHOIS domain lookup route
 │   ├── tld/[domain]/           # Dedicated SERP/SEO friendly TLD detail page
 │   │   └── page.tsx            # Static pre-rendered detail view (SSG)
-│   ├── globals.css             # Tailwind v4 directives & theme configurations
+│   ├── globals.css             # Tailwind v4 directives, M3 tonal color tokens & autofill reset
 │   ├── layout.tsx              # Root layout wrapped with ThemeProvider & base JSON-LD
 │   ├── page.tsx                # Main search & TLD explorer page
 │   ├── robots.ts               # Search engine crawler directive rules
 │   └── sitemap.ts              # Dynamic XML sitemap generator (includes all /tld/[domain] paths)
 ├── components/                 # Client and Server React components
-│   ├── tld-detail-client.tsx   # Interactive WHOIS checker, Google Calendar reminder & quick-copy widget
+│   ├── ai-registry-popover.tsx # Gemini AI powered registry insights popover
 │   ├── domain-hacks.tsx        # UI card grid for displaying domain hacks
 │   ├── search-form.tsx         # Search input, mode detection, protocol toggle, URL query sync
+│   ├── site-footer.tsx         # Reusable M3 footer with wavy divider & SM typography
+│   ├── theme-provider.tsx      # Dark/Light theme provider wrapper
+│   ├── theme-toggle.tsx        # M3 animated light/dark toggle button
+│   ├── tld-detail-client.tsx   # Interactive WHOIS checker, Google Calendar reminder & quick-copy widget
 │   ├── tld-list.tsx            # TLD cards grid, WHOIS result display & Google Calendar reminder
-│   └── ui/                     # Native Material Design 3 UI primitives (popover, select, checkbox, tooltip, button, label, badge)
+│   └── ui/                     # Native Material Design 3 UI primitives (popover, select, checkbox, tooltip, button, label, badge, wavy-divider)
 ├── data/
 │   ├── iana-tld.json           # Scraped index of all IANA TLDs
 │   ├── iana-tld-details.json   # Scraped delegation details for 1,500+ TLDs
