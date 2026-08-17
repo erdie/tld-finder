@@ -259,7 +259,7 @@ const PopoverContent = React.forwardRef<HTMLDivElement, PopoverContentProps>(
                         ...style,
                     }}
                     className={cn(
-                        "rounded-3xl border border-outline-variant/60 bg-surface-container-high dark:bg-surface-container-highest text-foreground shadow-elevation-3 outline-none backdrop-blur-xl animate-scale-in transition-all duration-200 ease-m3-emphasized",
+                        "rounded-3xl border border-outline-variant/60 bg-surface-container-high dark:bg-surface-container-highest text-foreground shadow-elevation-3 outline-none backdrop-blur-xl animate-scale-in ease-m3-emphasized",
                         className
                     )}
                     {...props}
