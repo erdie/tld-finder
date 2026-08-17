@@ -43,9 +43,9 @@ TLD Finder is a modern, responsive Jamstack application built on **Next.js 16** 
 * **Frontend Framework**: Next.js 16.1.6 (React 19 & Next.js App Router with Turbopack)
 * **Language**: TypeScript 5
 * **Styling**: Tailwind CSS v4 + PostCSS
-* **Design System**: Radix UI Primitives (Checkbox, Select, Tooltip, Label, Slot) and CVA
-* **Query & Scraper Engines**: `got`, `jsdom`, `whoiser`, and custom RDAP RESTful client
-* **Iconography**: Hugeicons (`@hugeicons/react` and `@hugeicons/core-free-icons`)
+* **Design System**: Material Design 3 (M3 / Material You) with Radix UI Primitives (Checkbox, Select, Tooltip, Label, Slot) and CVA
+* **Iconography**: Google Material Symbols / Material Icons (`Material Symbols Rounded`)
+
 * **Hosting**: Netlify (App Router Serverless Functions & Scheduled Functions)
 
 ---
