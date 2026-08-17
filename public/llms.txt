@@ -1,0 +1,32 @@
+# TLD Finder
+
+> Fast interactive search engine and IANA Root Zone directory for 1,500+ top-level domains (gTLDs, ccTLDs, sTLDs), registry operators, live RDAP/WHOIS domain availability lookups, and domain hacks.
+
+TLD Finder provides comprehensive information on all active top-level domains delegated by the Internet Assigned Numbers Authority (IANA). Users and AI agents can query TLD delegation records, find registry managers, verify domain availability, compute domain hacks, and schedule domain expiration reminders.
+
+## Key Resources & Pages
+
+- [Homepage](https://tld-finder.netlify.app/): Main search interface for querying 1,500+ TLDs and live WHOIS lookups.
+- [All TLDs Delegation Index](https://tld-finder.netlify.app/sitemap.xml): Full XML sitemap of all 1,600+ individual TLD detail pages.
+- [Robots.txt Policy](https://tld-finder.netlify.app/robots.txt): Crawler and agent indexing policy.
+
+## Popular Top-Level Domains
+
+- [.COM Delegation Record](https://tld-finder.netlify.app/tld/com): Commercial generic top-level domain managed by VeriSign Global Registry Services.
+- [.AI Delegation Record](https://tld-finder.netlify.app/tld/ai): Anguilla country-code TLD popular for Artificial Intelligence organizations.
+- [.DEV Delegation Record](https://tld-finder.netlify.app/tld/dev): Secure Google-operated gTLD with built-in HSTS encryption for developers.
+- [.ID Delegation Record](https://tld-finder.netlify.app/tld/id): Indonesia ccTLD managed by Perkumpulan Pengelola Nama Domain Internet Indonesia (PANDI).
+- [.IO Delegation Record](https://tld-finder.netlify.app/tld/io): British Indian Ocean Territory ccTLD widely used by technology startups.
+- [.ORG Delegation Record](https://tld-finder.netlify.app/tld/org): Public Interest Registry (PIR) top-level domain for non-profit and community organizations.
+- [.NET Delegation Record](https://tld-finder.netlify.app/tld/net): Network infrastructure generic top-level domain managed by VeriSign.
+- [.APP Delegation Record](https://tld-finder.netlify.app/tld/app): Google Registry gTLD designed for mobile and web applications with mandatory HTTPS.
+
+## API Endpoints for AI Agents
+
+- [TLD Search API](https://tld-finder.netlify.app/api/tld?q=dev&type=generic): Query TLDs programmatically with filter parameters `q`, `type` (generic, country-code, sponsored), and `assignment`.
+- [WHOIS & RDAP Lookup API](https://tld-finder.netlify.app/api/whois?domain=google.com&protocol=auto): Query domain registration status, expiration date, creation date, and DNS nameservers using RDAP (REST) or WHOIS (Port 43).
+- [Domain Hacks Generator API](https://tld-finder.netlify.app/api/domain-hacks?q=delicious): Generate creative split-word domain hacks for any keyword.
+
+## Optional / Detailed Information
+
+- [Full LLM Documentation](https://tld-finder.netlify.app/llms-full.txt): Unabridged schema, delegation structures, and registry manager datasets.
