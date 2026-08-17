@@ -46,14 +46,19 @@
    - Instant search across 1,500+ top-level domains by extension (e.g. `.com`, `.ai`, `.id`) or registry operator name.
    - Filtering by TLD classification: Generic (`gTLD`), Country Code (`ccTLD`), or Sponsored (`sTLD`).
 
-2. **SERP & SEO-Friendly TLD Detail Pages (`/tld/[domain]`)**
-   - Pre-rendered static pages (SSG via `generateStaticParams`) for all 1,500+ TLDs.
-   - Dynamic meta tags, canonical links, OpenGraph images, Twitter cards powered by `NEXT_PUBLIC_BASE_URL`.
-   - JSON-LD structured data (Schema.org `BreadcrumbList`, `WebPage`, `Organization`).
-   - Detailed Sponsoring Organisation, Administrative Contact, Technical Contact, Authoritative Name Servers, WHOIS/RDAP endpoints, and embedded live domain availability checker.
-   - Related TLDs cross-linking for search engine crawl depth.
+2. **Ultra-Fast In-Memory Search & Core Web Vitals Optimization**
+   - Instant in-memory filtering (0ms network latency) directly querying the master TLD index on the client.
+   - Offscreen content rendering optimization using modern CSS `content-visibility: auto` and `contain-intrinsic-size` on interactive cards.
+   - Self-hosted Material Symbols WOFF2 font with `font-display: swap` eliminating blocking network requests and FOUT.
+   - Edge Cache-Control headers (`s-maxage` and `stale-while-revalidate`) on API routes (`/api/tld`, `/api/whois`, `/api/domain-hacks`).
 
-3. **Material Design 3 (M3) Green Tonal Theme & Borderless Cards**
+3. **SERP & Advanced SEO Infrastructure**
+   - Pre-rendered static pages (SSG via `generateStaticParams`) for all 1,600+ TLDs.
+   - Comprehensive JSON-LD Schemas: `WebSite` with `SearchAction`, `WebApplication`, `DataCatalog` for the IANA database, `BreadcrumbList`, and `Organization`.
+   - Dynamic meta tags, canonical links, OpenGraph images (1200x630), Twitter large cards, and `theme-color` viewport settings.
+   - Semantic heading hierarchy and crawlable related TLD cross-linking.
+
+4. **Material Design 3 (M3) Green Tonal Theme & Borderless Cards**
    - Harmonized Emerald / Mint / Sage tonal system with dedicated light & dark mode surfaces.
    - Filled borderless cards contrasting softly against the canvas background.
    - Wavy / squiggly SVG border dividers for M3 decorative section separation.

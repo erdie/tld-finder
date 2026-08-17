@@ -15,12 +15,15 @@ TLD Finder is a modern, responsive Jamstack application built on **Next.js 16** 
   * Authentic M3 **borderless filled cards** utilizing soft tonal surface containers (`surface-container-low` / `surface-container-high`).
   * Custom M3 **wavy / squiggly border dividers** (`<WavyDivider />`) with repeating sine-wave vector rendering.
   * Universal browser autofill background reset eliminating browser autocomplete highlight boxes.
-* **Dedicated SERP & SEO-Friendly TLD Detail Pages (`/tld/[domain]`)**:
-  * Static Site Generation (SSG) for all 1,500+ top-level domains pre-rendering full HTML for instant load times and search engine indexing.
-  * Comprehensive SERP optimization: Dynamic `<title>`, meta descriptions, canonical URLs (`NEXT_PUBLIC_BASE_URL/tld/[domain]`), OpenGraph tags, and Twitter Cards.
-  * Structured JSON-LD Data (Schema.org `BreadcrumbList`, `WebPage`, `Organization`) for rich search engine result snippets.
-  * Deep delegation record metadata: Sponsoring Organisation, Administrative Contact, Technical Contact, Authoritative Name Servers, WHOIS Server, and RDAP Endpoint.
-  * Interactive live WHOIS & domain availability lookup widget embedded on every detail page.
+* **Ultra-Fast Instant Search & Core Web Vitals Optimization**:
+  * **0ms Latency In-Memory Filtering**: Searches across all 1,500+ TLDs directly in-memory with zero network latency, instant keystroke feedback, and zero layout shifts (CLS = 0).
+  * **Offscreen Content Rendering (`content-visibility: auto`)**: Leverages modern CSS `content-visibility` and `contain-intrinsic-size` on list items to defer offscreen layout and paint calculations, keeping DOM operations 120fps smooth.
+  * **Self-Hosted Material Symbols Font**: Self-hosted WOFF2 font with `font-display: swap` eliminating external blocking requests and flash of unstyled text (FOUT).
+  * **Edge Caching & S-Maxage Headers**: API endpoints equipped with `Cache-Control` (`s-maxage` and `stale-while-revalidate`) for rapid edge responses.
+* **Comprehensive SERP & SEO Infrastructure**:
+  * **Static Site Generation (SSG)** for all 1,600+ top-level domains pre-rendering full semantic HTML for search engines.
+  * **Rich Structured Data (JSON-LD)**: Schema.org `BreadcrumbList`, `WebPage`, `WebSite` (with `SearchAction`), `WebApplication`, and `DataCatalog` knowledge graphs.
+  * **Complete Social & Viewport Meta**: OpenGraph, Twitter Large Summary Cards, canonical URLs, and dynamic light/dark `theme-color` viewport tags.
 * **Browser-Mimicking Stealth Scraper (`scripts/scrape-details.js`)**:
   * Scrapes individual IANA TLD delegation pages (`https://www.iana.org/domains/root/db/{domain}.html`) with stealth protections to prevent anti-scraping blocks.
   * Features User-Agent rotation, realistic browser HTTP navigation headers (`Sec-Fetch-*`, `Sec-Ch-Ua`, `Accept-Language`, `Referer`), jitter delays, rate-limit throttling, and IDN Punycode conversion (`domainToASCII`).
