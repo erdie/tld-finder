@@ -1,23 +1,11 @@
 import Link from 'next/link';
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { 
-    SparklesIcon, 
-    Calendar01Icon, 
-    Shield01Icon, 
-    Globe02Icon, 
-    ComputerTerminal01Icon, 
-    Copy01Icon, 
-    File01Icon, 
-    Tick01Icon, 
-    Alert02Icon, 
-    ArrowUpRight01Icon, 
-    ArrowRight01Icon 
-} from "@hugeicons/core-free-icons";
+import { MaterialIcon } from "@/components/ui/material-icon";
+import { AiRegistryPopover } from "@/components/ai-registry-popover";
 import type { TLD } from "@/data/tlds";
 import { useState, useEffect, useRef, useCallback } from "react";
-import type { ReactNode } from "react";
 
 interface TldListProps {
     results: TLD[];
@@ -28,54 +16,27 @@ interface TldListProps {
     whoisError?: string | null;
 }
 
-function renderMarkdown(text: string): ReactNode {
-    if (!text) return null;
-
-    // Pattern to capture links [text](url), bold **text**, and italic *text*
-    const regex = /(\*\*.*?\*\*|\*.*?\*|\[.*?\]\(.*?\))/g;
-    const parts = text.split(regex);
-
-    return (
-        <span>
-            {parts.map((part, index) => {
-                if (part.startsWith('**') && part.endsWith('**')) {
-                    return <strong key={index} className="font-semibold text-foreground">{part.slice(2, -2)}</strong>;
-                }
-                if (part.startsWith('*') && part.endsWith('*')) {
-                    return <em key={index} className="italic text-muted-foreground">{part.slice(1, -1)}</em>;
-                }
-                if (part.startsWith('[') && part.includes('](') && part.endsWith(')')) {
-                    const match = part.match(/\[(.*?)\]\((.*?)\)/);
-                    if (match) {
-                        const [, linkText, url] = match;
-                        let safeUrl = url;
-                        if (!/^https?:\/\//i.test(url)) {
-                            safeUrl = `https://${url}`;
-                        }
-                        return (
-                            <a
-                                key={index}
-                                href={safeUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-blue-500 hover:text-blue-400 underline font-semibold inline-flex items-center gap-0.5"
-                                onClick={(e) => e.stopPropagation()}
-                            >
-                                {linkText}
-                            </a>
-                        );
-                    }
-                }
-                return part;
-            })}
-        </span>
-    );
-}
-
 const TldSkeleton = () => (
-    <div className="animate-pulse bg-muted rounded-lg p-4 space-y-2">
-        <div className="h-5 bg-muted-foreground/20 rounded w-1/4"></div>
-        <div className="h-4 bg-muted-foreground/20 rounded w-3/4"></div>
+    <div className="animate-pulse bg-surface-container-low border border-outline-variant/50 rounded-2xl p-5 space-y-3 flex flex-col justify-between shadow-xs">
+        {/* Top row: Domain + Badge on left, Details button on right */}
+        <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3 flex-wrap">
+                {/* Domain name skeleton */}
+                <div className="h-6 w-20 sm:w-24 bg-muted-foreground/20 rounded-lg" />
+                {/* Badge skeleton */}
+                <div className="h-5 w-16 sm:w-20 bg-muted-foreground/15 rounded-full" />
+            </div>
+            {/* Details button skeleton */}
+            <div className="h-6 w-16 bg-primary/15 rounded-full -mr-1 shrink-0" />
+        </div>
+
+        {/* Bottom row: Registry name on left, AI Sparkle button on right */}
+        <div className="flex items-center justify-between min-h-8 pt-2 pb-0.5 border-t border-outline-variant/30">
+            <div className="flex items-center min-w-0 flex-1 pr-2">
+                <div className="h-4 w-3/5 sm:w-1/2 bg-muted-foreground/15 rounded-md" />
+            </div>
+            <div className="h-7 w-7 rounded-full bg-amber-500/15 -mr-1 shrink-0" />
+        </div>
     </div>
 );
 
@@ -86,17 +47,28 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
     if (isLoading) {
         return (
             <div className="space-y-6 animate-pulse">
-                {/* Status card skeleton */}
-                <div className="bg-muted/40 rounded-lg p-6 border border-muted/60 space-y-4">
-                    <div className="h-8 bg-muted rounded w-1/3"></div>
-                    <div className="h-4 bg-muted rounded w-2/3"></div>
+                {/* Status Hero Card Skeleton */}
+                <div className="bg-surface-container-low rounded-3xl p-6 sm:p-8 border border-outline-variant/50 space-y-5 shadow-xs">
+                    <div className="flex items-center justify-between gap-4 flex-wrap">
+                        <div className="flex items-center gap-3.5">
+                            <div className="h-12 w-12 rounded-full bg-muted-foreground/20 shrink-0" />
+                            <div className="space-y-2">
+                                <div className="h-7 w-40 bg-muted-foreground/20 rounded-xl" />
+                                <div className="h-4 w-28 bg-muted-foreground/15 rounded-md" />
+                            </div>
+                        </div>
+                        <div className="h-7 w-24 bg-muted-foreground/15 rounded-full" />
+                    </div>
+                    <div className="h-10 w-full bg-muted-foreground/10 rounded-2xl" />
                 </div>
-                {/* Details grid skeleton */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-muted/30 rounded-lg p-4 h-24 border border-muted/40"></div>
-                    <div className="bg-muted/30 rounded-lg p-4 h-24 border border-muted/40"></div>
-                    <div className="bg-muted/30 rounded-lg p-4 h-24 border border-muted/40"></div>
-                    <div className="bg-muted/30 rounded-lg p-4 h-24 border border-muted/40"></div>
+                {/* Details 4-grid skeleton */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {[...Array(4)].map((_, i) => (
+                        <div key={i} className="bg-surface-container-low rounded-2xl p-5 border border-outline-variant/50 space-y-2.5 shadow-xs">
+                            <div className="h-4 w-24 bg-muted-foreground/20 rounded-md" />
+                            <div className="h-6 w-3/4 bg-muted-foreground/15 rounded-lg" />
+                        </div>
+                    ))}
                 </div>
             </div>
         );
@@ -104,10 +76,12 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
 
     if (error) {
         return (
-            <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-6 space-y-4 text-center">
-                <HugeiconsIcon icon={Alert02Icon} className="h-10 w-10 text-red-500 mx-auto animate-bounce" />
-                <h3 className="text-lg font-semibold text-red-400">Lookup Failed</h3>
-                <p className="text-sm text-muted-foreground max-w-md mx-auto">{error}</p>
+            <div className="bg-m3-error-container/30 border border-m3-error/30 rounded-3xl p-6 sm:p-8 space-y-3 text-center shadow-xs animate-fade-in">
+                <div className="h-12 w-12 rounded-full bg-m3-error-container text-m3-on-error-container flex items-center justify-center mx-auto">
+                    <MaterialIcon name="error" className="text-[24px] text-destructive" />
+                </div>
+                <h3 className="text-lg font-bold text-foreground">Lookup Failed</h3>
+                <p className="text-sm text-muted-foreground max-w-md mx-auto leading-relaxed">{error}</p>
             </div>
         );
     }
@@ -126,28 +100,24 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
 
     if (!isRegistered) {
         return (
-            <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-8 text-center space-y-6 animate-fade-in relative overflow-hidden group shadow-lg shadow-emerald-500/5">
-                {/* Pulsing visual element */}
-                <div className="absolute -right-16 -top-16 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl group-hover:scale-150 transition-all duration-700" />
-                <div className="absolute -left-16 -bottom-16 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl group-hover:scale-150 transition-all duration-700" />
-
-                <div className="bg-emerald-500/20 h-16 w-16 rounded-full flex items-center justify-center mx-auto text-emerald-400 border border-emerald-500/30 shadow-md">
-                    <HugeiconsIcon icon={Shield01Icon} className="h-8 w-8" />
+            <div className="bg-m3-success-container/20 border border-m3-success/30 rounded-3xl p-8 sm:p-10 text-center space-y-6 animate-fade-in relative overflow-hidden shadow-elevation-1 transition-all duration-300">
+                <div className="h-16 w-16 rounded-full bg-m3-success-container text-m3-on-success-container flex items-center justify-center mx-auto border border-m3-success/30 shadow-xs">
+                    <MaterialIcon name="verified_user" className="text-[32px] text-m3-success" />
                 </div>
 
                 <div className="space-y-2">
-                    <div className="flex items-center justify-center gap-2">
-                        <h3 className="text-2xl font-mono font-bold tracking-tight text-emerald-400">
+                    <div className="flex items-center justify-center gap-2.5 flex-wrap">
+                        <h3 className="text-3xl font-mono font-extrabold tracking-tight text-m3-success">
                             {domain}
                         </h3>
-                        <Badge variant="outline" className={`text-xs px-2 py-0.5 ${isRdap ? 'bg-purple-500/10 text-purple-400 border-purple-500/30' : 'bg-slate-500/10 text-slate-400 border-slate-500/30'}`}>
+                        <Badge variant="success" className="text-xs px-3 py-0.5 rounded-full font-mono">
                             {isRdap ? '⚡ RDAP' : '📜 WHOIS'}
                         </Badge>
                     </div>
-                    <p className="text-xl font-light text-foreground">
+                    <p className="text-2xl font-bold text-foreground">
                         Domain is Available!
                     </p>
-                    <p className="text-sm text-muted-foreground max-w-md mx-auto">
+                    <p className="text-sm text-muted-foreground max-w-lg mx-auto leading-relaxed">
                         This domain name is currently unregistered ({isRdap ? 'Verified via RESTful RDAP protocol 404' : 'Verified via WHOIS lookup'}). You can register it at any major domain registrar.
                     </p>
                 </div>
@@ -157,9 +127,10 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
                         href={`https://www.domainesia.com/domain/?domain=${domain}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-6 py-2.5 rounded-lg transition shadow-md shadow-emerald-700/20 cursor-pointer"
+                        className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-medium px-8 py-3 rounded-full hover:shadow-elevation-2 active:shadow-elevation-1 transition-all duration-200 ease-[cubic-bezier(0.2,0,0,1)] active:scale-95 cursor-pointer shadow-elevation-1"
                     >
-                        Register Domain <HugeiconsIcon icon={ArrowUpRight01Icon} className="h-4 w-4" />
+                        <span>Register Domain</span>
+                        <MaterialIcon name="open_in_new" className="text-[18px]" />
                     </a>
                 </div>
             </div>
@@ -191,83 +162,79 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
         }
     };
 
-function createGoogleCalendarUrl(domainName: string, expiryDateStr: string | null, registrar?: string): string {
-    let datesParam = '';
+    function createGoogleCalendarUrl(domainName: string, expiryDateStr: string | null, registrar?: string): string {
+        let datesParam = '';
 
-    if (expiryDateStr) {
-        const d = new Date(expiryDateStr);
-        if (!isNaN(d.getTime())) {
-            // Set reminder reference 30 days before expiration date
-            const reminderRef = new Date(d.getTime() - 30 * 24 * 60 * 60 * 1000);
+        if (expiryDateStr) {
+            const d = new Date(expiryDateStr);
+            if (!isNaN(d.getTime())) {
+                // Set reminder reference 30 days before expiration date
+                const reminderRef = new Date(d.getTime() - 30 * 24 * 60 * 60 * 1000);
 
-            // Get year, month, day in Asia/Jakarta (GMT+7) timezone
-            const formatter = new Intl.DateTimeFormat('en-US', {
-                timeZone: 'Asia/Jakarta',
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit'
-            });
-            const parts = formatter.formatToParts(reminderRef);
-            const year = Number(parts.find(p => p.type === 'year')?.value);
-            const month = Number(parts.find(p => p.type === 'month')?.value);
-            const day = Number(parts.find(p => p.type === 'day')?.value);
+                // Get year, month, day in Asia/Jakarta (GMT+7) timezone
+                const formatter = new Intl.DateTimeFormat('en-US', {
+                    timeZone: 'Asia/Jakarta',
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit'
+                });
+                const parts = formatter.formatToParts(reminderRef);
+                const year = Number(parts.find(p => p.type === 'year')?.value);
+                const month = Number(parts.find(p => p.type === 'month')?.value);
+                const day = Number(parts.find(p => p.type === 'day')?.value);
 
-            // 09:00 AM Jakarta (GMT+7) = 02:00:00 UTC
-            const startDate = new Date(Date.UTC(year, month - 1, day, 2, 0, 0));
-            // 10:00 AM Jakarta (GMT+7) = 03:00:00 UTC (1 hour duration)
-            const endDate = new Date(Date.UTC(year, month - 1, day, 3, 0, 0));
+                // 09:00 AM Jakarta (GMT+7) = 02:00:00 UTC
+                const startDate = new Date(Date.UTC(year, month - 1, day, 2, 0, 0));
+                // 10:00 AM Jakarta (GMT+7) = 03:00:00 UTC (1 hour duration)
+                const endDate = new Date(Date.UTC(year, month - 1, day, 3, 0, 0));
 
-            const startStr = startDate.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-            const endStr = endDate.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+                const startStr = startDate.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+                const endStr = endDate.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
 
-            datesParam = `${startStr}/${endStr}`;
+                datesParam = `${startStr}/${endStr}`;
+            }
         }
+
+        const title = `${domainName} Expiration Reminder (30 Days Before)`;
+        let details = `Reminder: Domain ${domainName} is scheduled to expire on ${expiryDateStr || 'the expiry date'} (in 30 days).\nScheduled for 09:00 AM WIB (GMT+7).`;
+        if (registrar) {
+            details += `\nRegistrar: ${registrar}`;
+        }
+
+        const params = new URLSearchParams({
+            action: 'TEMPLATE',
+            text: title,
+            details: details,
+        });
+
+        if (datesParam) {
+            params.append('dates', datesParam);
+        }
+
+        return `https://calendar.google.com/calendar/render?${params.toString()}`;
     }
-
-    const title = `${domainName} Expiration Reminder (30 Days Before)`;
-    let details = `Reminder: Domain ${domainName} is scheduled to expire on ${expiryDateStr || 'the expiry date'} (in 30 days).\nScheduled for 09:00 AM WIB (GMT+7).`;
-    if (registrar) {
-        details += `\nRegistrar: ${registrar}`;
-    }
-
-    const params = new URLSearchParams({
-        action: 'TEMPLATE',
-        text: title,
-        details: details,
-    });
-
-    if (datesParam) {
-        params.append('dates', datesParam);
-    }
-
-    return `https://calendar.google.com/calendar/render?${params.toString()}`;
-}
 
     return (
         <div className="space-y-6 animate-fade-in">
-            {/* Registered Domain Status Card */}
-            <div className="bg-muted/30 border rounded-lg p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 relative overflow-hidden group shadow-xs">
-                <div className="space-y-1.5">
-                    <div className="flex items-center gap-2.5 flex-wrap">
-                        <h3 className="text-2xl font-mono font-bold tracking-tight">{domain}</h3>
-                        <Badge variant="secondary" className="bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 border border-blue-500/20">
+            {/* Registered Domain Status Hero Card */}
+            <div className="bg-surface-container-high border border-outline-variant/60 rounded-3xl p-6 sm:p-7 flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-elevation-1 transition-all duration-300">
+                <div className="space-y-2">
+                    <div className="flex items-center gap-3 flex-wrap">
+                        <h3 className="text-2xl sm:text-3xl font-mono font-bold tracking-tight text-foreground">{domain}</h3>
+                        <Badge variant="tertiary" className="rounded-full px-3 py-1 font-semibold text-xs">
                             Registered
                         </Badge>
                         <Badge
-                            variant="outline"
-                            className={`text-xs px-2 py-0.5 font-mono ${
-                                isRdap
-                                    ? 'bg-purple-500/15 text-purple-400 border-purple-500/30 font-semibold'
-                                    : 'bg-amber-500/15 text-amber-400 border-amber-500/30'
-                            }`}
+                            variant="secondary"
+                            className="text-xs px-3 py-1 font-mono rounded-full border border-outline-variant/40"
                         >
-                            {isRdap ? '⚡ Protocol: RDAP (RESTful JSON)' : '📜 Protocol: WHOIS (Port 43)'}
+                            {isRdap ? '⚡ RDAP' : '📜 WHOIS (Port 43)'}
                         </Badge>
                     </div>
-                    <p className="text-sm text-muted-foreground font-light flex items-center gap-2">
-                        Managed by <span className="font-semibold text-foreground">{parsed.registrar || "Unknown Registrar"}</span>
+                    <p className="text-sm text-muted-foreground flex items-center gap-2">
+                        Managed by <strong className="font-semibold text-foreground">{parsed.registrar || "Unknown Registrar"}</strong>
                         {fallbackFromRdap && (
-                            <span className="text-xs text-amber-400/90 font-mono bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
+                            <span className="text-xs font-mono bg-m3-tertiary-container text-m3-on-tertiary-container px-2 py-0.5 rounded-full border border-m3-tertiary/20">
                                 RDAP fallback
                             </span>
                         )}
@@ -275,11 +242,12 @@ function createGoogleCalendarUrl(domainName: string, expiryDateStr: string | nul
                 </div>
 
                 {daysRemaining !== null && (
-                    <div className="flex flex-col items-start md:items-end justify-center">
-                        <div className="text-xs uppercase tracking-wider text-muted-foreground font-semibold">
+                    <div className="flex flex-col items-start md:items-end justify-center bg-surface-container-low/80 dark:bg-surface-container p-4 rounded-2xl">
+                        <div className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold">
                             Time to Expiry
                         </div>
-                        <div className="flex items-center gap-2 mt-0.5">
+
+                        <div className="flex items-center gap-2.5 mt-1">
                             {isDateValid && (
                                 <div className="order-2 md:order-1">
                                     <TooltipProvider>
@@ -289,10 +257,10 @@ function createGoogleCalendarUrl(domainName: string, expiryDateStr: string | nul
                                                     href={createGoogleCalendarUrl(domain, parsed.expiryDate, parsed.registrar)}
                                                     target="_blank"
                                                     rel="noopener noreferrer"
-                                                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-sans font-medium bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 hover:text-blue-300 border border-blue-500/20 hover:border-blue-500/40 transition-colors cursor-pointer"
+                                                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 transition-all duration-200 ease-[cubic-bezier(0.2,0,0,1)] active:scale-95 cursor-pointer shadow-xs"
                                                     aria-label={`Add ${domain} 30-day expiration reminder to Google Calendar`}
                                                 >
-                                                    <HugeiconsIcon icon={Calendar01Icon} className="h-3.5 w-3.5" />
+                                                    <MaterialIcon name="event" className="text-[16px]" />
                                                     <span>Remind Me</span>
                                                 </a>
                                             </TooltipTrigger>
@@ -303,41 +271,41 @@ function createGoogleCalendarUrl(domainName: string, expiryDateStr: string | nul
                                     </TooltipProvider>
                                 </div>
                             )}
-                            <div className={`text-xl font-bold font-mono order-1 md:order-2 ${daysRemaining < 90 ? 'text-rose-500' : 'text-blue-400'}`}>
+                            <div className={`text-xl font-bold font-mono order-1 md:order-2 ${daysRemaining < 90 ? 'text-destructive font-black' : 'text-primary'}`}>
                                 {daysRemaining > 0 ? `${daysRemaining} days left` : 'Expired'}
                             </div>
                         </div>
-                        <div className="text-xs text-muted-foreground font-light mt-0.5">
+                        <div className="text-xs text-muted-foreground font-normal mt-1">
                             Expires on {formatDate(parsed.expiryDate)}
                         </div>
                     </div>
                 )}
             </div>
 
-            {/* Navigation Tabs */}
-            <div className="flex border-b gap-4">
+            {/* M3 Segmented Navigation Tabs */}
+            <div className="flex border-b border-outline-variant/50 gap-6">
                 <button
                     onClick={() => setActiveTab('summary')}
-                    className={`pb-2 text-sm font-semibold transition relative cursor-pointer ${
+                    className={`pb-3 text-sm font-semibold transition-all duration-200 ease-[cubic-bezier(0.2,0,0,1)] relative cursor-pointer ${
                         activeTab === 'summary'
-                            ? 'text-foreground border-b-2 border-primary'
+                            ? 'text-primary border-b-2 border-primary'
                             : 'text-muted-foreground hover:text-foreground'
                     }`}
                 >
-                    <span className="flex items-center gap-1.5">
-                        <HugeiconsIcon icon={File01Icon} className="h-4 w-4" /> Structured Summary
+                    <span className="flex items-center gap-2">
+                        <MaterialIcon name="description" className="text-[18px]" /> Structured Summary
                     </span>
                 </button>
                 <button
                     onClick={() => setActiveTab('raw')}
-                    className={`pb-2 text-sm font-semibold transition relative cursor-pointer ${
+                    className={`pb-3 text-sm font-semibold transition-all duration-200 ease-[cubic-bezier(0.2,0,0,1)] relative cursor-pointer ${
                         activeTab === 'raw'
-                            ? 'text-foreground border-b-2 border-primary'
+                            ? 'text-primary border-b-2 border-primary'
                             : 'text-muted-foreground hover:text-foreground'
                     }`}
                 >
-                    <span className="flex items-center gap-1.5">
-                        <HugeiconsIcon icon={ComputerTerminal01Icon} className="h-4 w-4" /> {isRdap ? 'Raw RDAP JSON' : 'Raw WHOIS Record'}
+                    <span className="flex items-center gap-2">
+                        <MaterialIcon name="terminal" className="text-[18px]" /> {isRdap ? 'Raw RDAP JSON' : 'Raw WHOIS Record'}
                     </span>
                 </button>
             </div>
@@ -346,40 +314,40 @@ function createGoogleCalendarUrl(domainName: string, expiryDateStr: string | nul
             {activeTab === 'summary' && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-fade-in">
                     {/* Dates Card */}
-                    <div className="bg-muted/30 border rounded-lg p-4 space-y-3.5">
-                        <h4 className="text-sm font-bold text-muted-foreground flex items-center gap-2">
-                            <HugeiconsIcon icon={Calendar01Icon} className="h-4 w-4 text-blue-500" /> Important Dates
+                    <div className="bg-surface-container-low border border-outline-variant/60 rounded-2xl p-5 space-y-4 shadow-xs">
+                        <h4 className="text-sm font-bold text-foreground flex items-center gap-2">
+                            <MaterialIcon name="event" className="text-[18px] text-primary" /> Important Dates
                         </h4>
-                        <div className="grid grid-cols-2 gap-2 text-xs font-light">
-                            <div className="text-muted-foreground">Registered:</div>
-                            <div className="font-medium text-foreground">{formatDate(parsed.createdDate)}</div>
+                        <div className="grid grid-cols-2 gap-2.5 text-xs">
+                            <div className="text-muted-foreground font-medium">Registered:</div>
+                            <div className="font-semibold text-foreground">{formatDate(parsed.createdDate)}</div>
 
-                            <div className="text-muted-foreground">Expires:</div>
-                            <div className="font-medium text-foreground">{formatDate(parsed.expiryDate)}</div>
+                            <div className="text-muted-foreground font-medium">Expires:</div>
+                            <div className="font-semibold text-foreground">{formatDate(parsed.expiryDate)}</div>
 
-                            <div className="text-muted-foreground">Last Updated:</div>
-                            <div className="font-medium text-foreground">{formatDate(parsed.updatedDate)}</div>
+                            <div className="text-muted-foreground font-medium">Last Updated:</div>
+                            <div className="font-semibold text-foreground">{formatDate(parsed.updatedDate)}</div>
                         </div>
                     </div>
 
                     {/* Registry Operator/Details Card */}
-                    <div className="bg-muted/30 border rounded-lg p-4 space-y-3.5">
-                        <h4 className="text-sm font-bold text-muted-foreground flex items-center gap-2">
-                            <HugeiconsIcon icon={Globe02Icon} className="h-4 w-4 text-purple-500" /> Registrar & Domain Status
+                    <div className="bg-surface-container-low border border-outline-variant/60 rounded-2xl p-5 space-y-4 shadow-xs">
+                        <h4 className="text-sm font-bold text-foreground flex items-center gap-2">
+                            <MaterialIcon name="language" className="text-[18px] text-primary" /> Registrar &amp; Domain Status
                         </h4>
-                        <div className="grid grid-cols-2 gap-2 text-xs font-light">
-                            <div className="text-muted-foreground">Registrar:</div>
-                            <div className="font-medium text-foreground truncate" title={parsed.registrar || "N/A"}>
+                        <div className="grid grid-cols-2 gap-2.5 text-xs">
+                            <div className="text-muted-foreground font-medium">Registrar:</div>
+                            <div className="font-semibold text-foreground truncate" title={parsed.registrar || "N/A"}>
                                 {parsed.registrar || "N/A"}
                             </div>
 
-                            <div className="text-muted-foreground">Domain Status:</div>
+                            <div className="text-muted-foreground font-medium">Domain Status:</div>
                             <div className="font-medium text-foreground space-y-1">
                                 {parsed.status && parsed.status.length > 0 ? (
                                     parsed.status.slice(0, 3).map((st: string, idx: number) => {
                                         const cleanSt = st.split(' ')[0] || st;
                                         return (
-                                            <Badge key={idx} variant="outline" className="text-[10px] py-0 px-1 border-muted-foreground/30 capitalize block w-fit truncate" title={st}>
+                                            <Badge key={idx} variant="outline" className="text-[10px] py-0.5 px-2 rounded-md border-outline-variant/60 capitalize block w-fit truncate" title={st}>
                                                 {cleanSt.toLowerCase()}
                                             </Badge>
                                         );
@@ -393,14 +361,14 @@ function createGoogleCalendarUrl(domainName: string, expiryDateStr: string | nul
 
                     {/* RDAP Entities Card if present */}
                     {parsed.entities && parsed.entities.length > 0 && (
-                        <div className="bg-muted/30 border rounded-lg p-4 space-y-3.5 md:col-span-2">
-                            <h4 className="text-sm font-bold text-muted-foreground flex items-center gap-2">
-                                <HugeiconsIcon icon={SparklesIcon} className="h-4 w-4 text-purple-400" /> RDAP Contact Entities
+                        <div className="bg-surface-container-low border border-outline-variant/60 rounded-2xl p-5 space-y-3.5 md:col-span-2 shadow-xs">
+                            <h4 className="text-sm font-bold text-foreground flex items-center gap-2">
+                                <MaterialIcon name="auto_awesome" className="text-[18px] text-primary" /> RDAP Contact Entities
                             </h4>
                             <div className="flex flex-wrap gap-2">
                                 {parsed.entities.map((ent: { role: string; name: string }, idx: number) => (
-                                    <Badge key={idx} variant="outline" className="font-mono text-xs px-2.5 py-1 bg-purple-500/5 text-foreground border-purple-500/20 flex items-center gap-1.5">
-                                        <span className="text-purple-400 font-bold uppercase text-[10px]">{ent.role}:</span>
+                                    <Badge key={idx} variant="secondary" className="font-mono text-xs px-3 py-1 rounded-full border border-outline-variant/40 flex items-center gap-1.5">
+                                        <span className="text-primary font-bold uppercase text-[10px]">{ent.role}:</span>
                                         <span>{ent.name}</span>
                                     </Badge>
                                 ))}
@@ -410,13 +378,13 @@ function createGoogleCalendarUrl(domainName: string, expiryDateStr: string | nul
 
                     {/* Name Servers Card */}
                     {parsed.nameServers && parsed.nameServers.length > 0 && (
-                        <div className="bg-muted/30 border rounded-lg p-4 space-y-3.5 md:col-span-2">
-                            <h4 className="text-sm font-bold text-muted-foreground flex items-center gap-2">
-                                <HugeiconsIcon icon={Globe02Icon} className="h-4 w-4 text-emerald-500" /> DNS Nameservers
+                        <div className="bg-surface-container-low border border-outline-variant/60 rounded-2xl p-5 space-y-3.5 md:col-span-2 shadow-xs">
+                            <h4 className="text-sm font-bold text-foreground flex items-center gap-2">
+                                <MaterialIcon name="language" className="text-[18px] text-primary" /> DNS Nameservers
                             </h4>
                             <div className="flex flex-wrap gap-2">
                                 {parsed.nameServers.map((ns: string, idx: number) => (
-                                    <Badge key={idx} variant="secondary" className="font-mono text-xs px-2.5 py-1 bg-muted/80 text-muted-foreground hover:text-foreground border">
+                                    <Badge key={idx} variant="secondary" className="font-mono text-xs px-3 py-1 rounded-lg bg-surface-container-high text-foreground border border-outline-variant/40">
                                         {ns.toLowerCase()}
                                     </Badge>
                                 ))}
@@ -428,27 +396,31 @@ function createGoogleCalendarUrl(domainName: string, expiryDateStr: string | nul
 
             {/* Raw Terminal / JSON View */}
             {activeTab === 'raw' && (
-                <div className="space-y-2 animate-fade-in">
+                <div className="space-y-3 animate-fade-in">
                     <div className="flex items-center justify-between">
                         <span className="text-xs text-muted-foreground font-mono">
                             {isRdap ? 'RESTful RDAP JSON payload' : 'whois -h query output'}
                         </span>
-                        <button
+                        <Button
+                            variant="outline"
+                            size="sm"
                             onClick={copyToClipboard}
-                            className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition bg-muted/60 border hover:bg-muted py-1 px-2.5 rounded-lg cursor-pointer"
+                            className="rounded-full text-xs h-8 gap-1.5 border-outline-variant/60 bg-surface-container-low transition-all duration-200 ease-[cubic-bezier(0.2,0,0,1)] active:scale-95 cursor-pointer"
                         >
                             {copied ? (
                                 <>
-                                    <HugeiconsIcon icon={Tick01Icon} className="h-3.5 w-3.5 text-emerald-400" /> Copied!
+                                    <MaterialIcon name="check" className="text-[16px] text-m3-success" />
+                                    <span>Copied!</span>
                                 </>
                             ) : (
                                 <>
-                                    <HugeiconsIcon icon={Copy01Icon} className="h-3.5 w-3.5" /> Copy Record
+                                    <MaterialIcon name="content_copy" className="text-[16px]" />
+                                    <span>Copy Record</span>
                                 </>
                             )}
-                        </button>
+                        </Button>
                     </div>
-                    <pre className="bg-neutral-950 text-neutral-200 border border-neutral-800 rounded-lg p-4 font-mono text-xs leading-relaxed overflow-x-auto overflow-y-auto max-h-[450px] shadow-inner custom-scrollbar selection:bg-neutral-700">
+                    <pre className="bg-surface-container-lowest dark:bg-black/80 text-foreground border border-outline-variant/60 rounded-2xl p-5 font-mono text-xs leading-relaxed overflow-x-auto overflow-y-auto max-h-[450px] shadow-elevation-1 custom-scrollbar">
                         {raw || "No raw lookup records found."}
                     </pre>
                 </div>
@@ -456,7 +428,6 @@ function createGoogleCalendarUrl(domainName: string, expiryDateStr: string | nul
         </div>
     );
 }
-
 
 export function TldList({
     results,
@@ -471,20 +442,19 @@ export function TldList({
     const [itemsToLoad, setItemsToLoad] = useState(10);
     const [isLoadingMore, setIsLoadingMore] = useState(false);
     const [allItemsLoaded, setAllItemsLoaded] = useState(false);
-    const [openTooltip, setOpenTooltip] = useState<string | null>(null);
     const observer = useRef<IntersectionObserver | null>(null);
     const loadMoreRef = useRef<HTMLDivElement>(null);
 
     const getBadgeStyles = (type: string) => {
         switch (type.toLowerCase()) {
             case 'country-code':
-                return 'bg-green-500/20 text-green-500 hover:bg-green-500/30';
+                return 'bg-m3-success-container text-m3-on-success-container border-m3-success/20';
             case 'generic':
-                return 'bg-blue-500/20 text-blue-500 hover:bg-blue-500/30';
+                return 'bg-secondary text-secondary-foreground border-outline-variant/40';
             case 'sponsored':
-                return 'bg-yellow-500/20 text-yellow-500 hover:bg-yellow-500/30';
+                return 'bg-m3-tertiary-container text-m3-on-tertiary-container border-m3-tertiary/20';
             default:
-                return 'bg-gray-500/20 text-gray-500 hover:bg-gray-500/30';
+                return 'bg-secondary text-secondary-foreground border-outline-variant/40';
         }
     };
 
@@ -560,26 +530,6 @@ export function TldList({
         };
     }, [loadMoreCallback, isLoadingMore, allItemsLoaded]);
 
-    useEffect(() => {
-        const handleOutsideClick = (event: MouseEvent) => {
-            const target = event.target as HTMLElement;
-            const clickedTrigger = target.closest('[data-tooltip-trigger="true"]');
-            const clickedContent = target.closest('[data-radix-popper-content-wrapper]');
-
-            if (!clickedTrigger && !clickedContent) {
-                setOpenTooltip(null);
-            }
-        };
-
-        if (openTooltip) {
-            document.addEventListener("click", handleOutsideClick);
-        }
-
-        return () => {
-            document.removeEventListener("click", handleOutsideClick);
-        };
-    }, [openTooltip]);
-
     if (isWhoisMode) {
         return (
             <WhoisDisplay
@@ -604,107 +554,98 @@ export function TldList({
         const cleanQuery = query.trim();
         const hasDot = cleanQuery.includes('.');
         return (
-            <div className="text-center text-muted-foreground py-8 space-y-4 max-w-md mx-auto animate-fade-in">
-                <p className="text-lg font-light text-foreground">No results found</p>
+            <div className="text-center text-muted-foreground py-10 space-y-4 max-w-md mx-auto animate-fade-in bg-surface-container-low rounded-3xl p-8 border border-outline-variant/40">
+                <p className="text-lg font-bold text-foreground">No results found</p>
                 {cleanQuery ? (
                     <>
-                        <p className="text-sm font-light leading-relaxed">
-                            No top-level domain extensions or managers match <span className="font-mono text-foreground font-medium">"{cleanQuery}"</span>.
+                        <p className="text-sm leading-relaxed">
+                            No top-level domain extensions or managers match <span className="font-mono text-foreground font-semibold">"{cleanQuery}"</span>.
                         </p>
                         {!hasDot && (
-                            <div className="text-xs border rounded-lg p-3 bg-muted/20 border-muted/30 text-left leading-relaxed">
-                                <span className="font-bold text-foreground">💡 Hint:</span> To perform a live WHOIS lookup on a domain name, make sure to type the full domain including its extension (for example, search <span className="font-mono text-foreground font-semibold">google.com</span> instead of just <span className="font-mono text-foreground font-semibold">google</span>).
+                            <div className="text-xs border rounded-2xl p-4 bg-surface-container-high border-outline-variant/60 text-left leading-relaxed">
+                                <span className="font-bold text-primary">💡 Hint:</span> To perform a live WHOIS lookup on a domain name, make sure to type the full domain including its extension (for example, search <span className="font-mono text-foreground font-semibold">google.com</span> instead of just <span className="font-mono text-foreground font-semibold">google</span>).
                             </div>
                         )}
                     </>
                 ) : (
-                    <p className="text-sm font-light">Try adjusting your search filters.</p>
+                    <p className="text-sm">Try adjusting your search filters.</p>
                 )}
             </div>
         );
     }
 
     return (
-        <TooltipProvider>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {visibleTlds.map((tld) => {
-                    const cleanDomain = tld.domain.toLowerCase().replace(/^\./, '');
-                    return (
-                        <div
-                            key={tld.domain}
-                            className="bg-muted/50 hover:bg-muted/70 transition-colors border border-border/40 rounded-lg p-4 space-y-2 group flex flex-col justify-between"
-                        >
-                            <div className="flex items-center justify-between gap-3">
-                                <div className="flex items-center gap-3">
-                                    <Link 
-                                        href={`/tld/${cleanDomain}`}
-                                        className="text-lg font-mono font-bold hover:text-blue-400 hover:underline transition-colors flex items-center gap-1"
-                                    >
-                                        <span>{tld.domain}</span>
-                                    </Link>
-                                    <Badge
-                                        variant="secondary"
-                                        className={getBadgeStyles(tld.type)}
-                                    >
-                                        {tld.type}
-                                    </Badge>
-                                </div>
-                                <Link
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {visibleTlds.map((tld) => {
+                const cleanDomain = tld.domain.toLowerCase().replace(/^\./, '');
+                return (
+                    <div
+                        key={tld.domain}
+                        className="m3-card-interactive bg-surface-container-low hover:bg-surface-container border border-outline-variant/50 hover:border-outline-variant rounded-2xl p-5 space-y-3 group flex flex-col justify-between shadow-xs hover:shadow-elevation-1"
+                    >
+                        <div className="flex items-center justify-between gap-3">
+                            <div className="flex items-center gap-3 flex-wrap">
+                                <Link 
                                     href={`/tld/${cleanDomain}`}
-                                    className="text-xs font-medium text-blue-500 hover:text-blue-400 opacity-80 group-hover:opacity-100 transition-all flex items-center gap-0.5"
+                                    className="text-xl font-mono font-bold text-foreground hover:text-primary transition-colors duration-200 ease-m3-standard flex items-center gap-1"
                                 >
-                                    <span>Record Details</span>
-                                    <HugeiconsIcon icon={ArrowRight01Icon} className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                                    <span>{tld.domain}</span>
                                 </Link>
+                                <Badge
+                                    variant="outline"
+                                    className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${getBadgeStyles(tld.type)}`}
+                                >
+                                    {tld.type}
+                                </Badge>
                             </div>
-                            <div className="flex items-center justify-between">
-                                <div className="text-sm text-muted-foreground flex gap-2 items-center">
-                                    {tld.tldManager}
-                                    {tld.tldManager !== "Not assigned" && (
-                                        <Tooltip open={openTooltip === tld.domain}>
-                                            <TooltipTrigger asChild>
-                                                <span
-                                                    data-tooltip-trigger="true"
-                                                    onClick={() => {
-                                                        if (openTooltip === tld.domain) {
-                                                            setOpenTooltip(null);
-                                                        } else {
-                                                            setOpenTooltip(tld.domain);
-                                                            handleAIQuery(tld.tldManager, tld.domain, tld.type);
-                                                        }
-                                                    }}
-                                                    className="cursor-pointer hover:opacity-80 transition duration-300"
-                                                >
-                                                    <HugeiconsIcon icon={SparklesIcon} className="h-4 w-4 text-amber-400" />
-                                                    <span className="sr-only">Get AI Info</span>
-                                                </span>
-                                            </TooltipTrigger>
-                                            <TooltipContent side="top" className="max-w-[320px] p-3 text-xs leading-relaxed break-words">
-                                                {aiInfo[tld.tldManager]?.loading ? (
-                                                    <div className="flex items-center gap-2">
-                                                        <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-                                                        <span>Analyzing registry details...</span>
-                                                    </div>
-                                                ) : (
-                                                    aiInfo[tld.tldManager]?.text ? renderMarkdown(aiInfo[tld.tldManager].text) : "No information available."
-                                                )}
-                                            </TooltipContent>
-                                        </Tooltip>
-                                    )}
-                                </div>
-                            </div>
+                            <Link
+                                href={`/tld/${cleanDomain}`}
+                                className="inline-flex items-center gap-1 pl-2.5 pr-1.5 py-1 -mr-1 rounded-full text-xs font-semibold text-primary hover:bg-primary/10 transition-all duration-200 ease-m3-standard group/btn active:scale-95 no-underline flex-shrink-0"
+                            >
+                                <span>Details</span>
+                                <MaterialIcon name="arrow_forward" className="text-[16px] transition-transform duration-200 ease-m3-standard group-hover/btn:translate-x-0.5" />
+                            </Link>
                         </div>
-                    );
-                })}
-                {!allItemsLoaded && isLoadingMore && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 col-span-1 md:col-span-2">
-                        {[...Array(4)].map((_, i) => (
-                            <TldSkeleton key={i} />
-                        ))}
+
+                        <div className="flex items-center justify-between min-h-8 pt-2 pb-0.5 border-t border-outline-variant/30">
+                            <div className="flex items-center min-w-0 flex-1 pr-2">
+                                <span
+                                    className={`text-sm block truncate leading-normal pr-1 ${
+                                        tld.tldManager === "Not assigned"
+                                            ? "italic text-muted-foreground/75"
+                                            : "text-muted-foreground"
+                                    }`}
+                                    title={tld.tldManager}
+                                >
+                                    {tld.tldManager}
+                                </span>
+                            </div>
+                            {tld.tldManager !== "Not assigned" ? (
+                                <AiRegistryPopover
+                                    tldManager={tld.tldManager}
+                                    domain={tld.domain}
+                                    type={tld.type}
+                                    aiData={aiInfo[tld.tldManager]}
+                                    onFetch={handleAIQuery}
+                                    triggerClassName="-mr-1"
+                                />
+                            ) : (
+                                <span className="h-7 w-7 -mr-1 shrink-0 pointer-events-none" aria-hidden="true" />
+                            )}
+                        </div>
                     </div>
-                )}
-                <div ref={loadMoreRef} className="col-span-1 md:col-span-2"></div>
-            </div>
-        </TooltipProvider>
+                );
+            })}
+            {!allItemsLoaded && isLoadingMore && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 col-span-1 md:col-span-2">
+                    {[...Array(4)].map((_, i) => (
+                        <TldSkeleton key={i} />
+                    ))}
+                </div>
+            )}
+            <div ref={loadMoreRef} className="col-span-1 md:col-span-2"></div>
+        </div>
     );
 }
+
+
