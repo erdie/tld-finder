@@ -3,13 +3,9 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getTldDetail, tlds, TLDDetail, TLD } from '@/data/tlds';
 import { TldDetailClient } from '@/components/tld-detail-client';
+import { AiRegistryPopover } from '@/components/ai-registry-popover';
 import { Badge } from '@/components/ui/badge';
-import { HugeiconsIcon } from '@hugeicons/react';
-import { 
-    Globe02Icon, Building01Icon, UserCheck01Icon, Wrench01Icon, ServerStack01Icon, 
-    Calendar01Icon, Clock01Icon, ArrowLeft01Icon, ArrowUpRight01Icon, Shield01Icon, 
-    Layers01Icon, SparklesIcon, CheckmarkCircle01Icon, ArrowRight01Icon 
-} from '@hugeicons/core-free-icons';
+import { MaterialIcon } from '@/components/ui/material-icon';
 import { scrapeTldDetail } from '@/scripts/scrape-details';
 import { getBaseUrl } from '@/lib/site-config';
 
@@ -181,19 +177,19 @@ export default async function TldDetailPage({ params }: PageProps) {
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
 
-            <main className="min-h-screen bg-background text-foreground pb-20 selection:bg-blue-500/30">
-                {/* Header Navbar */}
-                <header className="sticky top-0 z-40 bg-background/80 backdrop-blur-lg border-b border-border/60">
+            <main className="min-h-screen bg-background text-foreground pb-20 selection:bg-primary/20 selection:text-primary">
+                {/* Material Design 3 Top App Bar */}
+                <header className="sticky top-0 z-40 bg-surface-container-lowest/80 dark:bg-surface-container-low/80 backdrop-blur-md border-b border-outline-variant/40 transition-colors duration-300">
                     <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
                         <Link 
                             href="/" 
-                            className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors group"
+                            className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200 group active:scale-95"
                         >
-                            <HugeiconsIcon icon={ArrowLeft01Icon} className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+                            <MaterialIcon name="arrow_back" className="text-[18px] transition-transform group-hover:-translate-x-1" />
                             <span>Back to TLD Directory</span>
                         </Link>
                         <div className="flex items-center gap-3">
-                            <Badge variant="outline" className="font-mono text-xs border-blue-500/30 text-blue-400 bg-blue-500/10">
+                            <Badge variant="secondary" className="font-mono text-xs rounded-full border border-outline-variant/40">
                                 IANA Root Zone
                             </Badge>
                         </div>
@@ -202,47 +198,46 @@ export default async function TldDetailPage({ params }: PageProps) {
 
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-8 space-y-8">
                     {/* Breadcrumbs */}
-                    <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-muted-foreground">
-                        <Link href="/" className="hover:text-foreground transition-colors">Home</Link>
-                        <HugeiconsIcon icon={ArrowRight01Icon} className="w-3.5 h-3.5" />
-                        <Link href="/#tld-list" className="hover:text-foreground transition-colors">TLDs</Link>
-                        <HugeiconsIcon icon={ArrowRight01Icon} className="w-3.5 h-3.5" />
-                        <span className="font-mono font-semibold text-foreground">.{cleanDomain}</span>
+                    <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-muted-foreground font-medium">
+                        <Link href="/" className="hover:text-primary transition-colors">Home</Link>
+                        <MaterialIcon name="arrow_forward" className="text-[14px] opacity-60" />
+                        <Link href="/#tld-list" className="hover:text-primary transition-colors">TLDs</Link>
+                        <MaterialIcon name="arrow_forward" className="text-[14px] opacity-60" />
+                        <span className="font-mono font-bold text-foreground">.{cleanDomain}</span>
                     </nav>
 
-                    {/* Hero Section */}
-                    <section className="bg-gradient-to-r from-card via-card/90 to-card border border-border/80 rounded-lg p-6 sm:p-8 shadow-xl relative overflow-hidden">
-                        <div className="absolute -right-10 -bottom-10 w-60 h-60 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
-                        
+                    {/* Hero Section - Material Design 3 Large Elevated Card */}
+                    <section className="bg-surface-container-high border border-outline-variant/60 rounded-3xl p-6 sm:p-8 shadow-elevation-1 relative overflow-hidden transition-all duration-300">
                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
                             <div className="space-y-3">
                                 <div className="flex items-center gap-3 flex-wrap">
-                                    <h1 className="text-4xl sm:text-5xl font-black font-mono tracking-tight text-foreground flex items-center gap-2">
-                                        <span className="text-blue-500">.</span>{domainUpper}
+                                    <h1 className="text-4xl sm:text-5xl font-black font-mono tracking-tight text-foreground flex items-center gap-1">
+                                        <span className="text-primary">.</span>{domainUpper}
                                     </h1>
-                                    <Badge className="text-xs uppercase px-3 py-1 bg-blue-600/20 text-blue-400 border border-blue-500/30">
+                                    <Badge variant="secondary" className="h-7 text-xs uppercase px-3 rounded-full font-bold border border-outline-variant/40 inline-flex items-center justify-center">
                                         {tldType}
                                     </Badge>
-                                    <Badge variant="outline" className="text-xs border-emerald-500/30 text-emerald-400 bg-emerald-500/10 flex items-center gap-1">
-                                        <HugeiconsIcon icon={CheckmarkCircle01Icon} className="w-3 h-3" /> Delegated
+                                    <Badge variant="success" className="h-7 text-xs px-3 rounded-full inline-flex items-center justify-center gap-1.5 font-semibold">
+                                        <MaterialIcon name="check_circle" className="text-[16px]" />
+                                        <span>Delegated</span>
                                     </Badge>
                                 </div>
-                                <p className="text-base text-muted-foreground max-w-2xl">
+                                <p className="text-base text-muted-foreground max-w-2xl leading-relaxed">
                                     Delegation Record for <strong className="text-foreground font-semibold">.{domainUpper}</strong> managed by <strong className="text-foreground font-semibold">{managerName}</strong>.
                                 </p>
                             </div>
 
                             {/* Date Badges */}
-                            <div className="flex flex-col sm:flex-row md:flex-col gap-2 font-mono text-xs text-muted-foreground bg-muted/40 p-4 rounded-lg border border-border/50">
+                            <div className="flex flex-col sm:flex-row md:flex-col gap-2.5 font-mono text-xs text-muted-foreground bg-surface-container-low p-4 rounded-2xl border border-outline-variant/40 shadow-xs">
                                 {detail?.registrationDate && (
                                     <div className="flex items-center gap-2">
-                                        <HugeiconsIcon icon={Calendar01Icon} className="w-4 h-4 text-blue-400" />
+                                        <MaterialIcon name="event" className="text-[16px] text-primary" />
                                         <span>Registered: <strong className="text-foreground">{detail.registrationDate}</strong></span>
                                     </div>
                                 )}
                                 {detail?.lastUpdated && (
                                     <div className="flex items-center gap-2">
-                                        <HugeiconsIcon icon={Clock01Icon} className="w-4 h-4 text-amber-400" />
+                                        <MaterialIcon name="schedule" className="text-[16px] text-amber-500" />
                                         <span>Updated: <strong className="text-foreground">{detail.lastUpdated}</strong></span>
                                     </div>
                                 )}
@@ -259,40 +254,40 @@ export default async function TldDetailPage({ params }: PageProps) {
 
                     {/* Registry Specs Overview Grid */}
                     <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                        <div className="bg-card border border-border/60 rounded-lg p-5 shadow-sm space-y-2">
+                        <div className="bg-surface-container-low border border-outline-variant/50 rounded-2xl p-5 shadow-xs space-y-2">
                             <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block">WHOIS Server</span>
                             <p className="font-mono text-sm font-bold text-foreground break-all">
                                 {detail?.whoisServer || 'Not Specified'}
                             </p>
                         </div>
-                        <div className="bg-card border border-border/60 rounded-lg p-5 shadow-sm space-y-2">
+                        <div className="bg-surface-container-low border border-outline-variant/50 rounded-2xl p-5 shadow-xs space-y-2">
                             <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block">RDAP Endpoint</span>
-                            <p className="font-mono text-xs font-semibold text-blue-400 break-all">
+                            <p className="font-mono text-xs font-semibold text-primary break-all">
                                 {detail?.rdapServer ? (
                                     <a href={detail.rdapServer} target="_blank" rel="noopener noreferrer" className="hover:underline flex items-center gap-1">
                                         <span>Available</span>
-                                        <HugeiconsIcon icon={ArrowUpRight01Icon} className="w-3 h-3" />
+                                        <MaterialIcon name="open_in_new" className="text-[14px]" />
                                     </a>
                                 ) : 'Not Configured'}
                             </p>
                         </div>
-                        <div className="bg-card border border-border/60 rounded-lg p-5 shadow-sm space-y-2">
+                        <div className="bg-surface-container-low border border-outline-variant/50 rounded-2xl p-5 shadow-xs space-y-2">
                             <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block">Registry Services</span>
                             {detail?.registryUrl ? (
                                 <a 
                                     href={detail.registryUrl} 
                                     target="_blank" 
                                     rel="noopener noreferrer"
-                                    className="font-medium text-xs text-blue-500 hover:text-blue-400 underline inline-flex items-center gap-1 break-all"
+                                    className="font-medium text-xs text-primary hover:underline inline-flex items-center gap-1 break-all"
                                 >
                                     <span>Official Website</span>
-                                    <HugeiconsIcon icon={ArrowUpRight01Icon} className="w-3 h-3" />
+                                    <MaterialIcon name="open_in_new" className="text-[14px]" />
                                 </a>
                             ) : (
                                 <span className="text-xs text-muted-foreground">Direct URL N/A</span>
                             )}
                         </div>
-                        <div className="bg-card border border-border/60 rounded-lg p-5 shadow-sm space-y-2">
+                        <div className="bg-surface-container-low border border-outline-variant/50 rounded-2xl p-5 shadow-xs space-y-2">
                             <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block">Authoritative NS</span>
                             <p className="font-mono text-sm font-bold text-foreground">
                                 {detail?.nameServers?.length ? `${detail.nameServers.length} Servers` : 'Standard IANA Root'}
@@ -303,19 +298,31 @@ export default async function TldDetailPage({ params }: PageProps) {
                     {/* Sponsoring Organisation & Contact Information */}
                     <section className="space-y-4">
                         <h2 className="text-xl font-bold flex items-center gap-2 text-foreground">
-                            <HugeiconsIcon icon={Building01Icon} className="w-5 h-5 text-blue-500" />
-                            Registry Contacts & Delegation Record
+                            <MaterialIcon name="domain" className="text-[20px] text-primary" />
+                            Registry Contacts &amp; Delegation Record
                         </h2>
 
-                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
                             {/* Sponsoring Organisation */}
-                            <div className="bg-card border border-border/70 rounded-lg p-6 shadow-sm space-y-3 flex flex-col justify-between">
+                            <div className="bg-surface-container-low border border-outline-variant/50 rounded-2xl p-6 shadow-xs space-y-3 flex flex-col justify-between">
                                 <div>
-                                    <div className="flex items-center gap-2 mb-3">
-                                        <HugeiconsIcon icon={Building01Icon} className="w-4 h-4 text-blue-400" />
-                                        <h3 className="font-bold text-sm text-foreground uppercase tracking-wide">
-                                            Sponsoring Organisation
-                                        </h3>
+                                    <div className="flex items-center justify-between gap-2 mb-3">
+                                        <div className="flex items-center gap-2 min-w-0">
+                                            <div className="p-1.5 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                                                <MaterialIcon name="domain" className="text-[18px]" />
+                                            </div>
+                                            <h3 className="font-bold text-sm text-foreground uppercase tracking-wide truncate">
+                                                Sponsoring Organisation
+                                            </h3>
+                                        </div>
+                                        {managerName !== "Not assigned" && (
+                                            <AiRegistryPopover
+                                                tldManager={managerName}
+                                                domain={cleanDomain}
+                                                type={tldType}
+                                                triggerSize="md"
+                                            />
+                                        )}
                                     </div>
                                     <div className="text-xs text-muted-foreground space-y-1.5 font-sans leading-relaxed">
                                         {sponsoringLines.map((line, i) => (
@@ -328,10 +335,12 @@ export default async function TldDetailPage({ params }: PageProps) {
                             </div>
 
                             {/* Administrative Contact */}
-                            <div className="bg-card border border-border/70 rounded-lg p-6 shadow-sm space-y-3 flex flex-col justify-between">
+                            <div className="bg-surface-container-low border border-outline-variant/50 rounded-2xl p-6 shadow-xs space-y-3 flex flex-col justify-between">
                                 <div>
                                     <div className="flex items-center gap-2 mb-3">
-                                        <HugeiconsIcon icon={UserCheck01Icon} className="w-4 h-4 text-emerald-400" />
+                                        <div className="p-1.5 rounded-lg bg-m3-success-container text-m3-on-success-container flex items-center justify-center">
+                                            <MaterialIcon name="person_check" className="text-[18px] text-m3-success" />
+                                        </div>
                                         <h3 className="font-bold text-sm text-foreground uppercase tracking-wide">
                                             Administrative Contact
                                         </h3>
@@ -351,10 +360,12 @@ export default async function TldDetailPage({ params }: PageProps) {
                             </div>
 
                             {/* Technical Contact */}
-                            <div className="bg-card border border-border/70 rounded-lg p-6 shadow-sm space-y-3 flex flex-col justify-between">
+                            <div className="bg-surface-container-low border border-outline-variant/50 rounded-2xl p-6 shadow-xs space-y-3 flex flex-col justify-between">
                                 <div>
                                     <div className="flex items-center gap-2 mb-3">
-                                        <HugeiconsIcon icon={Wrench01Icon} className="w-4 h-4 text-indigo-400" />
+                                        <div className="p-1.5 rounded-lg bg-m3-tertiary-container text-m3-on-tertiary-container flex items-center justify-center">
+                                            <MaterialIcon name="build" className="text-[18px] text-m3-tertiary" />
+                                        </div>
                                         <h3 className="font-bold text-sm text-foreground uppercase tracking-wide">
                                             Technical Contact
                                         </h3>
@@ -379,28 +390,28 @@ export default async function TldDetailPage({ params }: PageProps) {
                     {detail?.nameServers && detail.nameServers.length > 0 && (
                         <section className="space-y-4">
                             <h2 className="text-xl font-bold flex items-center gap-2 text-foreground">
-                                <HugeiconsIcon icon={ServerStack01Icon} className="w-5 h-5 text-blue-500" />
+                                <MaterialIcon name="dns" className="text-[20px] text-primary" />
                                 Authoritative Name Servers ({detail.nameServers.length})
                             </h2>
 
-                            <div className="bg-card border border-border/70 rounded-lg overflow-hidden shadow-sm">
+                            <div className="bg-surface-container-low border border-outline-variant/50 rounded-2xl overflow-hidden shadow-xs">
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-left text-xs font-mono">
-                                        <thead className="bg-muted/60 border-b border-border/60 text-muted-foreground font-sans font-semibold uppercase text-[11px]">
+                                        <thead className="bg-surface-container-high border-b border-outline-variant/50 text-muted-foreground font-sans font-semibold uppercase text-[11px]">
                                             <tr>
-                                                <th className="py-3 px-4">Host Name</th>
-                                                <th className="py-3 px-4">IP Address(es)</th>
+                                                <th className="py-3.5 px-5">Host Name</th>
+                                                <th className="py-3.5 px-5">IP Address(es)</th>
                                             </tr>
                                         </thead>
-                                        <tbody className="divide-y divide-border/40">
+                                        <tbody className="divide-y divide-outline-variant/30">
                                             {detail.nameServers.map((ns, idx) => (
-                                                <tr key={idx} className="hover:bg-muted/30 transition-colors">
-                                                    <td className="py-3 px-4 font-bold text-foreground">{ns.host}</td>
-                                                    <td className="py-3 px-4 text-muted-foreground">
+                                                <tr key={idx} className="hover:bg-foreground/5 transition-colors duration-150">
+                                                    <td className="py-3 px-5 font-bold text-foreground">{ns.host}</td>
+                                                    <td className="py-3 px-5 text-muted-foreground">
                                                         {ns.ips && ns.ips.length > 0 ? (
                                                             <div className="flex flex-col gap-0.5">
                                                                 {ns.ips.map((ip, i) => (
-                                                                    <span key={i} className="text-blue-400">{ip}</span>
+                                                                    <span key={i} className="text-primary font-medium">{ip}</span>
                                                                 ))}
                                                             </div>
                                                         ) : (
@@ -418,9 +429,9 @@ export default async function TldDetailPage({ params }: PageProps) {
 
                     {/* Related TLDs Cross-linking for SEO */}
                     {relatedTlds.length > 0 && (
-                        <section className="space-y-4 pt-4 border-t border-border/60">
+                        <section className="space-y-4 pt-4 border-t border-outline-variant/40">
                             <h2 className="text-lg font-bold flex items-center gap-2 text-foreground">
-                                <HugeiconsIcon icon={Layers01Icon} className="w-5 h-5 text-blue-500" />
+                                <MaterialIcon name="layers" className="text-[20px] text-primary" />
                                 Explore Related Top-Level Domains
                             </h2>
                             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
@@ -430,12 +441,12 @@ export default async function TldDetailPage({ params }: PageProps) {
                                         <Link 
                                             key={idx}
                                             href={`/tld/${clean}`}
-                                            className="p-3 bg-card hover:bg-muted/60 border border-border/50 hover:border-blue-500/40 rounded-lg transition-all text-center space-y-1 group"
+                                            className="p-3.5 bg-surface-container-low hover:bg-surface-container border border-outline-variant/50 hover:border-primary/40 rounded-2xl transition-all duration-200 ease-[cubic-bezier(0.2,0,0,1)] active:scale-95 text-center space-y-1 group shadow-xs hover:shadow-elevation-1"
                                         >
-                                            <span className="font-mono font-bold text-sm text-foreground group-hover:text-blue-400 transition-colors block">
+                                            <span className="font-mono font-bold text-sm text-foreground group-hover:text-primary transition-colors block">
                                                 .{clean}
                                             </span>
-                                            <span className="text-[10px] text-muted-foreground block truncate">
+                                            <span className="text-[10px] text-muted-foreground block truncate font-sans">
                                                 {tld.tldManager}
                                             </span>
                                         </Link>
@@ -449,3 +460,5 @@ export default async function TldDetailPage({ params }: PageProps) {
         </>
     );
 }
+
+
