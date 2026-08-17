@@ -226,7 +226,7 @@
                 transform var(--m3-duration-short3) var(--m3-easing-standard);
 }
 .m3-interactive:hover {
-    box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.12), 0px 1px 2px 0px rgba(0, 0, 0, 0.20);
+    box-shadow: 0 3px 8px -1px rgba(0, 0, 0, 0.08), 0 1px 3px 0 rgba(0, 0, 0, 0.06);
 }
 .m3-interactive:active {
     transform: scale(0.97);
@@ -240,7 +240,7 @@
                 background-color var(--m3-duration-medium1) var(--m3-easing-standard);
 }
 .m3-card-interactive:hover {
-    box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.12), 0px 1px 2px 0px rgba(0, 0, 0, 0.20);
+    box-shadow: 0 3px 8px -1px rgba(0, 0, 0, 0.08), 0 1px 3px 0 rgba(0, 0, 0, 0.06);
     transform: translateY(-1px);
 }
 .m3-card-interactive:active {
