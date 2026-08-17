@@ -98,7 +98,7 @@ tld-finder/
 │   ├── domain-hacks.tsx        # UI card grid for domain hack suggestions
 │   ├── search-form.tsx         # Search input, mode detection, protocol toggle, URL query sync
 │   ├── tld-list.tsx            # TLD cards grid, WHOIS display & Google Calendar reminder
-│   └── ui/                     # Radix UI primitives
+│   └── ui/                     # Native Material Design 3 UI primitives (popover, select, checkbox, tooltip, button, label, badge)
 ├── data/
 │   ├── iana-tld.json           # Scraped index of all IANA TLDs
 │   ├── iana-tld-details.json   # Scraped delegation details for 1,500+ TLDs
