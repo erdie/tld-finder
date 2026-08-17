@@ -46,19 +46,25 @@
    - Instant search across 1,500+ top-level domains by extension (e.g. `.com`, `.ai`, `.id`) or registry operator name.
    - Filtering by TLD classification: Generic (`gTLD`), Country Code (`ccTLD`), or Sponsored (`sTLD`).
 
-2. **Ultra-Fast In-Memory Search & Core Web Vitals Optimization**
+2. **Agentic Browsing & WebMCP (Web Model Context Protocol)**
+   - Declarative WebMCP form annotations (`toolname="search_tlds"`, `toolname="lookup_domain_whois_rdap"`, and `toolparamdescription` attributes).
+   - Imperative WebMCP tool registration on `document.modelContext` / `navigator.modelContext` with valid JSON Schema definitions (`search_tlds`, `lookup_domain`, `generate_domain_hacks`).
+   - Standard-compliant `llms.txt` and `llms-full.txt` files placed at the domain root adhering to `llmstxt.org` guidelines and linked via `<link rel="alternate" type="text/markdown">`.
+
+3. **Ultra-Fast In-Memory Search & Core Web Vitals Optimization**
    - Instant in-memory filtering (0ms network latency) directly querying the master TLD index on the client.
    - Offscreen content rendering optimization using modern CSS `content-visibility: auto` and `contain-intrinsic-size` on interactive cards.
-   - Self-hosted Material Symbols WOFF2 font with `font-display: swap` eliminating blocking network requests and FOUT.
+   - Self-hosted Material Symbols WOFF2 font with `font-display: swap` and high-priority `<link rel="preload">` eliminating FOUT and layout shifts.
+   - Elimination of legacy JavaScript polyfills (`Array.at`, `Object.hasOwn`, etc.) for modern Baseline browser targets saving ~13 KiB.
    - Edge Cache-Control headers (`s-maxage` and `stale-while-revalidate`) on API routes (`/api/tld`, `/api/whois`, `/api/domain-hacks`).
 
-3. **SERP & Advanced SEO Infrastructure**
+4. **SERP & Advanced SEO Infrastructure**
    - Pre-rendered static pages (SSG via `generateStaticParams`) for all 1,600+ TLDs.
    - Comprehensive JSON-LD Schemas: `WebSite` with `SearchAction`, `WebApplication`, `DataCatalog` for the IANA database, `BreadcrumbList`, and `Organization`.
    - Dynamic meta tags, canonical links, OpenGraph images (1200x630), Twitter large cards, and `theme-color` viewport settings.
    - Semantic heading hierarchy and crawlable related TLD cross-linking.
 
-4. **Material Design 3 (M3) Green Tonal Theme & Borderless Cards**
+5. **Material Design 3 (M3) Green Tonal Theme & Borderless Cards**
    - Harmonized Emerald / Mint / Sage tonal system with dedicated light & dark mode surfaces.
    - Filled borderless cards contrasting softly against the canvas background.
    - Wavy / squiggly SVG border dividers for M3 decorative section separation.

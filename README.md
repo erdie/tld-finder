@@ -15,10 +15,15 @@ TLD Finder is a modern, responsive Jamstack application built on **Next.js 16** 
   * Authentic M3 **borderless filled cards** utilizing soft tonal surface containers (`surface-container-low` / `surface-container-high`).
   * Custom M3 **wavy / squiggly border dividers** (`<WavyDivider />`) with repeating sine-wave vector rendering.
   * Universal browser autofill background reset eliminating browser autocomplete highlight boxes.
+* **Agentic Browsing & WebMCP (Web Model Context Protocol)**:
+  * **Declarative WebMCP Form Coverage**: Annotated search and lookup forms with `toolname="search_tlds"`, `toolname="lookup_domain_whois_rdap"`, and descriptive `toolparamdescription` attributes for autonomous AI browser interaction.
+  * **Imperative WebMCP Tools (`document.modelContext`)**: Client-side registered tools (`search_tlds`, `lookup_domain`, `generate_domain_hacks`) with strict JSON Schemas for direct execution by AI agents (e.g. Chrome 150+).
+  * **`llms.txt` & `llms-full.txt` (llmstxt.org)**: Standard-compliant Markdown summaries and structured API catalogues for AI crawlers and LLM-based navigation.
 * **Ultra-Fast Instant Search & Core Web Vitals Optimization**:
   * **0ms Latency In-Memory Filtering**: Searches across all 1,500+ TLDs directly in-memory with zero network latency, instant keystroke feedback, and zero layout shifts (CLS = 0).
   * **Offscreen Content Rendering (`content-visibility: auto`)**: Leverages modern CSS `content-visibility` and `contain-intrinsic-size` on list items to defer offscreen layout and paint calculations, keeping DOM operations 120fps smooth.
-  * **Self-Hosted Material Symbols Font**: Self-hosted WOFF2 font with `font-display: swap` eliminating external blocking requests and flash of unstyled text (FOUT).
+  * **Self-Hosted Material Symbols Font**: Self-hosted WOFF2 font with `font-display: swap` and high-priority `<link rel="preload">` eliminating FOUT and layout shifts.
+  * **Legacy JS Elimination**: Stripped redundant legacy polyfills (Array.at, Object.hasOwn, etc.) for modern Baseline browser targets saving ~13 KiB.
   * **Edge Caching & S-Maxage Headers**: API endpoints equipped with `Cache-Control` (`s-maxage` and `stale-while-revalidate`) for rapid edge responses.
 * **Comprehensive SERP & SEO Infrastructure**:
   * **Static Site Generation (SSG)** for all 1,600+ top-level domains pre-rendering full semantic HTML for search engines.
