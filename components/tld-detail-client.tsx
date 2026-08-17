@@ -132,7 +132,7 @@ export function TldDetailClient({ domain, whoisServer, rdapServer }: TldDetailCl
         <div className="space-y-6">
             {/* M3 Quick Copy Assist Chips Bar */}
             {(whoisServer || rdapServer) && (
-                <div className="flex flex-wrap items-center gap-2.5 bg-surface-container-low border border-outline-variant/50 rounded-2xl p-4 shadow-xs">
+                <div className="flex flex-wrap items-center gap-2.5 bg-surface-container-low rounded-2xl p-4 shadow-xs">
                     <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mr-1 flex items-center gap-1.5">
                         <MaterialIcon name="auto_awesome" className="text-[16px] text-primary" />
                         Quick Copy:
@@ -140,28 +140,28 @@ export function TldDetailClient({ domain, whoisServer, rdapServer }: TldDetailCl
                     {whoisServer && (
                         <button
                             onClick={() => handleCopy(whoisServer)}
-                            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-container-high hover:bg-surface-container-highest text-xs font-mono transition-all duration-200 ease-m3-standard active:scale-95 border border-outline-variant/60 text-foreground cursor-pointer shadow-xs"
+                            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-container-high hover:bg-surface-container-highest text-xs font-mono transition-all duration-200 ease-m3-standard active:scale-95 text-foreground cursor-pointer shadow-xs"
                             title="Copy WHOIS Server"
                         >
                             <span>WHOIS: {whoisServer}</span>
-                            {copiedText === whoisServer ? <MaterialIcon name="check" className="text-[16px] text-m3-success" /> : <MaterialIcon name="content_copy" className="text-[16px] text-muted-foreground" />}
+                            {copiedText === whoisServer ? <MaterialIcon name="check" className="text-[16px] text-primary" /> : <MaterialIcon name="content_copy" className="text-[16px] text-muted-foreground" />}
                         </button>
                     )}
                     {rdapServer && (
                         <button
                             onClick={() => handleCopy(rdapServer)}
-                            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-container-high hover:bg-surface-container-highest text-xs font-mono transition-all duration-200 ease-m3-standard active:scale-95 border border-outline-variant/60 text-foreground cursor-pointer shadow-xs"
+                            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-container-high hover:bg-surface-container-highest text-xs font-mono transition-all duration-200 ease-m3-standard active:scale-95 text-foreground cursor-pointer shadow-xs"
                             title="Copy RDAP Endpoint URL"
                         >
                             <span>RDAP Endpoint</span>
-                            {copiedText === rdapServer ? <MaterialIcon name="check" className="text-[16px] text-m3-success" /> : <MaterialIcon name="content_copy" className="text-[16px] text-muted-foreground" />}
+                            {copiedText === rdapServer ? <MaterialIcon name="check" className="text-[16px] text-primary" /> : <MaterialIcon name="content_copy" className="text-[16px] text-muted-foreground" />}
                         </button>
                     )}
                 </div>
             )}
 
             {/* Live Domain Availability & WHOIS Interactive Section - M3 Elevated Card */}
-            <div className="bg-surface-container-low border border-outline-variant/60 rounded-3xl p-6 sm:p-7 shadow-elevation-1 space-y-6 transition-all duration-300 ease-m3-emphasized">
+            <div className="bg-surface-container-low rounded-3xl p-6 sm:p-7 shadow-elevation-1 space-y-6 transition-all duration-300 ease-m3-emphasized">
                 <div className="flex items-center justify-between flex-wrap gap-3">
                     <div className="space-y-1">
                         <div className="flex items-center gap-2">
@@ -178,7 +178,7 @@ export function TldDetailClient({ domain, whoisServer, rdapServer }: TldDetailCl
                     </div>
 
                     {/* M3 Segmented Protocol Selector */}
-                    <div className="inline-flex items-center bg-surface-container-high p-1 rounded-full border border-outline-variant/50 shadow-xs">
+                    <div className="inline-flex items-center bg-surface-container-high p-1 rounded-full shadow-xs">
                         <button
                             type="button"
                             onClick={() => setProtocol("auto")}
@@ -226,6 +226,10 @@ export function TldDetailClient({ domain, whoisServer, rdapServer }: TldDetailCl
                             placeholder={`e.g. brand (checks brand.${domain})`}
                             value={subdomain}
                             onChange={(e) => setSubdomain(e.target.value)}
+                            autoComplete="off"
+                            autoCorrect="off"
+                            autoCapitalize="none"
+                            spellCheck={false}
                             className="w-full pl-12 pr-20 h-13 rounded-full border border-outline/40 bg-surface-container-lowest dark:bg-surface-container-high text-foreground font-mono text-sm focus:outline-hidden focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200 ease-m3-emphasized shadow-xs"
                         />
                         <div className="absolute right-3.5 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
@@ -321,23 +325,23 @@ export function TldDetailClient({ domain, whoisServer, rdapServer }: TldDetailCl
                             /* Registered Domain Status Container */
                             <div className="space-y-5">
                                 {/* Registered Domain Hero Header */}
-                                <div className="bg-surface-container-high border border-outline-variant/60 rounded-3xl p-5 sm:p-6 flex flex-col md:flex-row md:items-center justify-between gap-5 shadow-elevation-1 transition-all duration-300">
+                                <div className="bg-surface-container-high rounded-3xl p-5 sm:p-6 flex flex-col md:flex-row md:items-center justify-between gap-5 shadow-elevation-1 transition-all duration-300">
                                     <div className="space-y-1.5">
                                         <div className="flex items-center gap-2.5 flex-wrap">
                                             <h4 className="text-2xl font-mono font-bold tracking-tight text-foreground">
                                                 {whoisResult.domain || fullDomain}
                                             </h4>
-                                            <Badge variant="tertiary" className="rounded-full px-3 py-0.5 font-semibold text-xs">
+                                            <Badge variant="tertiary" className="rounded-full px-3 py-0.5 font-semibold text-xs border-none">
                                                 Registered
                                             </Badge>
-                                            <Badge variant="secondary" className="text-xs px-3 py-0.5 font-mono rounded-full border border-outline-variant/40">
+                                            <Badge variant="secondary" className="text-xs px-3 py-0.5 font-mono rounded-full border-none">
                                                 {whoisResult.protocol === 'rdap' ? '⚡ RDAP' : '📜 WHOIS (Port 43)'}
                                             </Badge>
                                         </div>
                                         <p className="text-xs sm:text-sm text-muted-foreground flex items-center gap-2">
                                             Managed by <strong className="font-semibold text-foreground">{whoisResult.parsed?.registrar || "Unknown Registrar"}</strong>
                                             {whoisResult.fallbackFromRdap && (
-                                                <span className="text-xs font-mono bg-m3-tertiary-container text-m3-on-tertiary-container px-2 py-0.5 rounded-full border border-m3-tertiary/20">
+                                                <span className="text-xs font-mono bg-tertiary-container text-on-tertiary-container px-2 py-0.5 rounded-full">
                                                     RDAP fallback
                                                 </span>
                                             )}
@@ -379,7 +383,7 @@ export function TldDetailClient({ domain, whoisServer, rdapServer }: TldDetailCl
                                 </div>
 
                                 {/* M3 Navigation Tabs */}
-                                <div className="flex border-b border-outline-variant/50 gap-6">
+                                <div className="flex border-b border-surface-container-highest gap-6">
                                     <button
                                         type="button"
                                         onClick={() => setActiveTab('summary')}
@@ -412,7 +416,7 @@ export function TldDetailClient({ domain, whoisServer, rdapServer }: TldDetailCl
                                 {activeTab === 'summary' && whoisResult.parsed && (
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-fade-in">
                                         {/* Dates Card */}
-                                        <div className="bg-surface-container-low border border-outline-variant/60 rounded-2xl p-5 space-y-3.5 shadow-xs">
+                                        <div className="bg-surface-container-low rounded-2xl p-5 space-y-3.5 shadow-xs">
                                             <h5 className="text-sm font-bold text-foreground flex items-center gap-2">
                                                 <MaterialIcon name="event" className="text-[18px] text-primary" /> Important Dates
                                             </h5>
@@ -429,7 +433,7 @@ export function TldDetailClient({ domain, whoisServer, rdapServer }: TldDetailCl
                                         </div>
 
                                         {/* Registrar & Status Card */}
-                                        <div className="bg-surface-container-low border border-outline-variant/60 rounded-2xl p-5 space-y-3.5 shadow-xs">
+                                        <div className="bg-surface-container-low rounded-2xl p-5 space-y-3.5 shadow-xs">
                                             <h5 className="text-sm font-bold text-foreground flex items-center gap-2">
                                                 <MaterialIcon name="language" className="text-[18px] text-primary" /> Registrar &amp; Status
                                             </h5>
@@ -445,7 +449,7 @@ export function TldDetailClient({ domain, whoisServer, rdapServer }: TldDetailCl
                                                         whoisResult.parsed.status.slice(0, 3).map((st: string, idx: number) => {
                                                             const cleanSt = st.split(' ')[0] || st;
                                                             return (
-                                                                <Badge key={idx} variant="outline" className="text-[10px] py-0.5 px-2 rounded-md border-outline-variant/60 capitalize block w-fit truncate" title={st}>
+                                                                <Badge key={idx} variant="outline" className="text-[10px] py-0.5 px-2 rounded-md capitalize block w-fit truncate border-none bg-surface-container-high" title={st}>
                                                                     {cleanSt.toLowerCase()}
                                                                 </Badge>
                                                             );
@@ -459,13 +463,13 @@ export function TldDetailClient({ domain, whoisServer, rdapServer }: TldDetailCl
 
                                         {/* Nameservers Card */}
                                         {whoisResult.parsed.nameServers && whoisResult.parsed.nameServers.length > 0 && (
-                                            <div className="bg-surface-container-low border border-outline-variant/60 rounded-2xl p-5 space-y-3.5 md:col-span-2 shadow-xs">
+                                            <div className="bg-surface-container-low rounded-2xl p-5 space-y-3.5 md:col-span-2 shadow-xs">
                                                 <h5 className="text-sm font-bold text-foreground flex items-center gap-2">
                                                     <MaterialIcon name="language" className="text-[18px] text-primary" /> DNS Nameservers
                                                 </h5>
                                                 <div className="flex flex-wrap gap-2">
                                                     {whoisResult.parsed.nameServers.map((ns: string, idx: number) => (
-                                                        <Badge key={idx} variant="secondary" className="font-mono text-xs px-3 py-1 rounded-lg bg-surface-container-high text-foreground border border-outline-variant/40">
+                                                        <Badge key={idx} variant="secondary" className="font-mono text-xs px-3 py-1 rounded-lg bg-surface-container-high text-foreground border-none">
                                                             {ns.toLowerCase()}
                                                         </Badge>
                                                     ))}
@@ -486,11 +490,11 @@ export function TldDetailClient({ domain, whoisServer, rdapServer }: TldDetailCl
                                                 variant="outline"
                                                 size="sm"
                                                 onClick={handleCopyRaw}
-                                                className="rounded-full text-xs h-8 gap-1.5 border-outline-variant/60 bg-surface-container-low cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.2,0,0,1)] active:scale-95"
+                                                className="rounded-full text-xs h-8 gap-1.5 border-none bg-surface-container-low cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.2,0,0,1)] active:scale-95 shadow-xs"
                                             >
                                                 {copiedRaw ? (
                                                     <>
-                                                        <MaterialIcon name="check" className="text-[16px] text-m3-success" />
+                                                        <MaterialIcon name="check" className="text-[16px] text-primary" />
                                                         <span>Copied!</span>
                                                     </>
                                                 ) : (
@@ -501,7 +505,7 @@ export function TldDetailClient({ domain, whoisServer, rdapServer }: TldDetailCl
                                                 )}
                                             </Button>
                                         </div>
-                                        <pre className="bg-surface-container-lowest dark:bg-black/80 text-foreground border border-outline-variant/60 rounded-2xl p-5 font-mono text-xs leading-relaxed overflow-x-auto overflow-y-auto max-h-[450px] shadow-elevation-1 custom-scrollbar">
+                                        <pre className="bg-surface-container-lowest dark:bg-black/60 text-foreground rounded-2xl p-5 font-mono text-xs leading-relaxed overflow-x-auto overflow-y-auto max-h-[450px] shadow-elevation-1 custom-scrollbar">
                                             {whoisResult.raw}
                                         </pre>
                                     </div>
