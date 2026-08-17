@@ -41,7 +41,7 @@ export function ThemeToggle() {
             <MaterialIcon 
                 name="dark_mode"
                 className={`absolute transition-all duration-300 ease-[cubic-bezier(0.2,0,0,1)] text-[22px] ${
-                    theme === 'dark' ? 'rotate-0 scale-100 opacity-100 text-blue-300' : '-rotate-90 scale-0 opacity-0'
+                    theme === 'dark' ? 'rotate-0 scale-100 opacity-100 text-primary' : '-rotate-90 scale-0 opacity-0'
                 }`}
             />
             <span className="sr-only">Toggle theme</span>
