@@ -1,10 +1,27 @@
 import "@/app/globals.css"
-import { Inter } from 'next/font/google'
+import "material-symbols/rounded.css"
+import { Google_Sans_Flex, Google_Sans_Code } from 'next/font/google'
 import { ThemeProvider } from "@/components/theme-provider"
 import type { Metadata } from "next"
 import { getBaseUrl } from "@/lib/site-config"
 
-const inter = Inter({ subsets: ["latin"] })
+const googleSans = Google_Sans_Flex({
+    subsets: ["latin"],
+    variable: "--font-google-sans",
+    display: "swap",
+    fallback: ["-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
+})
+
+const googleSansCode = Google_Sans_Code({
+    subsets: ["latin"],
+    variable: "--font-mono",
+    display: "swap",
+    fallback: ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "monospace"],
+})
+
+
+
+
 const baseUrl = getBaseUrl();
 
 export const metadata: Metadata = {
@@ -88,12 +105,18 @@ export default function RootLayout({
     return (
         <html lang="en" className="dark" suppressHydrationWarning>
             <head>
+                <link rel="preconnect" href="https://fonts.googleapis.com" />
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+                <link
+                    rel="stylesheet"
+                    href="https://fonts.googleapis.com/css2?family=Material+Symbols-Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
+                />
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
                 />
             </head>
-            <body className={inter.className} suppressHydrationWarning>
+            <body className={`${googleSans.className} ${googleSans.variable} ${googleSansCode.variable}`} suppressHydrationWarning>
                 <ThemeProvider
                     attribute="class"
                     defaultTheme="dark"
@@ -103,6 +126,9 @@ export default function RootLayout({
                     {children}
                 </ThemeProvider>
             </body>
+
+
         </html>
     )
 }
+
