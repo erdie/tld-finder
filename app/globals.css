@@ -4,48 +4,134 @@
 
 @layer base {
     :root {
-        --background: 0 0% 100%;
-        --foreground: 0 0% 9%;
-        --card: 0 0% 100%;
-        --card-foreground: 0 0% 9%;
-        --popover: 0 0% 100%;
-        --popover-foreground: 0 0% 9%;
-        --primary: 221.2 83.2% 53.3%;
-        --primary-foreground: 210 40% 98%;
-        --secondary: 210 40% 96.1%;
-        --secondary-foreground: 222.2 47.4% 11.2%;
-        --muted: 210 40% 96.1%;
-        --muted-foreground: 215.4 16.3% 46.9%;
-        --accent: 210 40% 96.1%;
-        --accent-foreground: 222.2 47.4% 11.2%;
-        --destructive: 0 84.2% 60.2%;
-        --destructive-foreground: 210 40% 98%;
-        --border: 214.3 31.8% 91.4%;
-        --input: 214.3 31.8% 91.4%;
-        --ring: 221.2 83.2% 53.3%;
-        --radius: 0.5rem;
+        /* Material Design 3 (M3) Light Theme Tokens - Smooth Tonal System */
+        --md-sys-color-primary: 212 85% 36%; /* Rich Oceanic Sapphire #0e5cb0 */
+        --md-sys-color-on-primary: 0 0% 100%; /* #ffffff */
+        --md-sys-color-primary-container: 214 78% 92%; /* Soft pastel blue #dbe8fb */
+        --md-sys-color-on-primary-container: 214 90% 14%; /* Deep navy #051a38 */
+
+        --md-sys-color-secondary: 215 18% 40%; /* Smooth slate #545e6d */
+        --md-sys-color-on-secondary: 0 0% 100%; /* #ffffff */
+        --md-sys-color-secondary-container: 215 45% 91%; /* #dae3f2 */
+        --md-sys-color-on-secondary-container: 215 50% 14%; /* #121c2a */
+
+        --md-sys-color-tertiary: 272 24% 42%; /* Soft lavender-plum #6c5478 */
+        --md-sys-color-on-tertiary: 0 0% 100%; /* #ffffff */
+        --md-sys-color-tertiary-container: 272 55% 92%; /* #f1e2fa */
+        --md-sys-color-on-tertiary-container: 272 60% 16%; /* #291535 */
+
+        --md-sys-color-error: 358 75% 42%; /* Smooth crimson #be1b23 */
+        --md-sys-color-on-error: 0 0% 100%; /* #ffffff */
+        --md-sys-color-error-container: 358 85% 93%; /* #fedcdc */
+        --md-sys-color-on-error-container: 358 90% 14%; /* #410609 */
+
+        --md-sys-color-success: 142 62% 28%; /* Smooth forest green #1b7339 */
+        --md-sys-color-on-success: 0 0% 100%; /* #ffffff */
+        --md-sys-color-success-container: 142 50% 88%; /* #cdecd8 */
+        --md-sys-color-on-success-container: 142 90% 10%; /* #03270f */
+
+        --md-sys-color-surface: 220 25% 98%; /* Smooth velvety canvas #f8f9fc */
+        --md-sys-color-on-surface: 220 16% 12%; /* Soft charcoal #1a1c21 */
+        --md-sys-color-on-surface-variant: 220 10% 36%; /* #535661 */
+        --md-sys-color-outline: 220 10% 55%; /* #828591 */
+        --md-sys-color-outline-variant: 220 16% 84%; /* #d1d5e2 */
+
+        --md-sys-color-surface-container-lowest: 0 0% 100%; /* Pure white card #ffffff */
+        --md-sys-color-surface-container-low: 220 22% 96%; /* #f2f4f9 */
+        --md-sys-color-surface-container: 220 18% 94%; /* #ebedf4 */
+        --md-sys-color-surface-container-high: 220 16% 91%; /* #e4e7ef */
+        --md-sys-color-surface-container-highest: 220 14% 88%; /* #dee1ea */
+
+        --md-sys-color-inverse-surface: 220 14% 18%; /* #282a32 */
+        --md-sys-color-inverse-on-surface: 220 25% 96%; /* #f2f4f9 */
+        --md-sys-color-inverse-primary: 212 85% 75%; /* #8db9f3 */
+
+        /* Core Tailwind mappings to M3 */
+        --background: var(--md-sys-color-surface);
+        --foreground: var(--md-sys-color-on-surface);
+        --card: var(--md-sys-color-surface-container-lowest);
+        --card-foreground: var(--md-sys-color-on-surface);
+        --popover: var(--md-sys-color-surface-container-high);
+        --popover-foreground: var(--md-sys-color-on-surface);
+        --primary: var(--md-sys-color-primary);
+        --primary-foreground: var(--md-sys-color-on-primary);
+        --secondary: var(--md-sys-color-secondary-container);
+        --secondary-foreground: var(--md-sys-color-on-secondary-container);
+        --muted: var(--md-sys-color-surface-container);
+        --muted-foreground: var(--md-sys-color-on-surface-variant);
+        --accent: var(--md-sys-color-surface-container-high);
+        --accent-foreground: var(--md-sys-color-on-surface);
+        --destructive: var(--md-sys-color-error);
+        --destructive-foreground: var(--md-sys-color-on-error);
+        --border: var(--md-sys-color-outline-variant);
+        --input: var(--md-sys-color-outline);
+        --ring: var(--md-sys-color-primary);
+        --radius: 1rem; /* 16px - M3 standard medium/large shape */
     }
     
     .dark {
-        --background: 0 0% 4%;
-        --foreground: 0 0% 93%;
-        --card: 0 0% 4%;
-        --card-foreground: 0 0% 93%;
-        --popover: 0 0% 4%;
-        --popover-foreground: 0 0% 93%;
-        --primary: 217.2 91.2% 59.8%;
-        --primary-foreground: 222.2 47.4% 11.2%;
-        --secondary: 217.2 32.6% 17.5%;
-        --secondary-foreground: 210 40% 98%;
-        --muted: 217.2 32.6% 17.5%;
-        --muted-foreground: 215 20.2% 65.1%;
-        --accent: 217.2 32.6% 17.5%;
-        --accent-foreground: 210 40% 98%;
-        --destructive: 0 62.8% 30.6%;
-        --destructive-foreground: 210 40% 98%;
-        --border: 217.2 32.6% 17.5%;
-        --input: 217.2 32.6% 17.5%;
-        --ring: 224.3 76.3% 48%;
+        /* Material Design 3 (M3) Dark Theme Tokens - Smooth Tonal System */
+        --md-sys-color-primary: 212 85% 75%; /* Smooth pastel sapphire #8db9f3 */
+        --md-sys-color-on-primary: 212 90% 14%; /* Deep navy text #051a38 */
+        --md-sys-color-primary-container: 212 60% 28%; /* #1c3c64 */
+        --md-sys-color-on-primary-container: 214 80% 92%; /* #dce8fb */
+
+        --md-sys-color-secondary: 215 28% 76%; /* Smooth pastel slate #b6c4da */
+        --md-sys-color-on-secondary: 215 35% 18%; /* #1e2837 */
+        --md-sys-color-secondary-container: 215 22% 26%; /* #343d4c */
+        --md-sys-color-on-secondary-container: 215 45% 90%; /* #d8e2f1 */
+
+        --md-sys-color-tertiary: 272 40% 80%; /* Smooth pastel lavender #d3b9e4 */
+        --md-sys-color-on-tertiary: 272 35% 20%; /* #311c3b */
+        --md-sys-color-tertiary-container: 272 26% 28%; /* #483452 */
+        --md-sys-color-on-tertiary-container: 272 65% 92%; /* #f1e1fa */
+
+        --md-sys-color-error: 358 85% 78%; /* Soft pastel coral-red #f8969b */
+        --md-sys-color-on-error: 358 90% 16%; /* #4a0609 */
+        --md-sys-color-error-container: 358 60% 24%; /* #61181c */
+        --md-sys-color-on-error-container: 358 85% 92%; /* #fedcdc */
+
+        --md-sys-color-success: 142 55% 68%; /* Soft pastel jade #76d396 */
+        --md-sys-color-on-success: 142 80% 10%; /* #042911 */
+        --md-sys-color-success-container: 142 55% 18%; /* #134623 */
+        --md-sys-color-on-success-container: 142 50% 88%; /* #cbebd7 */
+
+        --md-sys-color-surface: 220 18% 9%; /* Rich OLED dark canvas #12141a */
+        --md-sys-color-on-surface: 220 14% 90%; /* Soft off-white #e2e4ec */
+        --md-sys-color-on-surface-variant: 220 10% 74%; /* #b6b9c4 */
+        --md-sys-color-outline: 220 10% 56%; /* #868995 */
+        --md-sys-color-outline-variant: 220 12% 24%; /* Gentle dark borders #373943 */
+
+        --md-sys-color-surface-container-lowest: 220 22% 7%; /* Deepest surface #0d0f14 */
+        --md-sys-color-surface-container-low: 220 16% 12%; /* #181a22 */
+        --md-sys-color-surface-container: 220 14% 15%; /* #1e2029 */
+        --md-sys-color-surface-container-high: 220 13% 18%; /* #242631 */
+        --md-sys-color-surface-container-highest: 220 12% 22%; /* #2b2d39 */
+
+        --md-sys-color-inverse-surface: 220 14% 90%; /* #e2e4ec */
+        --md-sys-color-inverse-on-surface: 220 18% 12%; /* #191b22 */
+        --md-sys-color-inverse-primary: 212 85% 36%; /* #0e5cb0 */
+
+        /* Core Tailwind mappings to M3 */
+        --background: var(--md-sys-color-surface);
+        --foreground: var(--md-sys-color-on-surface);
+        --card: var(--md-sys-color-surface-container-low);
+        --card-foreground: var(--md-sys-color-on-surface);
+        --popover: var(--md-sys-color-surface-container-high);
+        --popover-foreground: var(--md-sys-color-on-surface);
+        --primary: var(--md-sys-color-primary);
+        --primary-foreground: var(--md-sys-color-on-primary);
+        --secondary: var(--md-sys-color-secondary-container);
+        --secondary-foreground: var(--md-sys-color-on-secondary-container);
+        --muted: var(--md-sys-color-surface-container);
+        --muted-foreground: var(--md-sys-color-on-surface-variant);
+        --accent: var(--md-sys-color-surface-container-high);
+        --accent-foreground: var(--md-sys-color-on-surface);
+        --destructive: var(--md-sys-color-error);
+        --destructive-foreground: var(--md-sys-color-on-error);
+        --border: var(--md-sys-color-outline-variant);
+        --input: var(--md-sys-color-outline-variant);
+        --ring: var(--md-sys-color-primary);
     }
 }
 
@@ -54,7 +140,192 @@
         @apply border-border;
     }
     body {
-        @apply bg-background text-foreground;
+        @apply bg-background text-foreground antialiased;
         font-feature-settings: "rlig" 1, "calt" 1;
+    }
+}
+
+/* Material Symbols Configuration */
+.material-symbols-rounded {
+    font-family: 'Material Symbols Rounded' !important;
+    font-weight: 300;
+    font-style: normal;
+    font-size: 20px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: 'liga';
+    -webkit-font-feature-settings: 'liga';
+    font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+    transition: transform 200ms cubic-bezier(0.2, 0, 0, 1), color 200ms cubic-bezier(0.2, 0, 0, 1);
+}
+
+.material-symbols-rounded.filled {
+    font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 0, 'opsz' 24 !important;
+}
+
+
+
+/* Material Design 3 Elevation Shadows */
+.m3-elevation-0 {
+    box-shadow: none;
+}
+.m3-elevation-1 {
+    box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.12), 0px 1px 2px 0px rgba(0, 0, 0, 0.20);
+}
+.m3-elevation-2 {
+    box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.12), 0px 1px 2px 0px rgba(0, 0, 0, 0.20);
+}
+.m3-elevation-3 {
+    box-shadow: 0px 4px 8px 3px rgba(0, 0, 0, 0.12), 0px 1px 3px 0px rgba(0, 0, 0, 0.20);
+}
+.m3-elevation-4 {
+    box-shadow: 0px 6px 10px 4px rgba(0, 0, 0, 0.12), 0px 2px 3px 0px rgba(0, 0, 0, 0.20);
+}
+.m3-elevation-5 {
+    box-shadow: 0px 8px 12px 6px rgba(0, 0, 0, 0.12), 0px 4px 4px 0px rgba(0, 0, 0, 0.20);
+}
+
+/* Material Design 3 Motion Tokens & Transitions */
+:root {
+    --m3-easing-emphasized: cubic-bezier(0.2, 0.0, 0, 1.0);
+    --m3-easing-emphasized-decelerate: cubic-bezier(0.05, 0.7, 0.1, 1.0);
+    --m3-easing-emphasized-accelerate: cubic-bezier(0.3, 0.0, 0.8, 0.15);
+    --m3-easing-standard: cubic-bezier(0.2, 0.0, 0, 1.0);
+    --m3-easing-standard-decelerate: cubic-bezier(0.0, 0.0, 0.2, 1.0);
+    --m3-easing-standard-accelerate: cubic-bezier(0.3, 0.0, 1.0, 1.0);
+
+    --m3-duration-short1: 50ms;
+    --m3-duration-short2: 100ms;
+    --m3-duration-short3: 150ms;
+    --m3-duration-short4: 200ms;
+    --m3-duration-medium1: 250ms;
+    --m3-duration-medium2: 300ms;
+    --m3-duration-medium3: 350ms;
+    --m3-duration-medium4: 400ms;
+    --m3-duration-long1: 450ms;
+    --m3-duration-long2: 500ms;
+}
+
+/* Material Design 3 Interactive Elements (State Layers, Elevation & Press Feedback) */
+.m3-interactive {
+    transition: background-color var(--m3-duration-short4) var(--m3-easing-standard),
+                border-color var(--m3-duration-short4) var(--m3-easing-standard),
+                color var(--m3-duration-short4) var(--m3-easing-standard),
+                box-shadow var(--m3-duration-medium1) var(--m3-easing-standard),
+                transform var(--m3-duration-short3) var(--m3-easing-standard);
+}
+.m3-interactive:hover {
+    box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.12), 0px 1px 2px 0px rgba(0, 0, 0, 0.20);
+}
+.m3-interactive:active {
+    transform: scale(0.97);
+    box-shadow: none;
+}
+
+.m3-card-interactive {
+    transition: transform var(--m3-duration-medium1) var(--m3-easing-emphasized),
+                box-shadow var(--m3-duration-medium2) var(--m3-easing-emphasized),
+                border-color var(--m3-duration-medium1) var(--m3-easing-standard),
+                background-color var(--m3-duration-medium1) var(--m3-easing-standard);
+}
+.m3-card-interactive:hover {
+    box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.12), 0px 1px 2px 0px rgba(0, 0, 0, 0.20);
+    transform: translateY(-1px);
+}
+.m3-card-interactive:active {
+    transform: scale(0.99) translateY(0);
+}
+
+.m3-transition {
+    transition: all var(--m3-duration-medium1) var(--m3-easing-standard);
+}
+
+.m3-transition-colors {
+    transition: background-color var(--m3-duration-medium2) var(--m3-easing-standard),
+                border-color var(--m3-duration-medium2) var(--m3-easing-standard),
+                color var(--m3-duration-medium2) var(--m3-easing-standard),
+                box-shadow var(--m3-duration-medium2) var(--m3-easing-standard);
+}
+
+.m3-press-scale {
+    transition: transform var(--m3-duration-short3) var(--m3-easing-standard);
+}
+.m3-press-scale:active {
+    transform: scale(0.96);
+}
+
+/* Custom scrollbars for code/raw payload blocks */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: hsl(var(--md-sys-color-outline-variant) / 0.6);
+    border-radius: 9999px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--md-sys-color-outline) / 0.8);
+}
+
+/* Material Design 3 Page Transitions (Fade Through & Shared Axis) */
+@keyframes m3PageEnter {
+    0% {
+        opacity: 0;
+        transform: translateY(10px) scale(0.992);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes m3PageExit {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.985);
+    }
+}
+
+.m3-page-transition {
+    animation: m3PageEnter 350ms cubic-bezier(0.05, 0.7, 0.1, 1.0) forwards;
+    will-change: transform, opacity;
+}
+
+/* Modern Browser View Transitions API support */
+@view-transition {
+    navigation: auto;
+}
+
+::view-transition-old(root) {
+    animation: 180ms cubic-bezier(0.3, 0.0, 0.8, 0.15) both m3PageExit;
+}
+
+::view-transition-new(root) {
+    animation: 350ms cubic-bezier(0.05, 0.7, 0.1, 1.0) both m3PageEnter;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .m3-page-transition,
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+        animation: none !important;
+        transform: none !important;
     }
 }
