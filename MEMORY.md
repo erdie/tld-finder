@@ -16,7 +16,11 @@
 - **Package Manager**: Yarn (`yarn.lock`)
 
 ### Frontend & Styling
-- **UI Design System**: Native Material Design 3 (M3 / Material You) Components (Pure M3 Popovers, M3 Select Dropdowns, M3 Checkboxes, M3 Tooltips, M3 Buttons, M3 Badges & Chips)
+- **UI Design System**: Native Material Design 3 (M3 / Material You) Components (Pure M3 Popovers, M3 Select Dropdowns, M3 Checkboxes, M3 Tooltips, M3 Buttons, M3 Badges, Chips, and Wavy Dividers)
+- **Color Palette**: Forest Emerald & Mint tonal palette adhering to official M3 design token guidelines (`--md-sys-color-primary`: `#006d3a` in light, `#74da96` in dark; soft card surfaces `--md-sys-color-surface-container-low`: `#edf5ee` light / `#161c17` dark)
+- **Card Specifications**: Pure M3 **borderless filled cards** utilizing soft surface container contrast
+- **Dividers & Borders**: Reusable SVG sine-wave `<WavyDivider />` (`components/ui/wavy-divider.tsx`) applied on footer and detail page sticky header
+- **Input Styling**: Universal WebKit & Mozilla autofill reset eliminating browser autocomplete background highlight rectangles
 - **Utility Libraries**: `class-variance-authority` (CVA), `clsx`, `tailwind-merge`
 - **Theming**: `next-themes` (Dark / Light mode support)
 - **Iconography**: Google Material Symbols (`material-symbols`)
@@ -49,30 +53,36 @@
    - Detailed Sponsoring Organisation, Administrative Contact, Technical Contact, Authoritative Name Servers, WHOIS/RDAP endpoints, and embedded live domain availability checker.
    - Related TLDs cross-linking for search engine crawl depth.
 
-3. **Google Calendar Expiration Reminders ("Remind Me")**
+3. **Material Design 3 (M3) Green Tonal Theme & Borderless Cards**
+   - Harmonized Emerald / Mint / Sage tonal system with dedicated light & dark mode surfaces.
+   - Filled borderless cards contrasting softly against the canvas background.
+   - Wavy / squiggly SVG border dividers for M3 decorative section separation.
+   - Browser autofill / autocomplete background box removal for a pristine search input experience.
+
+4. **Google Calendar Expiration Reminders ("Remind Me")**
    - Integrated **Remind Me** button for registered domain WHOIS/RDAP lookups.
    - Automatically calculates event date **30 days prior to domain expiration** scheduled at **09:00 AM WIB / Jakarta (GMT+7)**.
    - Responsive layout alignment (right side on mobile `< md`, left side on desktop `>= md`).
 
-4. **URL Query String Synchronization & Deep Linking**
+5. **URL Query String Synchronization & Deep Linking**
    - Synchronizes domain queries (`?domain=domainname.com`) and search terms (`?q=...`) dynamically into browser URL using `replaceState`.
    - Cleans protocol prefixes (`https://`, `www.`) automatically and supports browser `popstate` history navigation.
 
-5. **Browser-Mimicking Stealth Detail Scraper**
+6. **Browser-Mimicking Stealth Detail Scraper**
    - Scrapes individual IANA delegation pages safely using realistic browser navigation headers (`Sec-Fetch-*`, `Sec-Ch-Ua`, `User-Agent` pool, `Referer`), jitter delays, and IDN Punycode support.
 
-6. **Gemini AI Registry Insights (`gemini-3.5-flash-lite`)**
+7. **Gemini AI Registry Insights (`gemini-3.5-flash-lite`)**
    - On-demand AI summary generation for any TLD registry manager.
 
-7. **RDAP & WHOIS Domain Availability Engine**
+8. **RDAP & WHOIS Domain Availability Engine**
    - Auto protocol selection (RDAP RESTful JSON preferred with WHOIS port 43 fallback).
    - Real-time status indication (Registered vs Available for registration).
 
-8. **Domain Hack Generator (`lib/domain-hacks.ts`)**
+9. **Domain Hack Generator (`lib/domain-hacks.ts`)**
    - Automatic split-word matching against 1,500+ active IANA TLDs (Direct, Path, Subdomain splits).
 
-9. **Automated Bi-weekly Data Pipeline**
-   - Netlify Scheduled Function triggers build hook on the 1st and 15th of every month (`0 0 1,15 * *`).
+10. **Automated Bi-weekly Data Pipeline**
+    - Netlify Scheduled Function triggers build hook on the 1st and 15th of every month (`0 0 1,15 * *`).
 
 ---
 
@@ -88,17 +98,21 @@ tld-finder/
 │   │   └── whois/route.ts      # GET: Live RDAP & WHOIS domain lookup route
 │   ├── tld/[domain]/           # Dedicated SERP/SEO friendly TLD detail page (SSG)
 │   │   └── page.tsx
-│   ├── globals.css             # Tailwind v4 directives & theme configurations
+│   ├── globals.css             # Tailwind v4 directives, M3 color tokens & autofill reset
 │   ├── layout.tsx              # Root layout wrapped with ThemeProvider
 │   ├── page.tsx                # Main single-page interface
 │   ├── robots.ts               # Robots.txt generator
 │   └── sitemap.ts              # Dynamic XML sitemap generator
 ├── components/                 # Client and Server React components
-│   ├── tld-detail-client.tsx   # Interactive WHOIS checker, Google Calendar reminder & quick-copy widget
+│   ├── ai-registry-popover.tsx # Gemini AI registry insights popover
 │   ├── domain-hacks.tsx        # UI card grid for domain hack suggestions
 │   ├── search-form.tsx         # Search input, mode detection, protocol toggle, URL query sync
+│   ├── site-footer.tsx         # Reusable M3 footer with wavy divider & SM typography
+│   ├── theme-provider.tsx      # Dark/Light theme provider wrapper
+│   ├── theme-toggle.tsx        # M3 animated light/dark toggle button
+│   ├── tld-detail-client.tsx   # Interactive WHOIS checker, Google Calendar reminder & quick-copy widget
 │   ├── tld-list.tsx            # TLD cards grid, WHOIS display & Google Calendar reminder
-│   └── ui/                     # Native Material Design 3 UI primitives (popover, select, checkbox, tooltip, button, label, badge)
+│   └── ui/                     # Native Material Design 3 UI primitives (popover, select, checkbox, tooltip, button, label, badge, wavy-divider)
 ├── data/
 │   ├── iana-tld.json           # Scraped index of all IANA TLDs
 │   ├── iana-tld-details.json   # Scraped delegation details for 1,500+ TLDs
