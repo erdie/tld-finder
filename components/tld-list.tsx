@@ -88,7 +88,17 @@ export function WhoisSkeleton() {
     );
 }
 
-function WhoisDisplay({ result, error, isLoading }: { result: any; error: string | null; isLoading: boolean }) {
+function WhoisDisplay({
+    result,
+    error,
+    isLoading,
+    targetQuery
+}: {
+    result: any;
+    error: string | null;
+    isLoading: boolean;
+    targetQuery?: string;
+}) {
     const [activeTab, setActiveTab] = useState<'summary' | 'raw'>('summary');
     const [copied, setCopied] = useState(false);
 
@@ -108,7 +118,14 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
         );
     }
 
-    if (!result) return null;
+    if (!result) return <WhoisSkeleton />;
+
+    const cleanTarget = targetQuery ? targetQuery.trim().replace(/^(https?:\/\/)?(www\.)?/, '').replace(/^\.+/, '').replace(/\/.*$/, '').toLowerCase() : '';
+    const cleanResultDomain = result.domain ? result.domain.trim().replace(/^\.+/, '').toLowerCase() : '';
+
+    if (cleanTarget && cleanResultDomain && cleanResultDomain !== cleanTarget) {
+        return <WhoisSkeleton />;
+    }
 
     const { domain, isRegistered, parsed, raw, protocol = "whois", fallbackFromRdap = false, rdapUrl } = result;
     const isRdap = protocol === "rdap";
@@ -554,6 +571,7 @@ export function TldList({
                 result={whoisResult}
                 error={whoisError}
                 isLoading={isLoading}
+                targetQuery={query}
             />
         );
     }

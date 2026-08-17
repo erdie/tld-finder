@@ -24,7 +24,12 @@ function cleanDomainInput(input: string): string {
 
 function isDomainQuery(q: string): boolean {
     const clean = cleanDomainInput(q);
-    return clean.includes(".") && clean.split(".").filter(Boolean).length >= 2;
+    if (!clean.includes(".")) return false;
+    const parts = clean.split(".").filter(Boolean);
+    if (parts.length < 2) return false;
+    const tldPart = parts[parts.length - 1];
+    // TLD extension must be at least 2 characters (e.g. .co, .id, .com, .ai)
+    return tldPart.length >= 2;
 }
 
 function filterTlds(
@@ -148,7 +153,7 @@ export function SearchForm() {
         };
     }, []);
 
-    // WHOIS / RDAP async fetch & URL synchronization
+    // WHOIS / RDAP async fetch & URL synchronization with race condition protection
     React.useEffect(() => {
         const trimmed = query.trim();
 
@@ -168,22 +173,38 @@ export function SearchForm() {
                 }
             }
 
+            const controller = new AbortController();
+            let isCancelled = false;
+
             const timer = setTimeout(async () => {
                 try {
-                    const res = await fetch(`/api/whois?domain=${encodeURIComponent(targetDomain)}&protocol=${protocol}`);
+                    const res = await fetch(
+                        `/api/whois?domain=${encodeURIComponent(targetDomain)}&protocol=${protocol}`,
+                        { signal: controller.signal }
+                    );
                     const data = await res.json();
+                    if (isCancelled) return;
                     if (!res.ok) {
                         throw new Error(data.error || data.details || "Failed to query WHOIS/RDAP information");
                     }
-                    setWhoisResult(data);
+                    if (cleanDomainInput(data.domain) === targetDomain) {
+                        setWhoisResult(data);
+                    }
                 } catch (err: any) {
+                    if (isCancelled || err.name === 'AbortError') return;
                     setWhoisError(err.message || "An unexpected error occurred during domain lookup.");
                 } finally {
-                    setIsLoading(false);
+                    if (!isCancelled) {
+                        setIsLoading(false);
+                    }
                 }
-            }, 350);
+            }, 300);
 
-            return () => clearTimeout(timer);
+            return () => {
+                isCancelled = true;
+                clearTimeout(timer);
+                controller.abort();
+            };
         }
 
         // Instant TLD Search Mode
