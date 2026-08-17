@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { SearchForm } from "@/components/search-form"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { SiteFooter } from "@/components/site-footer"
 import { tlds } from "@/data/tlds"
 import type { Metadata } from "next"
 import { getBaseUrl } from "@/lib/site-config"
@@ -23,19 +24,17 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
                 canonical: baseUrl,
             },
             robots: {
-                index: false,
+                index: true,
                 follow: true,
             },
         };
     }
 
     return {
+        title: "TLD Finder — Top-Level Domain Registry Directory & WHOIS Lookup",
+        description: "Search and inspect 1,500+ top-level domain (TLD) extensions, explore delegation records, find registry managers, and run live WHOIS & RDAP queries.",
         alternates: {
             canonical: baseUrl,
-        },
-        robots: {
-            index: true,
-            follow: true,
         },
     };
 }
@@ -90,51 +89,53 @@ export default function Home() {
 
                     <SearchForm />
 
-                    {/* SEO Informational Section - M3 Outlined Cards */}
+                    {/* SEO Informational Section - Material Design 3 Soft Cards */}
                     <section aria-label="About TLD Finder & Domain Search" className="pt-8 space-y-6">
                         <div className="flex items-center gap-2 text-foreground">
                             <MaterialIcon name="info" className="text-[20px] text-primary" />
                             <h2 className="text-lg font-bold tracking-tight">About Top-Level Domain Extensions &amp; Registry Operators</h2>
                         </div>
                         
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-                            <div className="bg-surface-container-low border border-outline-variant/60 rounded-3xl p-6 space-y-2.5 shadow-xs transition-all duration-300">
-                                <h3 className="font-bold text-foreground text-sm tracking-wide">
-                                    Generic &amp; Country Code TLDs
-                                </h3>
-                                <p className="text-xs text-muted-foreground leading-relaxed">
-                                    The Internet Assigned Numbers Authority (IANA) manages over 1,500 top-level domains (TLDs) in the Root Zone.
-                                    These include generic TLDs (gTLDs like <code className="text-foreground font-mono bg-surface-container-high px-1.5 py-0.5 rounded-md">.com</code>, <code className="text-foreground font-mono bg-surface-container-high px-1.5 py-0.5 rounded-md">.dev</code>, <code className="text-foreground font-mono bg-surface-container-high px-1.5 py-0.5 rounded-md">.app</code>), country-code TLDs (ccTLDs like <code className="text-foreground font-mono bg-surface-container-high px-1.5 py-0.5 rounded-md">.id</code>, <code className="text-foreground font-mono bg-surface-container-high px-1.5 py-0.5 rounded-md">.uk</code>, <code className="text-foreground font-mono bg-surface-container-high px-1.5 py-0.5 rounded-md">.jp</code>), and sponsored TLDs (sTLDs like <code className="text-foreground font-mono bg-surface-container-high px-1.5 py-0.5 rounded-md">.edu</code>, <code className="text-foreground font-mono bg-surface-container-high px-1.5 py-0.5 rounded-md">.gov</code>).
-                                </p>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="bg-surface-container-low hover:bg-surface-container rounded-3xl p-6 sm:p-7 space-y-3 shadow-xs hover:shadow-elevation-1 transition-all duration-300">
+                                <div className="flex items-start justify-between gap-4">
+                                    <div className="space-y-1.5 flex-1">
+                                        <h3 className="font-bold text-foreground text-base tracking-tight">
+                                            Generic &amp; Country Code TLDs
+                                        </h3>
+                                        <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                                            The Internet Assigned Numbers Authority (IANA) manages over 1,500 top-level domains (TLDs) in the Root Zone.
+                                            These include generic TLDs (gTLDs like <code className="text-foreground font-mono bg-surface-container-high px-1.5 py-0.5 rounded-md">.com</code>, <code className="text-foreground font-mono bg-surface-container-high px-1.5 py-0.5 rounded-md">.dev</code>, <code className="text-foreground font-mono bg-surface-container-high px-1.5 py-0.5 rounded-md">.app</code>), country-code TLDs (ccTLDs like <code className="text-foreground font-mono bg-surface-container-high px-1.5 py-0.5 rounded-md">.id</code>, <code className="text-foreground font-mono bg-surface-container-high px-1.5 py-0.5 rounded-md">.uk</code>, <code className="text-foreground font-mono bg-surface-container-high px-1.5 py-0.5 rounded-md">.jp</code>), and sponsored TLDs (sTLDs like <code className="text-foreground font-mono bg-surface-container-high px-1.5 py-0.5 rounded-md">.edu</code>, <code className="text-foreground font-mono bg-surface-container-high px-1.5 py-0.5 rounded-md">.gov</code>).
+                                        </p>
+                                    </div>
+                                    <div className="h-10 w-10 rounded-2xl bg-surface-container-highest/70 dark:bg-surface-container-high text-foreground flex items-center justify-center shrink-0 shadow-xs">
+                                        <MaterialIcon name="category" className="text-[20px] text-primary" />
+                                    </div>
+                                </div>
                             </div>
                             
-                            <div className="bg-surface-container-low border border-outline-variant/60 rounded-3xl p-6 space-y-2.5 shadow-xs transition-all duration-300">
-                                <h3 className="font-bold text-foreground text-sm tracking-wide">
-                                    Live WHOIS &amp; RDAP Lookups
-                                </h3>
-                                <p className="text-xs text-muted-foreground leading-relaxed">
-                                    Perform domain lookups using traditional port 43 WHOIS or RESTful JSON Registration Data Access Protocol (RDAP) to verify domain availability, creation dates, expiration dates, DNS nameservers, and registrar organization details.
-                                </p>
+                            <div className="bg-surface-container-low hover:bg-surface-container rounded-3xl p-6 sm:p-7 space-y-3 shadow-xs hover:shadow-elevation-1 transition-all duration-300">
+                                <div className="flex items-start justify-between gap-4">
+                                    <div className="space-y-1.5 flex-1">
+                                        <h3 className="font-bold text-foreground text-base tracking-tight">
+                                            Live WHOIS &amp; RDAP Lookups
+                                        </h3>
+                                        <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                                            Perform domain lookups using traditional port 43 WHOIS or RESTful JSON Registration Data Access Protocol (RDAP) to verify domain availability, creation dates, expiration dates, DNS nameservers, and registrar organization details.
+                                        </p>
+                                    </div>
+                                    <div className="h-10 w-10 rounded-2xl bg-surface-container-highest/70 dark:bg-surface-container-high text-foreground flex items-center justify-center shrink-0 shadow-xs">
+                                        <MaterialIcon name="travel_explore" className="text-[20px] text-primary" />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </section>
                 </div>
             </main>
 
-            {/* M3 Footer */}
-            <footer className="border-t border-outline-variant/40 bg-surface-container-lowest/50 dark:bg-surface-container-low/50 py-6 text-xs text-muted-foreground transition-colors duration-300">
-                <div className="container mx-auto px-4 sm:px-6 max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <p>© {new Date().getFullYear()} TLD Finder — Explore IANA Root Zone Extensions &amp; Registry Managers</p>
-                    <div className="flex items-center gap-5 font-medium">
-                        <a href="https://www.iana.org/domains/root/db" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
-                            IANA Database
-                        </a>
-                        <a href="https://rdap.org" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
-                            RDAP Protocol
-                        </a>
-                    </div>
-                </div>
-            </footer>
+            {/* Material Design 3 Footer */}
+            <SiteFooter />
         </div>
     )
 }
