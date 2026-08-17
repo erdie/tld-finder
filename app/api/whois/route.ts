@@ -32,7 +32,11 @@ export async function GET(request: Request) {
             try {
                 console.log(`[RDAP] Querying RDAP for domain: ${domain}`);
                 const rdapResult = await queryRdap(domain);
-                return NextResponse.json(rdapResult);
+                return NextResponse.json(rdapResult, {
+                    headers: {
+                        "Cache-Control": "public, max-age=120, s-maxage=300, stale-while-revalidate=1800",
+                    },
+                });
             } catch (rdapErr: any) {
                 console.warn(`[RDAP] Failed or unavailable for ${domain}: ${rdapErr.message}`);
                 if (protocol === "rdap") {
@@ -123,6 +127,10 @@ export async function GET(request: Request) {
                 status: getSingleOrArray(parsed["Domain Status"] || parsed["Status"]),
             },
             raw: rawText
+        }, {
+            headers: {
+                "Cache-Control": "public, max-age=120, s-maxage=300, stale-while-revalidate=1800",
+            },
         });
     } catch (error: any) {
         console.error("[WHOIS/RDAP API Error]:", error);

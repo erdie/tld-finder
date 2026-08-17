@@ -60,6 +60,10 @@ export async function GET(request: Request) {
         })
     }
 
-    return NextResponse.json(results)
+    return NextResponse.json(results, {
+        headers: {
+            "Cache-Control": "public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800",
+        },
+    })
 }
 

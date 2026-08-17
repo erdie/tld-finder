@@ -1,28 +1,19 @@
 import "@/app/globals.css"
-import "material-symbols/rounded.css"
-import { Google_Sans_Flex, Google_Sans_Code } from 'next/font/google'
 import { ThemeProvider } from "@/components/theme-provider"
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import { getBaseUrl } from "@/lib/site-config"
 
-const googleSans = Google_Sans_Flex({
-    subsets: ["latin"],
-    variable: "--font-google-sans",
-    display: "swap",
-    fallback: ["-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
-})
-
-const googleSansCode = Google_Sans_Code({
-    subsets: ["latin"],
-    variable: "--font-mono",
-    display: "swap",
-    fallback: ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "monospace"],
-})
-
-
-
-
 const baseUrl = getBaseUrl();
+
+export const viewport: Viewport = {
+    themeColor: [
+        { media: "(prefers-color-scheme: light)", color: "#f6faf6" },
+        { media: "(prefers-color-scheme: dark)", color: "#101511" },
+    ],
+    width: "device-width",
+    initialScale: 1,
+    colorScheme: "dark light",
+};
 
 export const metadata: Metadata = {
     metadataBase: new URL(baseUrl),
@@ -67,11 +58,20 @@ export const metadata: Metadata = {
         title: "TLD Finder - Search Top-Level Domains, Registry Managers & WHOIS",
         description: "Explore 1,500+ IANA top-level domains, discover registry managers, generate domain hacks, and run live WHOIS/RDAP lookups.",
         siteName: "TLD Finder",
+        images: [
+            {
+                url: `${baseUrl}/og-image.png`,
+                width: 1200,
+                height: 630,
+                alt: "TLD Finder - Top-Level Domain Registry Explorer & WHOIS Lookup",
+            },
+        ],
     },
     twitter: {
         card: "summary_large_image",
         title: "TLD Finder - Search Top-Level Domains & WHOIS",
         description: "Discover registry operators, generate domain hacks, and run live WHOIS/RDAP lookups.",
+        images: [`${baseUrl}/og-image.png`],
     },
 }
 
@@ -94,6 +94,13 @@ const jsonLd = [
         "applicationCategory": "UtilitiesApplication",
         "operatingSystem": "All",
         "description": "Interactive search engine for 1,500+ IANA top-level domains, TLD registry managers, WHOIS/RDAP records, and domain hacks."
+    },
+    {
+        "@context": "https://schema.org",
+        "@type": "DataCatalog",
+        "name": "IANA Root Zone Database",
+        "description": "Comprehensive delegation records, registry operators, and contact details for all active top-level domains.",
+        "url": "https://www.iana.org/domains/root/db"
     }
 ]
 
@@ -105,12 +112,29 @@ export default function RootLayout({
     return (
         <html lang="en" className="dark" suppressHydrationWarning>
             <head>
+                <link
+                    rel="preload"
+                    href="/fonts/material-symbols-rounded.woff2"
+                    as="font"
+                    type="font/woff2"
+                    crossOrigin="anonymous"
+                />
+                <link rel="preconnect" href="https://fonts.googleapis.com" />
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+                <link
+                    rel="stylesheet"
+                    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block"
+                />
+                <link
+                    rel="stylesheet"
+                    href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400..700&family=Google+Sans+Code:wght@400..700&display=swap"
+                />
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
                 />
             </head>
-            <body className={`${googleSans.className} ${googleSans.variable} ${googleSansCode.variable}`} suppressHydrationWarning>
+            <body className="font-sans antialiased" suppressHydrationWarning>
                 <ThemeProvider
                     attribute="class"
                     defaultTheme="dark"

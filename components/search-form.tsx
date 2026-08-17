@@ -27,6 +27,64 @@ function isDomainQuery(q: string): boolean {
     return clean.includes(".") && clean.split(".").filter(Boolean).length >= 2;
 }
 
+function filterTlds(
+    allTlds: TLD[],
+    query: string,
+    type: string,
+    assignment: string,
+    byExtensions: boolean,
+    byManagers: boolean
+): TLD[] {
+    const trimmedQuery = query.trim().toLowerCase();
+    const isExtensionOnly = trimmedQuery.startsWith(".") || (byExtensions && !byManagers);
+
+    const filtered = allTlds.filter((tld) => {
+        const matchesType = type && type !== "all" ? tld.type.toLowerCase() === type.toLowerCase() : true;
+
+        let matchesAssignment = true;
+        const isNotAssigned = tld.tldManager.toLowerCase() === "not assigned";
+        if (assignment === "assigned") {
+            matchesAssignment = !isNotAssigned;
+        } else if (assignment === "unassigned") {
+            matchesAssignment = isNotAssigned;
+        }
+
+        let matchesQuery = true;
+        if (trimmedQuery) {
+            if (isExtensionOnly) {
+                matchesQuery = tld.domain.toLowerCase().includes(trimmedQuery);
+            } else if (byManagers) {
+                matchesQuery = tld.tldManager.toLowerCase().includes(trimmedQuery);
+            } else {
+                matchesQuery =
+                    tld.domain.toLowerCase().includes(trimmedQuery) ||
+                    tld.tldManager.toLowerCase().includes(trimmedQuery);
+            }
+        }
+
+        return matchesType && matchesAssignment && matchesQuery;
+    });
+
+    if (trimmedQuery) {
+        filtered.sort((a, b) => {
+            const aDom = a.domain.toLowerCase();
+            const bDom = b.domain.toLowerCase();
+
+            if (aDom === trimmedQuery && bDom !== trimmedQuery) return -1;
+            if (bDom === trimmedQuery && aDom !== trimmedQuery) return 1;
+
+            const aStarts = aDom.startsWith(trimmedQuery);
+            const bStarts = bDom.startsWith(trimmedQuery);
+            if (aStarts && !bStarts) return -1;
+            if (!aStarts && bStarts) return 1;
+
+            return aDom.length - bDom.length;
+        });
+    }
+
+    return filtered;
+}
+
 export function SearchForm() {
     const [query, setQuery] = React.useState("")
     const [type, setType] = React.useState("all")
@@ -34,8 +92,8 @@ export function SearchForm() {
     const [protocol, setProtocol] = React.useState<"auto" | "rdap" | "whois">("auto")
     const [byExtensions, setByExtensions] = React.useState(false)
     const [byManagers, setByManagers] = React.useState(false)
-    const [isLoading, setIsLoading] = React.useState(true)
-    const [results, setResults] = React.useState<TLD[]>([])
+    const [isLoading, setIsLoading] = React.useState(false)
+    const [results, setResults] = React.useState<TLD[]>(() => filterTlds(tlds, "", "all", "all", false, false))
     const [domainHacks, setDomainHacks] = React.useState<DomainHack[]>([])
     const [showAdvanced, setShowAdvanced] = React.useState(false)
 
@@ -78,7 +136,8 @@ export function SearchForm() {
         };
     }, []);
 
-    async function searchTlds() {
+    // Instant in-memory search for TLDs & debounced WHOIS for domain lookups
+    React.useEffect(() => {
         const trimmedQuery = query.trim();
 
         if (isDomainQuery(trimmedQuery)) {
@@ -97,83 +156,67 @@ export function SearchForm() {
                 }
             }
 
-            try {
-                const res = await fetch(`/api/whois?domain=${encodeURIComponent(targetDomain)}&protocol=${protocol}`);
-                const data = await res.json();
-                if (!res.ok) {
-                    throw new Error(data.error || data.details || "Failed to query WHOIS/RDAP information");
+            const timer = setTimeout(async () => {
+                try {
+                    const res = await fetch(`/api/whois?domain=${encodeURIComponent(targetDomain)}&protocol=${protocol}`);
+                    const data = await res.json();
+                    if (!res.ok) {
+                        throw new Error(data.error || data.details || "Failed to query WHOIS/RDAP information");
+                    }
+                    setWhoisResult(data);
+                } catch (err: any) {
+                    setWhoisError(err.message || "An unexpected error occurred during domain lookup.");
+                } finally {
+                    setIsLoading(false);
                 }
-                setWhoisResult(data);
-            } catch (err: any) {
-                setWhoisError(err.message || "An unexpected error occurred during domain lookup.");
-            } finally {
-                setIsLoading(false);
-            }
-            return;
+            }, 350);
+
+            return () => clearTimeout(timer);
         }
 
-        // TLD Search Mode or empty search
+        // Instant TLD Search Mode (0ms latency in-memory filtering)
         setIsWhoisMode(false);
         setWhoisResult(null);
         setWhoisError(null);
-        setIsLoading(true);
+        setIsLoading(false);
 
-        // Sync URL for TLD search mode
-        if (typeof window !== "undefined") {
-            const currentParams = new URLSearchParams(window.location.search);
-            let updated = false;
-
-            if (currentParams.has("domain")) {
-                currentParams.delete("domain");
-                updated = true;
-            }
-
-            if (trimmedQuery) {
-                if (currentParams.get("q") !== trimmedQuery) {
-                    currentParams.set("q", trimmedQuery);
-                    updated = true;
-                }
-            } else if (currentParams.has("q")) {
-                currentParams.delete("q");
-                updated = true;
-            }
-
-            if (updated) {
-                const searchStr = currentParams.toString();
-                const newUrl = `${window.location.pathname}${searchStr ? `?${searchStr}` : ""}`;
-                window.history.replaceState(null, '', newUrl);
-            }
-        }
+        const filtered = filterTlds(tlds, trimmedQuery, type, assignment, byExtensions, byManagers);
+        setResults(filtered);
 
         const hacks = generateDomainHacks(trimmedQuery);
         setDomainHacks(hacks);
 
-        try {
-            const params = new URLSearchParams({
-                q: trimmedQuery,
-                type: type !== "all" ? type : "",
-                assignment: assignment !== "all" ? assignment : "",
-                byExtensions: byExtensions.toString(),
-                byManagers: byManagers.toString()
-            })
-            const response = await fetch(`/api/tld?${params}`)
-            const data = await response.json()
-            setResults(data)
-        } catch (error) {
-            console.error("Error fetching TLDs:", error)
-        } finally {
-            setIsLoading(false)
-        }
-    }
+        // Debounced URL sync to avoid spamming history during fast typing
+        const urlTimer = setTimeout(() => {
+            if (typeof window !== "undefined") {
+                const currentParams = new URLSearchParams(window.location.search);
+                let updated = false;
 
-    // Debounce search
-    React.useEffect(() => {
-        const timer = setTimeout(() => {
-            searchTlds()
-        }, 300)
+                if (currentParams.has("domain")) {
+                    currentParams.delete("domain");
+                    updated = true;
+                }
 
-        return () => clearTimeout(timer)
-    }, [query, type, assignment, protocol, byExtensions, byManagers])
+                if (trimmedQuery) {
+                    if (currentParams.get("q") !== trimmedQuery) {
+                        currentParams.set("q", trimmedQuery);
+                        updated = true;
+                    }
+                } else if (currentParams.has("q")) {
+                    currentParams.delete("q");
+                    updated = true;
+                }
+
+                if (updated) {
+                    const searchStr = currentParams.toString();
+                    const newUrl = `${window.location.pathname}${searchStr ? `?${searchStr}` : ""}`;
+                    window.history.replaceState(null, '', newUrl);
+                }
+            }
+        }, 300);
+
+        return () => clearTimeout(urlTimer);
+    }, [query, type, assignment, protocol, byExtensions, byManagers]);
 
     const handleSelectHack = (hackDomain: string) => {
         setQuery(hackDomain);

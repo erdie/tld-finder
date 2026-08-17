@@ -40,8 +40,35 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
 }
 
 export default function Home() {
+    const baseUrl = getBaseUrl();
+    const homeJsonLd = {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "TLD Finder — Top-Level Domain Registry Directory & WHOIS Lookup",
+        "url": baseUrl,
+        "description": "Search and inspect 1,500+ top-level domain (TLD) extensions, explore delegation records, find registry managers, and run live WHOIS & RDAP queries.",
+        "mainEntity": {
+            "@type": "ItemList",
+            "name": "Featured Top-Level Domains",
+            "itemListElement": [
+                { "@type": "ListItem", "position": 1, "name": ".com", "url": `${baseUrl}/tld/com` },
+                { "@type": "ListItem", "position": 2, "name": ".org", "url": `${baseUrl}/tld/org` },
+                { "@type": "ListItem", "position": 3, "name": ".net", "url": `${baseUrl}/tld/net` },
+                { "@type": "ListItem", "position": 4, "name": ".ai", "url": `${baseUrl}/tld/ai` },
+                { "@type": "ListItem", "position": 5, "name": ".io", "url": `${baseUrl}/tld/io` },
+                { "@type": "ListItem", "position": 6, "name": ".dev", "url": `${baseUrl}/tld/dev` },
+                { "@type": "ListItem", "position": 7, "name": ".app", "url": `${baseUrl}/tld/app` },
+                { "@type": "ListItem", "position": 8, "name": ".id", "url": `${baseUrl}/tld/id` }
+            ]
+        }
+    };
+
     return (
         <div className="min-h-screen bg-background text-foreground flex flex-col justify-between selection:bg-primary/20 selection:text-primary">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(homeJsonLd) }}
+            />
             {/* Material 3 Top App Bar */}
             <header className="w-full bg-transparent transition-colors duration-300">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">

@@ -120,8 +120,8 @@ export default {
                 'm3-long2': '500ms',
             },
             fontFamily: {
-                sans: ["var(--font-google-sans)", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
-                mono: ["var(--font-mono)", "monospace"],
+                sans: ["'Google Sans Flex'", "'Google Sans'", "-apple-system", "BlinkMacSystemFont", "'Segoe UI'", "Roboto", "Helvetica", "Arial", "sans-serif"],
+                mono: ["'Google Sans Code'", "ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "'Liberation Mono'", "monospace"],
             },
             borderRadius: {
                 "m3-xs": "4px",

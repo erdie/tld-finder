@@ -489,25 +489,29 @@ export function TldList({
             return;
         }
         setIsLoadingMore(true);
-        setTimeout(() => {
-            const newItemsToLoad = Math.min(itemsToLoad + 10, results.length);
+        requestAnimationFrame(() => {
+            const newItemsToLoad = Math.min(itemsToLoad + 24, results.length);
             setVisibleTlds(results.slice(0, newItemsToLoad));
             setItemsToLoad(newItemsToLoad);
             setIsLoadingMore(false);
-        }, 500);
+            if (newItemsToLoad >= results.length) {
+                setAllItemsLoaded(true);
+            }
+        });
     }, [itemsToLoad, results, visibleTlds]);
 
     useEffect(() => {
-        setVisibleTlds(results.slice(0, 10));
-        setItemsToLoad(10);
-        setAllItemsLoaded(false);
+        const initialCount = Math.min(24, results.length);
+        setVisibleTlds(results.slice(0, initialCount));
+        setItemsToLoad(initialCount);
+        setAllItemsLoaded(initialCount >= results.length);
     }, [results, query]);
 
     useEffect(() => {
         const options = {
             root: null,
-            rootMargin: '20px',
-            threshold: 0.1
+            rootMargin: '200px',
+            threshold: 0.05
         };
 
         const handleIntersect = (entries: IntersectionObserverEntry[]) => {

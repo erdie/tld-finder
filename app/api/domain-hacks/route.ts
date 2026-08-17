@@ -11,7 +11,11 @@ export async function GET(request: Request) {
         }
 
         const hacks = generateDomainHacks(q);
-        return NextResponse.json(hacks);
+        return NextResponse.json(hacks, {
+            headers: {
+                "Cache-Control": "public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800",
+            },
+        });
     } catch (error: any) {
         console.error("[Domain Hacks API Error]:", error);
         return NextResponse.json(
