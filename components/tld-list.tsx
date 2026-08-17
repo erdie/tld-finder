@@ -40,38 +40,60 @@ const TldSkeleton = () => (
     </div>
 );
 
+export function WhoisSkeleton() {
+    return (
+        <div className="space-y-6 animate-pulse">
+            {/* Status Hero Card Skeleton */}
+            <div className="bg-surface-container-low rounded-3xl p-6 sm:p-8 space-y-5 shadow-xs">
+                <div className="flex items-center justify-between gap-4 flex-wrap">
+                    <div className="flex items-center gap-3.5">
+                        <div className="h-14 w-14 rounded-full bg-muted-foreground/20 shrink-0" />
+                        <div className="space-y-2">
+                            <div className="h-7 w-48 bg-muted-foreground/20 rounded-xl" />
+                            <div className="h-4 w-32 bg-muted-foreground/15 rounded-md" />
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <div className="h-8 w-24 bg-muted-foreground/15 rounded-full" />
+                        <div className="h-8 w-28 bg-muted-foreground/15 rounded-full" />
+                    </div>
+                </div>
+                <div className="h-11 w-full bg-muted-foreground/10 rounded-2xl" />
+            </div>
+
+            {/* Details 4-grid skeleton */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {[...Array(4)].map((_, i) => (
+                    <div key={i} className="bg-surface-container-low rounded-2xl p-5 space-y-3 shadow-xs">
+                        <div className="flex items-center justify-between">
+                            <div className="h-4 w-28 bg-muted-foreground/20 rounded-md" />
+                            <div className="h-4 w-4 bg-muted-foreground/15 rounded-full" />
+                        </div>
+                        <div className="h-6 w-4/5 bg-muted-foreground/15 rounded-lg" />
+                        <div className="h-3 w-1/2 bg-muted-foreground/10 rounded-md" />
+                    </div>
+                ))}
+            </div>
+
+            {/* Nameservers & Raw tabs Skeleton */}
+            <div className="bg-surface-container-low rounded-2xl p-5 space-y-3 shadow-xs">
+                <div className="h-4 w-36 bg-muted-foreground/20 rounded-md" />
+                <div className="flex flex-wrap gap-2">
+                    <div className="h-6 w-32 bg-muted-foreground/15 rounded-md" />
+                    <div className="h-6 w-36 bg-muted-foreground/15 rounded-md" />
+                    <div className="h-6 w-28 bg-muted-foreground/15 rounded-md" />
+                </div>
+            </div>
+        </div>
+    );
+}
+
 function WhoisDisplay({ result, error, isLoading }: { result: any; error: string | null; isLoading: boolean }) {
     const [activeTab, setActiveTab] = useState<'summary' | 'raw'>('summary');
     const [copied, setCopied] = useState(false);
 
     if (isLoading) {
-        return (
-            <div className="space-y-6 animate-pulse">
-                {/* Status Hero Card Skeleton */}
-                <div className="bg-surface-container-low rounded-3xl p-6 sm:p-8 space-y-5 shadow-xs">
-                    <div className="flex items-center justify-between gap-4 flex-wrap">
-                        <div className="flex items-center gap-3.5">
-                            <div className="h-12 w-12 rounded-full bg-muted-foreground/20 shrink-0" />
-                            <div className="space-y-2">
-                                <div className="h-7 w-40 bg-muted-foreground/20 rounded-xl" />
-                                <div className="h-4 w-28 bg-muted-foreground/15 rounded-md" />
-                            </div>
-                        </div>
-                        <div className="h-7 w-24 bg-muted-foreground/15 rounded-full" />
-                    </div>
-                    <div className="h-10 w-full bg-muted-foreground/10 rounded-2xl" />
-                </div>
-                {/* Details 4-grid skeleton */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {[...Array(4)].map((_, i) => (
-                        <div key={i} className="bg-surface-container-low rounded-2xl p-5 space-y-2.5 shadow-xs">
-                            <div className="h-4 w-24 bg-muted-foreground/20 rounded-md" />
-                            <div className="h-6 w-3/4 bg-muted-foreground/15 rounded-lg" />
-                        </div>
-                    ))}
-                </div>
-            </div>
-        );
+        return <WhoisSkeleton />;
     }
 
     if (error) {
@@ -437,13 +459,20 @@ export function TldList({
     whoisResult = null,
     whoisError = null
 }: TldListProps) {
+    const INITIAL_COUNT = 10;
     const [aiInfo, setAiInfo] = useState<{ [key: string]: { text: string, loading: boolean } }>({});
-    const [visibleTlds, setVisibleTlds] = useState<TLD[]>([]);
-    const [itemsToLoad, setItemsToLoad] = useState(10);
+    const [pageCount, setPageCount] = useState(1);
     const [isLoadingMore, setIsLoadingMore] = useState(false);
-    const [allItemsLoaded, setAllItemsLoaded] = useState(false);
     const observer = useRef<IntersectionObserver | null>(null);
     const loadMoreRef = useRef<HTMLDivElement>(null);
+
+    // Reset pagination to first page when results or query change
+    useEffect(() => {
+        setPageCount(1);
+    }, [results, query]);
+
+    const visibleTlds = results.slice(0, pageCount * INITIAL_COUNT);
+    const allItemsLoaded = visibleTlds.length >= results.length;
 
     const getBadgeStyles = (type: string) => {
         switch (type.toLowerCase()) {
@@ -484,28 +513,13 @@ export function TldList({
     };
 
     const loadMoreCallback = useCallback(() => {
-        if (visibleTlds.length >= results.length) {
-            setAllItemsLoaded(true);
-            return;
-        }
+        if (allItemsLoaded || isLoadingMore) return;
         setIsLoadingMore(true);
         requestAnimationFrame(() => {
-            const newItemsToLoad = Math.min(itemsToLoad + 24, results.length);
-            setVisibleTlds(results.slice(0, newItemsToLoad));
-            setItemsToLoad(newItemsToLoad);
+            setPageCount(prev => prev + 1);
             setIsLoadingMore(false);
-            if (newItemsToLoad >= results.length) {
-                setAllItemsLoaded(true);
-            }
         });
-    }, [itemsToLoad, results, visibleTlds]);
-
-    useEffect(() => {
-        const initialCount = Math.min(24, results.length);
-        setVisibleTlds(results.slice(0, initialCount));
-        setItemsToLoad(initialCount);
-        setAllItemsLoaded(initialCount >= results.length);
-    }, [results, query]);
+    }, [allItemsLoaded, isLoadingMore]);
 
     useEffect(() => {
         const options = {
@@ -544,7 +558,7 @@ export function TldList({
         );
     }
 
-    if (isLoading) {
+    if (isLoading && !visibleTlds.length) {
         return (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {[...Array(6)].map((_, i) => (
@@ -640,14 +654,7 @@ export function TldList({
                     </div>
                 );
             })}
-            {!allItemsLoaded && isLoadingMore && (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 col-span-1 md:col-span-2">
-                    {[...Array(4)].map((_, i) => (
-                        <TldSkeleton key={i} />
-                    ))}
-                </div>
-            )}
-            <div ref={loadMoreRef} className="col-span-1 md:col-span-2"></div>
+            <div ref={loadMoreRef} className="col-span-1 md:col-span-2 h-4"></div>
         </div>
     );
 }

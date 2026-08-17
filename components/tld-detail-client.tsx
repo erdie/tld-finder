@@ -5,6 +5,7 @@ import { MaterialIcon } from "@/components/ui/material-icon";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { WhoisSkeleton } from "@/components/tld-list";
 
 function createGoogleCalendarUrl(domainName: string, expiryDateStr: string | null, registrar?: string): string {
     let datesParam = '';
@@ -282,8 +283,15 @@ export function TldDetailClient({ domain, whoisServer, rdapServer }: TldDetailCl
                     </div>
                 )}
 
+                {/* Loading Skeleton */}
+                {isLoading && (
+                    <div className="pt-4 border-t border-outline-variant/40">
+                        <WhoisSkeleton />
+                    </div>
+                )}
+
                 {/* Results Display */}
-                {whoisResult && (
+                {!isLoading && whoisResult && (
                     <div className="space-y-6 pt-4 border-t border-outline-variant/40 animate-fade-in">
                         {!whoisResult.isRegistered ? (
                             /* Available Domain Hero Card */

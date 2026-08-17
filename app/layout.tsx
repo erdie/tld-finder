@@ -112,6 +112,7 @@ export default function RootLayout({
     return (
         <html lang="en" className="dark" suppressHydrationWarning>
             <head>
+                {/* High Priority Font Preload */}
                 <link
                     rel="preload"
                     href="/fonts/material-symbols-rounded.woff2"
@@ -119,8 +120,13 @@ export default function RootLayout({
                     type="font/woff2"
                     crossOrigin="anonymous"
                 />
+
+                {/* Google Fonts Preconnect & DNS-Prefetch */}
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+                <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+                <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+
                 <link
                     rel="stylesheet"
                     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block"

@@ -4,7 +4,7 @@ import * as React from "react"
 import type { TLD } from "@/data/tlds"
 import { tlds } from "@/data/tlds"
 import { TldList } from "@/components/tld-list"
-import { DomainHacks } from "@/components/domain-hacks"
+import { DomainHacks, DomainHacksSkeleton } from "@/components/domain-hacks"
 import { generateDomainHacks, type DomainHack } from "@/lib/domain-hacks"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -93,14 +93,26 @@ export function SearchForm() {
     const [byExtensions, setByExtensions] = React.useState(false)
     const [byManagers, setByManagers] = React.useState(false)
     const [isLoading, setIsLoading] = React.useState(false)
-    const [results, setResults] = React.useState<TLD[]>(() => filterTlds(tlds, "", "all", "all", false, false))
-    const [domainHacks, setDomainHacks] = React.useState<DomainHack[]>([])
     const [showAdvanced, setShowAdvanced] = React.useState(false)
 
     // Lookup / WHOIS / RDAP States
     const [isWhoisMode, setIsWhoisMode] = React.useState(false)
     const [whoisResult, setWhoisResult] = React.useState<any>(null)
     const [whoisError, setWhoisError] = React.useState<string | null>(null)
+
+    const trimmedQuery = query.trim();
+    const isDomainSearch = isDomainQuery(trimmedQuery);
+
+    // Synchronous 0ms computed results & hacks on the exact same render frame
+    const results = React.useMemo(() => {
+        if (isDomainSearch) return [];
+        return filterTlds(tlds, trimmedQuery, type, assignment, byExtensions, byManagers);
+    }, [trimmedQuery, type, assignment, byExtensions, byManagers, isDomainSearch]);
+
+    const domainHacks = React.useMemo(() => {
+        if (isDomainSearch || !trimmedQuery) return [];
+        return generateDomainHacks(trimmedQuery);
+    }, [trimmedQuery, isDomainSearch]);
 
     // Precomputed TLD category counts for live filter options
     const totalTldsCount = tlds.length;
@@ -136,12 +148,12 @@ export function SearchForm() {
         };
     }, []);
 
-    // Instant in-memory search for TLDs & debounced WHOIS for domain lookups
+    // WHOIS / RDAP async fetch & URL synchronization
     React.useEffect(() => {
-        const trimmedQuery = query.trim();
+        const trimmed = query.trim();
 
-        if (isDomainQuery(trimmedQuery)) {
-            const targetDomain = cleanDomainInput(trimmedQuery);
+        if (isDomainQuery(trimmed)) {
+            const targetDomain = cleanDomainInput(trimmed);
             setIsWhoisMode(true);
             setIsLoading(true);
             setWhoisResult(null);
@@ -174,17 +186,11 @@ export function SearchForm() {
             return () => clearTimeout(timer);
         }
 
-        // Instant TLD Search Mode (0ms latency in-memory filtering)
+        // Instant TLD Search Mode
         setIsWhoisMode(false);
         setWhoisResult(null);
         setWhoisError(null);
         setIsLoading(false);
-
-        const filtered = filterTlds(tlds, trimmedQuery, type, assignment, byExtensions, byManagers);
-        setResults(filtered);
-
-        const hacks = generateDomainHacks(trimmedQuery);
-        setDomainHacks(hacks);
 
         // Debounced URL sync to avoid spamming history during fast typing
         const urlTimer = setTimeout(() => {
@@ -197,9 +203,9 @@ export function SearchForm() {
                     updated = true;
                 }
 
-                if (trimmedQuery) {
-                    if (currentParams.get("q") !== trimmedQuery) {
-                        currentParams.set("q", trimmedQuery);
+                if (trimmed) {
+                    if (currentParams.get("q") !== trimmed) {
+                        currentParams.set("q", trimmed);
                         updated = true;
                     }
                 } else if (currentParams.has("q")) {
@@ -213,10 +219,10 @@ export function SearchForm() {
                     window.history.replaceState(null, '', newUrl);
                 }
             }
-        }, 300);
+        }, 200);
 
         return () => clearTimeout(urlTimer);
-    }, [query, type, assignment, protocol, byExtensions, byManagers]);
+    }, [query, protocol]);
 
     const handleSelectHack = (hackDomain: string) => {
         setQuery(hackDomain);

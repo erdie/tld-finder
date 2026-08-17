@@ -9,11 +9,61 @@ interface DomainHacksProps {
     hacks: DomainHack[];
     query: string;
     onSelectHack: (domain: string) => void;
+    isLoading?: boolean;
 }
 
-export function DomainHacks({ hacks, query, onSelectHack }: DomainHacksProps) {
+export function DomainHacksSkeleton() {
+    return (
+        <div className="bg-surface-container-low rounded-3xl p-6 shadow-elevation-1 space-y-5 animate-pulse transition-all duration-300">
+            {/* Header Skeleton */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-surface-container-highest/60">
+                <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 rounded-2xl bg-muted-foreground/15 shrink-0" />
+                    <div className="space-y-2">
+                        <div className="h-5 w-36 bg-muted-foreground/20 rounded-md" />
+                        <div className="h-3.5 w-52 bg-muted-foreground/15 rounded-md" />
+                    </div>
+                </div>
+                {/* Filter Chips Skeleton */}
+                <div className="flex items-center gap-1.5 flex-wrap">
+                    <div className="h-7 w-16 bg-muted-foreground/15 rounded-full" />
+                    <div className="h-7 w-20 bg-muted-foreground/15 rounded-full" />
+                    <div className="h-7 w-18 bg-muted-foreground/15 rounded-full" />
+                </div>
+            </div>
+
+            {/* Hacks Cards Grid Skeleton */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                {[...Array(6)].map((_, i) => (
+                    <div
+                        key={i}
+                        className="bg-surface-container rounded-2xl p-4 flex flex-col justify-between space-y-4 shadow-xs"
+                    >
+                        <div className="space-y-2.5">
+                            <div className="flex items-center justify-between gap-2">
+                                <div className="h-5 w-28 bg-muted-foreground/20 rounded-md" />
+                                <div className="h-4 w-12 bg-muted-foreground/15 rounded-full" />
+                            </div>
+                            <div className="h-3.5 w-3/4 bg-muted-foreground/15 rounded-md" />
+                        </div>
+                        <div className="pt-3 border-t border-surface-container-highest/60 flex items-center justify-between gap-2">
+                            <div className="h-6 w-24 bg-muted-foreground/15 rounded-full" />
+                            <div className="h-6 w-14 bg-muted-foreground/10 rounded-full" />
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+}
+
+export function DomainHacks({ hacks, query, onSelectHack, isLoading = false }: DomainHacksProps) {
     const [filterType, setFilterType] = useState<"all" | "direct" | "path" | "subdomain">("all");
     const [copiedId, setCopiedId] = useState<string | null>(null);
+
+    if (isLoading) {
+        return <DomainHacksSkeleton />;
+    }
 
     if (!hacks || hacks.length === 0) return null;
 
