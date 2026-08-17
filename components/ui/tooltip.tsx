@@ -201,7 +201,7 @@ const TooltipContent = React.forwardRef<HTMLDivElement, TooltipContentProps>(
                 role="tooltip"
                 style={{ ...posStyle, ...style }}
                 className={cn(
-                    "z-50 overflow-hidden rounded-xl border border-outline-variant/40 bg-inverse-surface text-inverse-on-surface px-3.5 py-2 text-xs shadow-elevation-2 backdrop-blur-md pointer-events-none animate-scale-in transition-all duration-150 ease-m3-standard leading-relaxed max-w-xs",
+                    "z-50 overflow-hidden rounded-xl border border-outline-variant/40 bg-inverse-surface text-inverse-on-surface px-3.5 py-2 text-xs shadow-elevation-2 backdrop-blur-md pointer-events-none animate-scale-in ease-m3-standard leading-relaxed max-w-xs",
                     className
                 )}
                 {...props}
