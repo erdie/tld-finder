@@ -3,7 +3,6 @@
 import * as React from "react"
 import type { TLD } from "@/data/tlds"
 import { tlds } from "@/data/tlds"
-import { Input } from "@/components/ui/input"
 import { TldList } from "@/components/tld-list"
 import { DomainHacks } from "@/components/domain-hacks"
 import { generateDomainHacks, type DomainHack } from "@/lib/domain-hacks"
