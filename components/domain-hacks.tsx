@@ -33,9 +33,9 @@ export function DomainHacks({ hacks, query, onSelectHack }: DomainHacksProps) {
     };
 
     return (
-        <div className="bg-surface-container-low border border-outline-variant/60 rounded-3xl p-6 shadow-elevation-1 space-y-5 animate-fade-in transition-all duration-300">
+        <div className="bg-surface-container-low rounded-3xl p-6 shadow-elevation-1 space-y-5 animate-fade-in transition-all duration-300">
             {/* Header */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-outline-variant/40">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-surface-container-highest/60">
                 <div className="flex items-center gap-3">
                     <div className="p-2.5 rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
                         <MaterialIcon name="content_cut" className="text-[20px]" />
@@ -43,7 +43,7 @@ export function DomainHacks({ hacks, query, onSelectHack }: DomainHacksProps) {
                     <div>
                         <h3 className="text-lg font-bold tracking-tight text-foreground flex items-center gap-2">
                             Domain Hacks
-                            <Badge variant="secondary" className="bg-secondary text-secondary-foreground border border-outline-variant/40 text-xs rounded-full px-2.5 py-0.5 font-mono">
+                            <Badge variant="secondary" className="bg-secondary text-secondary-foreground text-xs rounded-full px-2.5 py-0.5 font-mono border-none">
                                 {hacks.length} {hacks.length === 1 ? 'hack' : 'hacks'}
                             </Badge>
                         </h3>
@@ -56,10 +56,10 @@ export function DomainHacks({ hacks, query, onSelectHack }: DomainHacksProps) {
                 {/* Filter Chips */}
                 <div className="flex items-center gap-1.5 flex-wrap">
                     <button
-                        className={`text-xs px-3.5 py-1.5 rounded-full font-medium transition-all duration-200 ease-m3-standard active:scale-95 cursor-pointer border ${
+                        className={`text-xs px-3.5 py-1.5 rounded-full font-medium transition-all duration-200 ease-m3-standard active:scale-95 cursor-pointer ${
                             filterType === "all"
-                                ? "bg-secondary text-secondary-foreground border-outline-variant shadow-xs font-semibold"
-                                : "bg-surface-container-lowest/80 dark:bg-surface-container-high border-outline-variant/40 text-muted-foreground hover:text-foreground"
+                                ? "bg-secondary text-secondary-foreground shadow-xs font-semibold"
+                                : "bg-surface-container hover:bg-surface-container-high text-muted-foreground hover:text-foreground"
                         }`}
                         onClick={() => setFilterType("all")}
                     >
@@ -67,10 +67,10 @@ export function DomainHacks({ hacks, query, onSelectHack }: DomainHacksProps) {
                     </button>
                     {directCount > 0 && (
                         <button
-                            className={`text-xs px-3.5 py-1.5 rounded-full font-medium transition-all duration-200 ease-m3-standard active:scale-95 cursor-pointer border ${
+                            className={`text-xs px-3.5 py-1.5 rounded-full font-medium transition-all duration-200 ease-m3-standard active:scale-95 cursor-pointer ${
                                 filterType === "direct"
-                                ? "bg-secondary text-secondary-foreground border-outline-variant shadow-xs font-semibold"
-                                : "bg-surface-container-lowest/80 dark:bg-surface-container-high border-outline-variant/40 text-muted-foreground hover:text-foreground"
+                                ? "bg-secondary text-secondary-foreground shadow-xs font-semibold"
+                                : "bg-surface-container hover:bg-surface-container-high text-muted-foreground hover:text-foreground"
                             }`}
                             onClick={() => setFilterType("direct")}
                         >
@@ -79,10 +79,10 @@ export function DomainHacks({ hacks, query, onSelectHack }: DomainHacksProps) {
                     )}
                     {pathCount > 0 && (
                         <button
-                            className={`text-xs px-3.5 py-1.5 rounded-full font-medium transition-all duration-200 ease-m3-standard active:scale-95 cursor-pointer border ${
+                            className={`text-xs px-3.5 py-1.5 rounded-full font-medium transition-all duration-200 ease-m3-standard active:scale-95 cursor-pointer ${
                                 filterType === "path"
-                                ? "bg-secondary text-secondary-foreground border-outline-variant shadow-xs font-semibold"
-                                : "bg-surface-container-lowest/80 dark:bg-surface-container-high border-outline-variant/40 text-muted-foreground hover:text-foreground"
+                                ? "bg-secondary text-secondary-foreground shadow-xs font-semibold"
+                                : "bg-surface-container hover:bg-surface-container-high text-muted-foreground hover:text-foreground"
                             }`}
                             onClick={() => setFilterType("path")}
                         >
@@ -91,10 +91,10 @@ export function DomainHacks({ hacks, query, onSelectHack }: DomainHacksProps) {
                     )}
                     {subCount > 0 && (
                         <button
-                            className={`text-xs px-3.5 py-1.5 rounded-full font-medium transition-all duration-200 ease-m3-standard active:scale-95 cursor-pointer border ${
+                            className={`text-xs px-3.5 py-1.5 rounded-full font-medium transition-all duration-200 ease-m3-standard active:scale-95 cursor-pointer ${
                                 filterType === "subdomain"
-                                ? "bg-secondary text-secondary-foreground border-outline-variant shadow-xs font-semibold"
-                                : "bg-surface-container-lowest/80 dark:bg-surface-container-high border-outline-variant/40 text-muted-foreground hover:text-foreground"
+                                ? "bg-secondary text-secondary-foreground shadow-xs font-semibold"
+                                : "bg-surface-container hover:bg-surface-container-high text-muted-foreground hover:text-foreground"
                             }`}
                             onClick={() => setFilterType("subdomain")}
                         >
@@ -113,7 +113,7 @@ export function DomainHacks({ hacks, query, onSelectHack }: DomainHacksProps) {
                     return (
                         <div
                             key={hack.id}
-                            className="group relative border border-outline-variant/50 hover:border-primary/50 bg-surface-container-lowest dark:bg-surface-container rounded-2xl p-4 flex flex-col justify-between transition-all duration-200 ease-m3-standard hover:shadow-elevation-1 hover:-translate-y-0.5 active:scale-[0.98] cursor-pointer shadow-xs"
+                            className="group relative bg-surface-container hover:bg-surface-container-high rounded-2xl p-4 flex flex-col justify-between transition-all duration-200 ease-m3-standard hover:shadow-elevation-1 hover:-translate-y-0.5 active:scale-[0.98] cursor-pointer shadow-xs"
                             onClick={() => onSelectHack(hack.domain)}
                         >
                             <div className="space-y-2.5">
@@ -133,12 +133,12 @@ export function DomainHacks({ hacks, query, onSelectHack }: DomainHacksProps) {
                                     {/* Type badge */}
                                     <Badge
                                         variant="outline"
-                                        className={`text-[10px] uppercase font-mono px-2 py-0.5 rounded-full ${
+                                        className={`text-[10px] uppercase font-mono px-2 py-0.5 rounded-full border-none ${
                                             isDirect
-                                                ? "bg-m3-success-container text-m3-on-success-container border-m3-success/20 font-bold"
+                                                ? "bg-primary-container text-on-primary-container font-bold"
                                                 : isPath
-                                                ? "bg-secondary text-secondary-foreground border-outline-variant/40"
-                                                : "bg-m3-tertiary-container text-m3-on-tertiary-container border-m3-tertiary/20"
+                                                ? "bg-secondary text-secondary-foreground"
+                                                : "bg-tertiary-container text-on-tertiary-container"
                                         }`}
                                     >
                                         {hack.type}
@@ -155,7 +155,7 @@ export function DomainHacks({ hacks, query, onSelectHack }: DomainHacksProps) {
                             </div>
 
                             {/* Action Buttons */}
-                            <div className="pt-3 mt-3 border-t border-outline-variant/30 flex items-center justify-between gap-2">
+                            <div className="pt-3 mt-3 border-t border-surface-container-highest/60 flex items-center justify-between gap-2">
                                 <button
                                     className="text-xs h-7 text-primary hover:bg-primary/10 rounded-full gap-1.5 px-2.5 font-medium inline-flex items-center cursor-pointer transition-all duration-200 ease-m3-standard active:scale-95 no-underline"
                                     onClick={(e) => {
