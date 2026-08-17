@@ -195,17 +195,20 @@ const SelectTrigger = React.forwardRef<
 })
 SelectTrigger.displayName = "SelectTrigger"
 
+interface Coords {
+    top: number
+    left: number
+    width: number
+    isFlipped: boolean
+}
+
 const SelectContent = React.forwardRef<
     HTMLDivElement,
     React.HTMLAttributes<HTMLDivElement> & { position?: "popper" | "item-aligned" }
 >(({ className, children, position = "popper", style, ...props }, ref) => {
     const context = React.useContext(SelectContext)
     const [mounted, setMounted] = React.useState(false)
-    const [coords, setCoords] = React.useState<{ top: number; left: number; width: number }>({
-        top: 0,
-        left: 0,
-        width: 200,
-    })
+    const [coords, setCoords] = React.useState<Coords | null>(null)
 
     React.useEffect(() => {
         setMounted(true)
@@ -215,23 +218,30 @@ const SelectContent = React.forwardRef<
         if (!context?.triggerRef.current) return
         const rect = context.triggerRef.current.getBoundingClientRect()
         const viewportHeight = window.innerHeight
+        const viewportWidth = window.innerWidth
         const spaceBelow = viewportHeight - rect.bottom
-        const dropdownHeight = 260 // estimation for flip logic
+        const dropdownHeight = 240
+        const width = Math.max(rect.width, 180)
 
-        let top = rect.bottom + 6
-        if (spaceBelow < dropdownHeight && rect.top > dropdownHeight) {
-            top = rect.top - 6 - dropdownHeight
-        }
+        const isFlipped = spaceBelow < dropdownHeight && rect.top > dropdownHeight
+        const top = isFlipped ? Math.max(8, rect.top - 6 - dropdownHeight) : rect.bottom + 6
+
+        // Clamp horizontally so it stays within viewport bounds
+        const left = Math.max(12, Math.min(rect.left, viewportWidth - width - 12))
 
         setCoords({
             top,
-            left: rect.left,
-            width: Math.max(rect.width, 180),
+            left,
+            width,
+            isFlipped,
         })
     }, [context])
 
-    React.useEffect(() => {
-        if (!context?.open) return
+    React.useLayoutEffect(() => {
+        if (!context?.open) {
+            setCoords(null)
+            return
+        }
         updatePosition()
 
         window.addEventListener("resize", updatePosition)
@@ -243,7 +253,7 @@ const SelectContent = React.forwardRef<
         }
     }, [context?.open, updatePosition])
 
-    if (!mounted || !context?.open) return null
+    if (!mounted || !context?.open || !coords) return null
 
     return createPortal(
         <div
@@ -257,11 +267,13 @@ const SelectContent = React.forwardRef<
                 top: `${coords.top}px`,
                 left: `${coords.left}px`,
                 minWidth: `${coords.width}px`,
+                maxWidth: "calc(100vw - 24px)",
+                transformOrigin: coords.isFlipped ? "bottom left" : "top left",
                 zIndex: 9999,
                 ...style,
             }}
             className={cn(
-                "max-h-72 overflow-y-auto rounded-2xl border border-outline-variant/60 bg-surface-container-high dark:bg-surface-container-highest p-1.5 text-foreground shadow-elevation-2 backdrop-blur-md animate-scale-in transition-all duration-200 ease-m3-standard custom-scrollbar",
+                "max-h-72 overflow-y-auto rounded-2xl border border-outline-variant/60 bg-surface-container-high dark:bg-surface-container-highest p-1.5 text-foreground shadow-elevation-2 backdrop-blur-md animate-scale-in ease-m3-standard custom-scrollbar",
                 className
             )}
             {...props}
