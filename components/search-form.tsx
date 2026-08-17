@@ -191,9 +191,13 @@ export function SearchForm() {
                         id="tld-search-input"
                         type="text"
                         placeholder="Search TLD (e.g., .com), lookup domain (e.g., google.com), or keyword..."
-                        className="w-full bg-transparent border-0 text-foreground placeholder:text-muted-foreground text-sm sm:text-base font-normal focus:outline-hidden"
+                        className="w-full bg-transparent border-0 text-foreground placeholder:text-muted-foreground text-sm sm:text-base font-normal focus:outline-hidden focus:ring-0 shadow-none appearance-none"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
+                        autoComplete="off"
+                        autoCorrect="off"
+                        autoCapitalize="none"
+                        spellCheck={false}
                         aria-label="Search top-level domain or lookup domain"
                     />
 
@@ -234,7 +238,7 @@ export function SearchForm() {
 
                 {/* Domain Lookup Active M3 Notice Card */}
                 {isDomainQuery(query) && (
-                    <div className="flex flex-wrap items-center justify-between gap-3 bg-secondary text-secondary-foreground border border-outline-variant/40 px-4 py-3 rounded-2xl animate-shared-axis-y text-xs shadow-xs transition-all duration-300 ease-m3-emphasized">
+                    <div className="flex flex-wrap items-center justify-between gap-3 bg-secondary text-secondary-foreground px-4 py-3 rounded-2xl animate-shared-axis-y text-xs shadow-xs transition-all duration-300 ease-m3-emphasized">
                         <div className="flex items-center gap-2.5 font-mono">
                             <span className="h-2.5 w-2.5 rounded-full bg-primary animate-pulse" />
                             <span className="font-medium">
@@ -243,7 +247,7 @@ export function SearchForm() {
                         </div>
 
                         {/* M3 Segmented Buttons for Protocol Selection */}
-                        <div className="flex items-center gap-1 bg-surface-container-lowest/80 dark:bg-surface-container-low p-1 rounded-full border border-outline-variant/60 shadow-xs">
+                        <div className="flex items-center gap-1 bg-surface-container-lowest/80 dark:bg-surface-container-low p-1 rounded-full shadow-xs">
                             <button
                                 onClick={() => setProtocol("auto")}
                                 className={`px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 ease-m3-standard active:scale-95 cursor-pointer ${
@@ -280,12 +284,12 @@ export function SearchForm() {
 
                 {/* Filter Options Panel - M3 Elevated Sheet Card */}
                 {showAdvanced && (
-                    <div className="border border-outline-variant/60 rounded-3xl p-5 sm:p-6 bg-surface-container-low text-foreground shadow-elevation-1 animate-expand-container space-y-5 transition-all duration-300 ease-m3-emphasized">
-                        <div className="flex items-center justify-between border-b border-outline-variant/40 pb-3">
+                    <div className="rounded-3xl p-5 sm:p-6 bg-surface-container-low text-foreground shadow-elevation-1 animate-expand-container space-y-5 transition-all duration-300 ease-m3-emphasized">
+                        <div className="flex items-center justify-between border-b border-surface-container-highest/60 pb-3">
                             <span className="text-sm font-bold text-foreground flex items-center gap-2">
                                 <MaterialIcon name="tune" className="text-[18px] text-primary" /> Filter Options
                             </span>
-                            <Badge variant="secondary" className="font-mono text-xs bg-secondary text-secondary-foreground border border-outline-variant/40">
+                            <Badge variant="secondary" className="font-mono text-xs bg-secondary text-secondary-foreground">
                                 {isLoading ? "Counting..." : `${results.length} TLDs matching`}
                             </Badge>
                         </div>
