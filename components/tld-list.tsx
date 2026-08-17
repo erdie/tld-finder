@@ -17,7 +17,7 @@ interface TldListProps {
 }
 
 const TldSkeleton = () => (
-    <div className="animate-pulse bg-surface-container-low border border-outline-variant/50 rounded-2xl p-5 space-y-3 flex flex-col justify-between shadow-xs">
+    <div className="animate-pulse bg-surface-container-low rounded-2xl p-5 space-y-3 flex flex-col justify-between shadow-xs">
         {/* Top row: Domain + Badge on left, Details button on right */}
         <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-3 flex-wrap">
@@ -48,7 +48,7 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
         return (
             <div className="space-y-6 animate-pulse">
                 {/* Status Hero Card Skeleton */}
-                <div className="bg-surface-container-low rounded-3xl p-6 sm:p-8 border border-outline-variant/50 space-y-5 shadow-xs">
+                <div className="bg-surface-container-low rounded-3xl p-6 sm:p-8 space-y-5 shadow-xs">
                     <div className="flex items-center justify-between gap-4 flex-wrap">
                         <div className="flex items-center gap-3.5">
                             <div className="h-12 w-12 rounded-full bg-muted-foreground/20 shrink-0" />
@@ -64,7 +64,7 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
                 {/* Details 4-grid skeleton */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {[...Array(4)].map((_, i) => (
-                        <div key={i} className="bg-surface-container-low rounded-2xl p-5 border border-outline-variant/50 space-y-2.5 shadow-xs">
+                        <div key={i} className="bg-surface-container-low rounded-2xl p-5 space-y-2.5 shadow-xs">
                             <div className="h-4 w-24 bg-muted-foreground/20 rounded-md" />
                             <div className="h-6 w-3/4 bg-muted-foreground/15 rounded-lg" />
                         </div>
@@ -76,7 +76,7 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
 
     if (error) {
         return (
-            <div className="bg-m3-error-container/30 border border-m3-error/30 rounded-3xl p-6 sm:p-8 space-y-3 text-center shadow-xs animate-fade-in">
+            <div className="bg-m3-error-container/30 rounded-3xl p-6 sm:p-8 space-y-3 text-center shadow-xs animate-fade-in">
                 <div className="h-12 w-12 rounded-full bg-m3-error-container text-m3-on-error-container flex items-center justify-center mx-auto">
                     <MaterialIcon name="error" className="text-[24px] text-destructive" />
                 </div>
@@ -100,9 +100,9 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
 
     if (!isRegistered) {
         return (
-            <div className="bg-m3-success-container/20 border border-m3-success/30 rounded-3xl p-8 sm:p-10 text-center space-y-6 animate-fade-in relative overflow-hidden shadow-elevation-1 transition-all duration-300">
-                <div className="h-16 w-16 rounded-full bg-m3-success-container text-m3-on-success-container flex items-center justify-center mx-auto border border-m3-success/30 shadow-xs">
-                    <MaterialIcon name="verified_user" className="text-[32px] text-m3-success" />
+            <div className="bg-primary-container/40 rounded-3xl p-8 sm:p-10 text-center space-y-6 animate-fade-in relative overflow-hidden shadow-elevation-1 transition-all duration-300">
+                <div className="h-16 w-16 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center mx-auto shadow-xs">
+                    <MaterialIcon name="verified_user" className="text-[32px] text-primary" />
                 </div>
 
                 <div className="space-y-2">
@@ -217,7 +217,7 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
     return (
         <div className="space-y-6 animate-fade-in">
             {/* Registered Domain Status Hero Card */}
-            <div className="bg-surface-container-high border border-outline-variant/60 rounded-3xl p-6 sm:p-7 flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-elevation-1 transition-all duration-300">
+            <div className="bg-surface-container-high rounded-3xl p-6 sm:p-7 flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-elevation-1 transition-all duration-300">
                 <div className="space-y-2">
                     <div className="flex items-center gap-3 flex-wrap">
                         <h3 className="text-2xl sm:text-3xl font-mono font-bold tracking-tight text-foreground">{domain}</h3>
@@ -226,7 +226,7 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
                         </Badge>
                         <Badge
                             variant="secondary"
-                            className="text-xs px-3 py-1 font-mono rounded-full border border-outline-variant/40"
+                            className="text-xs px-3 py-1 font-mono rounded-full"
                         >
                             {isRdap ? '⚡ RDAP' : '📜 WHOIS (Port 43)'}
                         </Badge>
@@ -234,7 +234,7 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
                     <p className="text-sm text-muted-foreground flex items-center gap-2">
                         Managed by <strong className="font-semibold text-foreground">{parsed.registrar || "Unknown Registrar"}</strong>
                         {fallbackFromRdap && (
-                            <span className="text-xs font-mono bg-m3-tertiary-container text-m3-on-tertiary-container px-2 py-0.5 rounded-full border border-m3-tertiary/20">
+                            <span className="text-xs font-mono bg-tertiary-container text-on-tertiary-container px-2 py-0.5 rounded-full">
                                 RDAP fallback
                             </span>
                         )}
@@ -283,7 +283,7 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
             </div>
 
             {/* M3 Segmented Navigation Tabs */}
-            <div className="flex border-b border-outline-variant/50 gap-6">
+            <div className="flex border-b border-surface-container-highest gap-6">
                 <button
                     onClick={() => setActiveTab('summary')}
                     className={`pb-3 text-sm font-semibold transition-all duration-200 ease-[cubic-bezier(0.2,0,0,1)] relative cursor-pointer ${
@@ -314,7 +314,7 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
             {activeTab === 'summary' && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-fade-in">
                     {/* Dates Card */}
-                    <div className="bg-surface-container-low border border-outline-variant/60 rounded-2xl p-5 space-y-4 shadow-xs">
+                    <div className="bg-surface-container-low rounded-2xl p-5 space-y-4 shadow-xs">
                         <h4 className="text-sm font-bold text-foreground flex items-center gap-2">
                             <MaterialIcon name="event" className="text-[18px] text-primary" /> Important Dates
                         </h4>
@@ -331,7 +331,7 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
                     </div>
 
                     {/* Registry Operator/Details Card */}
-                    <div className="bg-surface-container-low border border-outline-variant/60 rounded-2xl p-5 space-y-4 shadow-xs">
+                    <div className="bg-surface-container-low rounded-2xl p-5 space-y-4 shadow-xs">
                         <h4 className="text-sm font-bold text-foreground flex items-center gap-2">
                             <MaterialIcon name="language" className="text-[18px] text-primary" /> Registrar &amp; Domain Status
                         </h4>
@@ -347,7 +347,7 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
                                     parsed.status.slice(0, 3).map((st: string, idx: number) => {
                                         const cleanSt = st.split(' ')[0] || st;
                                         return (
-                                            <Badge key={idx} variant="outline" className="text-[10px] py-0.5 px-2 rounded-md border-outline-variant/60 capitalize block w-fit truncate" title={st}>
+                                            <Badge key={idx} variant="outline" className="text-[10px] py-0.5 px-2 rounded-md capitalize block w-fit truncate border-none bg-surface-container-high" title={st}>
                                                 {cleanSt.toLowerCase()}
                                             </Badge>
                                         );
@@ -361,13 +361,13 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
 
                     {/* RDAP Entities Card if present */}
                     {parsed.entities && parsed.entities.length > 0 && (
-                        <div className="bg-surface-container-low border border-outline-variant/60 rounded-2xl p-5 space-y-3.5 md:col-span-2 shadow-xs">
+                        <div className="bg-surface-container-low rounded-2xl p-5 space-y-3.5 md:col-span-2 shadow-xs">
                             <h4 className="text-sm font-bold text-foreground flex items-center gap-2">
                                 <MaterialIcon name="auto_awesome" className="text-[18px] text-primary" /> RDAP Contact Entities
                             </h4>
                             <div className="flex flex-wrap gap-2">
                                 {parsed.entities.map((ent: { role: string; name: string }, idx: number) => (
-                                    <Badge key={idx} variant="secondary" className="font-mono text-xs px-3 py-1 rounded-full border border-outline-variant/40 flex items-center gap-1.5">
+                                    <Badge key={idx} variant="secondary" className="font-mono text-xs px-3 py-1 rounded-full border-none flex items-center gap-1.5">
                                         <span className="text-primary font-bold uppercase text-[10px]">{ent.role}:</span>
                                         <span>{ent.name}</span>
                                     </Badge>
@@ -378,13 +378,13 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
 
                     {/* Name Servers Card */}
                     {parsed.nameServers && parsed.nameServers.length > 0 && (
-                        <div className="bg-surface-container-low border border-outline-variant/60 rounded-2xl p-5 space-y-3.5 md:col-span-2 shadow-xs">
+                        <div className="bg-surface-container-low rounded-2xl p-5 space-y-3.5 md:col-span-2 shadow-xs">
                             <h4 className="text-sm font-bold text-foreground flex items-center gap-2">
                                 <MaterialIcon name="language" className="text-[18px] text-primary" /> DNS Nameservers
                             </h4>
                             <div className="flex flex-wrap gap-2">
                                 {parsed.nameServers.map((ns: string, idx: number) => (
-                                    <Badge key={idx} variant="secondary" className="font-mono text-xs px-3 py-1 rounded-lg bg-surface-container-high text-foreground border border-outline-variant/40">
+                                    <Badge key={idx} variant="secondary" className="font-mono text-xs px-3 py-1 rounded-lg bg-surface-container-high text-foreground border-none">
                                         {ns.toLowerCase()}
                                     </Badge>
                                 ))}
@@ -405,11 +405,11 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
                             variant="outline"
                             size="sm"
                             onClick={copyToClipboard}
-                            className="rounded-full text-xs h-8 gap-1.5 border-outline-variant/60 bg-surface-container-low transition-all duration-200 ease-[cubic-bezier(0.2,0,0,1)] active:scale-95 cursor-pointer"
+                            className="rounded-full text-xs h-8 gap-1.5 border-none bg-surface-container-low transition-all duration-200 ease-[cubic-bezier(0.2,0,0,1)] active:scale-95 cursor-pointer shadow-xs"
                         >
                             {copied ? (
                                 <>
-                                    <MaterialIcon name="check" className="text-[16px] text-m3-success" />
+                                    <MaterialIcon name="check" className="text-[16px] text-primary" />
                                     <span>Copied!</span>
                                 </>
                             ) : (
@@ -420,7 +420,7 @@ function WhoisDisplay({ result, error, isLoading }: { result: any; error: string
                             )}
                         </Button>
                     </div>
-                    <pre className="bg-surface-container-lowest dark:bg-black/80 text-foreground border border-outline-variant/60 rounded-2xl p-5 font-mono text-xs leading-relaxed overflow-x-auto overflow-y-auto max-h-[450px] shadow-elevation-1 custom-scrollbar">
+                    <pre className="bg-surface-container-lowest dark:bg-black/60 text-foreground rounded-2xl p-5 font-mono text-xs leading-relaxed overflow-x-auto overflow-y-auto max-h-[450px] shadow-elevation-1 custom-scrollbar">
                         {raw || "No raw lookup records found."}
                     </pre>
                 </div>
@@ -554,7 +554,7 @@ export function TldList({
         const cleanQuery = query.trim();
         const hasDot = cleanQuery.includes('.');
         return (
-            <div className="text-center text-muted-foreground py-10 space-y-4 max-w-md mx-auto animate-fade-in bg-surface-container-low rounded-3xl p-8 border border-outline-variant/40">
+            <div className="text-center text-muted-foreground py-10 space-y-4 max-w-md mx-auto animate-fade-in bg-surface-container-low rounded-3xl p-8 shadow-xs">
                 <p className="text-lg font-bold text-foreground">No results found</p>
                 {cleanQuery ? (
                     <>
@@ -562,7 +562,7 @@ export function TldList({
                             No top-level domain extensions or managers match <span className="font-mono text-foreground font-semibold">"{cleanQuery}"</span>.
                         </p>
                         {!hasDot && (
-                            <div className="text-xs border rounded-2xl p-4 bg-surface-container-high border-outline-variant/60 text-left leading-relaxed">
+                            <div className="text-xs rounded-2xl p-4 bg-surface-container-high text-left leading-relaxed shadow-xs">
                                 <span className="font-bold text-primary">💡 Hint:</span> To perform a live WHOIS lookup on a domain name, make sure to type the full domain including its extension (for example, search <span className="font-mono text-foreground font-semibold">google.com</span> instead of just <span className="font-mono text-foreground font-semibold">google</span>).
                             </div>
                         )}
@@ -581,7 +581,7 @@ export function TldList({
                 return (
                     <div
                         key={tld.domain}
-                        className="m3-card-interactive bg-surface-container-low hover:bg-surface-container border border-outline-variant/50 hover:border-outline-variant rounded-2xl p-5 space-y-3 group flex flex-col justify-between shadow-xs hover:shadow-elevation-1"
+                        className="m3-card-interactive bg-surface-container-low hover:bg-surface-container rounded-2xl p-5 space-y-3 group flex flex-col justify-between shadow-xs hover:shadow-elevation-1"
                     >
                         <div className="flex items-center justify-between gap-3">
                             <div className="flex items-center gap-3 flex-wrap">
@@ -593,7 +593,7 @@ export function TldList({
                                 </Link>
                                 <Badge
                                     variant="outline"
-                                    className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${getBadgeStyles(tld.type)}`}
+                                    className={`rounded-full px-2.5 py-0.5 text-xs font-medium border-none ${getBadgeStyles(tld.type)}`}
                                 >
                                     {tld.type}
                                 </Badge>
@@ -607,7 +607,7 @@ export function TldList({
                             </Link>
                         </div>
 
-                        <div className="flex items-center justify-between min-h-8 pt-2 pb-0.5 border-t border-outline-variant/30">
+                        <div className="flex items-center justify-between min-h-8 pt-2 pb-0.5 border-t border-surface-container-highest/60">
                             <div className="flex items-center min-w-0 flex-1 pr-2">
                                 <span
                                     className={`text-sm block truncate leading-normal pr-1 ${
