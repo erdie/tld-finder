@@ -4,113 +4,47 @@
 
 @layer base {
     :root {
-        /* Material Design 3 (M3) Light Theme Tokens - Smooth Tonal System */
-        --md-sys-color-primary: 212 85% 36%; /* Rich Oceanic Sapphire #0e5cb0 */
+        /* Material Design 3 (M3) Light Theme Tokens - Green Material Design Tonal System */
+        --md-sys-color-primary: 150 78% 28%; /* Rich Forest Emerald #006d3a */
         --md-sys-color-on-primary: 0 0% 100%; /* #ffffff */
-        --md-sys-color-primary-container: 214 78% 92%; /* Soft pastel blue #dbe8fb */
-        --md-sys-color-on-primary-container: 214 90% 14%; /* Deep navy #051a38 */
+        --md-sys-color-primary-container: 148 65% 91%; /* Soft pastel mint container #c8f0d4 */
+        --md-sys-color-on-primary-container: 150 85% 10%; /* Deep dark pine #00210e */
 
-        --md-sys-color-secondary: 215 18% 40%; /* Smooth slate #545e6d */
+        --md-sys-color-secondary: 148 18% 36%; /* Smooth sage green #506354 */
         --md-sys-color-on-secondary: 0 0% 100%; /* #ffffff */
-        --md-sys-color-secondary-container: 215 45% 91%; /* #dae3f2 */
-        --md-sys-color-on-secondary-container: 215 50% 14%; /* #121c2a */
+        --md-sys-color-secondary-container: 148 40% 90%; /* Soft pastel sage container #d3e8d6 */
+        --md-sys-color-on-secondary-container: 148 35% 12%; /* #0e1f14 */
 
-        --md-sys-color-tertiary: 272 24% 42%; /* Soft lavender-plum #6c5478 */
+        --md-sys-color-tertiary: 185 45% 32%; /* Complementary teal-mint #2e646b */
         --md-sys-color-on-tertiary: 0 0% 100%; /* #ffffff */
-        --md-sys-color-tertiary-container: 272 55% 92%; /* #f1e2fa */
-        --md-sys-color-on-tertiary-container: 272 60% 16%; /* #291535 */
+        --md-sys-color-tertiary-container: 185 55% 90%; /* Soft pastel teal container #b9ebf2 */
+        --md-sys-color-on-tertiary-container: 185 65% 12%; /* #002024 */
 
-        --md-sys-color-error: 358 75% 42%; /* Smooth crimson #be1b23 */
+        --md-sys-color-error: 358 75% 45%; /* Smooth crimson #ba1a1a */
         --md-sys-color-on-error: 0 0% 100%; /* #ffffff */
-        --md-sys-color-error-container: 358 85% 93%; /* #fedcdc */
-        --md-sys-color-on-error-container: 358 90% 14%; /* #410609 */
+        --md-sys-color-error-container: 358 85% 93%; /* Soft pastel coral-pink #ffdad6 */
+        --md-sys-color-on-error-container: 358 90% 14%; /* #410002 */
 
-        --md-sys-color-success: 142 62% 28%; /* Smooth forest green #1b7339 */
+        --md-sys-color-success: 150 78% 28%; /* Smooth forest green #006d3a */
         --md-sys-color-on-success: 0 0% 100%; /* #ffffff */
-        --md-sys-color-success-container: 142 50% 88%; /* #cdecd8 */
-        --md-sys-color-on-success-container: 142 90% 10%; /* #03270f */
+        --md-sys-color-success-container: 148 65% 91%; /* Soft pastel mint #c8f0d4 */
+        --md-sys-color-on-success-container: 150 85% 10%; /* #00210e */
 
-        --md-sys-color-surface: 220 25% 98%; /* Smooth velvety canvas #f8f9fc */
-        --md-sys-color-on-surface: 220 16% 12%; /* Soft charcoal #1a1c21 */
-        --md-sys-color-on-surface-variant: 220 10% 36%; /* #535661 */
-        --md-sys-color-outline: 220 10% 55%; /* #828591 */
-        --md-sys-color-outline-variant: 220 16% 84%; /* #d1d5e2 */
+        --md-sys-color-surface: 148 35% 98.5%; /* Soft velvety light green canvas #f6faf6 */
+        --md-sys-color-on-surface: 148 20% 11%; /* Deep forest charcoal #171d18 */
+        --md-sys-color-on-surface-variant: 148 10% 32%; /* Muted sage #434943 */
+        --md-sys-color-outline: 148 8% 48%; /* Outline #737973 */
+        --md-sys-color-outline-variant: 148 16% 85%; /* Delicate sage-tinted outline #c3cbc3 */
 
-        --md-sys-color-surface-container-lowest: 0 0% 100%; /* Pure white card #ffffff */
-        --md-sys-color-surface-container-low: 220 22% 96%; /* #f2f4f9 */
-        --md-sys-color-surface-container: 220 18% 94%; /* #ebedf4 */
-        --md-sys-color-surface-container-high: 220 16% 91%; /* #e4e7ef */
-        --md-sys-color-surface-container-highest: 220 14% 88%; /* #dee1ea */
+        --md-sys-color-surface-container-lowest: 0 0% 100%; /* Crisp white #ffffff */
+        --md-sys-color-surface-container-low: 148 30% 96%; /* Soft green pastel card background #edf5ee */
+        --md-sys-color-surface-container: 148 26% 93.5%; /* Standard soft green container #e6f0e7 */
+        --md-sys-color-surface-container-high: 148 22% 91%; /* Elevated soft green container #dfebdf */
+        --md-sys-color-surface-container-highest: 148 18% 88%; /* Highest green container #d7e4d8 */
 
-        --md-sys-color-inverse-surface: 220 14% 18%; /* #282a32 */
-        --md-sys-color-inverse-on-surface: 220 25% 96%; /* #f2f4f9 */
-        --md-sys-color-inverse-primary: 212 85% 75%; /* #8db9f3 */
-
-        /* Core Tailwind mappings to M3 */
-        --background: var(--md-sys-color-surface);
-        --foreground: var(--md-sys-color-on-surface);
-        --card: var(--md-sys-color-surface-container-lowest);
-        --card-foreground: var(--md-sys-color-on-surface);
-        --popover: var(--md-sys-color-surface-container-high);
-        --popover-foreground: var(--md-sys-color-on-surface);
-        --primary: var(--md-sys-color-primary);
-        --primary-foreground: var(--md-sys-color-on-primary);
-        --secondary: var(--md-sys-color-secondary-container);
-        --secondary-foreground: var(--md-sys-color-on-secondary-container);
-        --muted: var(--md-sys-color-surface-container);
-        --muted-foreground: var(--md-sys-color-on-surface-variant);
-        --accent: var(--md-sys-color-surface-container-high);
-        --accent-foreground: var(--md-sys-color-on-surface);
-        --destructive: var(--md-sys-color-error);
-        --destructive-foreground: var(--md-sys-color-on-error);
-        --border: var(--md-sys-color-outline-variant);
-        --input: var(--md-sys-color-outline);
-        --ring: var(--md-sys-color-primary);
-        --radius: 1rem; /* 16px - M3 standard medium/large shape */
-    }
-    
-    .dark {
-        /* Material Design 3 (M3) Dark Theme Tokens - Smooth Tonal System */
-        --md-sys-color-primary: 212 85% 75%; /* Smooth pastel sapphire #8db9f3 */
-        --md-sys-color-on-primary: 212 90% 14%; /* Deep navy text #051a38 */
-        --md-sys-color-primary-container: 212 60% 28%; /* #1c3c64 */
-        --md-sys-color-on-primary-container: 214 80% 92%; /* #dce8fb */
-
-        --md-sys-color-secondary: 215 28% 76%; /* Smooth pastel slate #b6c4da */
-        --md-sys-color-on-secondary: 215 35% 18%; /* #1e2837 */
-        --md-sys-color-secondary-container: 215 22% 26%; /* #343d4c */
-        --md-sys-color-on-secondary-container: 215 45% 90%; /* #d8e2f1 */
-
-        --md-sys-color-tertiary: 272 40% 80%; /* Smooth pastel lavender #d3b9e4 */
-        --md-sys-color-on-tertiary: 272 35% 20%; /* #311c3b */
-        --md-sys-color-tertiary-container: 272 26% 28%; /* #483452 */
-        --md-sys-color-on-tertiary-container: 272 65% 92%; /* #f1e1fa */
-
-        --md-sys-color-error: 358 85% 78%; /* Soft pastel coral-red #f8969b */
-        --md-sys-color-on-error: 358 90% 16%; /* #4a0609 */
-        --md-sys-color-error-container: 358 60% 24%; /* #61181c */
-        --md-sys-color-on-error-container: 358 85% 92%; /* #fedcdc */
-
-        --md-sys-color-success: 142 55% 68%; /* Soft pastel jade #76d396 */
-        --md-sys-color-on-success: 142 80% 10%; /* #042911 */
-        --md-sys-color-success-container: 142 55% 18%; /* #134623 */
-        --md-sys-color-on-success-container: 142 50% 88%; /* #cbebd7 */
-
-        --md-sys-color-surface: 220 18% 9%; /* Rich OLED dark canvas #12141a */
-        --md-sys-color-on-surface: 220 14% 90%; /* Soft off-white #e2e4ec */
-        --md-sys-color-on-surface-variant: 220 10% 74%; /* #b6b9c4 */
-        --md-sys-color-outline: 220 10% 56%; /* #868995 */
-        --md-sys-color-outline-variant: 220 12% 24%; /* Gentle dark borders #373943 */
-
-        --md-sys-color-surface-container-lowest: 220 22% 7%; /* Deepest surface #0d0f14 */
-        --md-sys-color-surface-container-low: 220 16% 12%; /* #181a22 */
-        --md-sys-color-surface-container: 220 14% 15%; /* #1e2029 */
-        --md-sys-color-surface-container-high: 220 13% 18%; /* #242631 */
-        --md-sys-color-surface-container-highest: 220 12% 22%; /* #2b2d39 */
-
-        --md-sys-color-inverse-surface: 220 14% 90%; /* #e2e4ec */
-        --md-sys-color-inverse-on-surface: 220 18% 12%; /* #191b22 */
-        --md-sys-color-inverse-primary: 212 85% 36%; /* #0e5cb0 */
+        --md-sys-color-inverse-surface: 148 15% 18%; /* Dark inverse surface #2b322c */
+        --md-sys-color-inverse-on-surface: 148 30% 96%; /* #ecf3ec */
+        --md-sys-color-inverse-primary: 150 65% 72%; /* #74da96 */
 
         /* Core Tailwind mappings to M3 */
         --background: var(--md-sys-color-surface);
@@ -121,8 +55,14 @@
         --popover-foreground: var(--md-sys-color-on-surface);
         --primary: var(--md-sys-color-primary);
         --primary-foreground: var(--md-sys-color-on-primary);
+        --primary-container: var(--md-sys-color-primary-container);
+        --on-primary-container: var(--md-sys-color-on-primary-container);
         --secondary: var(--md-sys-color-secondary-container);
         --secondary-foreground: var(--md-sys-color-on-secondary-container);
+        --secondary-container: var(--md-sys-color-secondary-container);
+        --on-secondary-container: var(--md-sys-color-on-secondary-container);
+        --tertiary-container: var(--md-sys-color-tertiary-container);
+        --on-tertiary-container: var(--md-sys-color-on-tertiary-container);
         --muted: var(--md-sys-color-surface-container);
         --muted-foreground: var(--md-sys-color-on-surface-variant);
         --accent: var(--md-sys-color-surface-container-high);
@@ -130,6 +70,82 @@
         --destructive: var(--md-sys-color-error);
         --destructive-foreground: var(--md-sys-color-on-error);
         --border: var(--md-sys-color-outline-variant);
+        --outline: var(--md-sys-color-outline);
+        --outline-variant: var(--md-sys-color-outline-variant);
+        --input: var(--md-sys-color-outline);
+        --ring: var(--md-sys-color-primary);
+        --radius: 1rem; /* 16px - M3 standard medium/large shape */
+    }
+    
+    .dark {
+        /* Material Design 3 (M3) Dark Theme Tokens - Green Material Design Tonal System */
+        --md-sys-color-primary: 150 65% 72%; /* Smooth pastel mint green #74da96 */
+        --md-sys-color-on-primary: 150 90% 10%; /* Deep pine text #00391c */
+        --md-sys-color-primary-container: 150 60% 24%; /* Darker forest container #00522a */
+        --md-sys-color-on-primary-container: 148 65% 91%; /* #c8f0d4 */
+
+        --md-sys-color-secondary: 148 30% 75%; /* Smooth pastel sage #b7ccba */
+        --md-sys-color-on-secondary: 148 35% 18%; /* #223528 */
+        --md-sys-color-secondary-container: 148 20% 26%; /* #394b3e */
+        --md-sys-color-on-secondary-container: 148 40% 90%; /* #d3e8d6 */
+
+        --md-sys-color-tertiary: 185 45% 72%; /* Smooth pastel teal-mint #9cd0d8 */
+        --md-sys-color-on-tertiary: 185 50% 18%; /* #00363d */
+        --md-sys-color-tertiary-container: 185 35% 26%; /* #164d54 */
+        --md-sys-color-on-tertiary-container: 185 55% 90%; /* #b9ebf2 */
+
+        --md-sys-color-error: 358 85% 78%; /* Soft pastel coral-red #ffb4ab */
+        --md-sys-color-on-error: 358 90% 16%; /* #4a0609 */
+        --md-sys-color-error-container: 358 60% 24%; /* #93000a */
+        --md-sys-color-on-error-container: 358 85% 92%; /* #ffdad6 */
+
+        --md-sys-color-success: 150 65% 72%; /* Soft pastel jade-mint #74da96 */
+        --md-sys-color-on-success: 150 90% 10%; /* #00391c */
+        --md-sys-color-success-container: 150 60% 24%; /* #00522a */
+        --md-sys-color-on-success-container: 148 65% 91%; /* #c8f0d4 */
+
+        --md-sys-color-surface: 148 20% 8%; /* Rich dark forest midnight canvas #101511 */
+        --md-sys-color-on-surface: 148 18% 90%; /* Soft off-white #dfe5df */
+        --md-sys-color-on-surface-variant: 148 10% 74%; /* Soft muted #c2c9c2 */
+        --md-sys-color-outline: 148 8% 56%; /* Dark outline #8c938c */
+        --md-sys-color-outline-variant: 148 12% 24%; /* Gentle dark green borders #3c443d */
+
+        --md-sys-color-surface-container-lowest: 148 24% 6%; /* Deepest surface #0b100c */
+        --md-sys-color-surface-container-low: 148 16% 11%; /* Soft dark green card #161c17 */
+        --md-sys-color-surface-container: 148 14% 13.5%; /* Standard dark green container #1b211c */
+        --md-sys-color-surface-container-high: 148 13% 17%; /* Elevated dark green container #222822 */
+        --md-sys-color-surface-container-highest: 148 12% 21%; /* Highest dark green container #2c322c */
+
+        --md-sys-color-inverse-surface: 148 18% 90%; /* #dfe5df */
+        --md-sys-color-inverse-on-surface: 148 20% 12%; /* #171d18 */
+        --md-sys-color-inverse-primary: 150 78% 28%; /* #006d3a */
+
+        /* Core Tailwind mappings to M3 */
+        --background: var(--md-sys-color-surface);
+        --foreground: var(--md-sys-color-on-surface);
+        --card: var(--md-sys-color-surface-container-low);
+        --card-foreground: var(--md-sys-color-on-surface);
+        --popover: var(--md-sys-color-surface-container-high);
+        --popover-foreground: var(--md-sys-color-on-surface);
+        --primary: var(--md-sys-color-primary);
+        --primary-foreground: var(--md-sys-color-on-primary);
+        --primary-container: var(--md-sys-color-primary-container);
+        --on-primary-container: var(--md-sys-color-on-primary-container);
+        --secondary: var(--md-sys-color-secondary-container);
+        --secondary-foreground: var(--md-sys-color-on-secondary-container);
+        --secondary-container: var(--md-sys-color-secondary-container);
+        --on-secondary-container: var(--md-sys-color-on-secondary-container);
+        --tertiary-container: var(--md-sys-color-tertiary-container);
+        --on-tertiary-container: var(--md-sys-color-on-tertiary-container);
+        --muted: var(--md-sys-color-surface-container);
+        --muted-foreground: var(--md-sys-color-on-surface-variant);
+        --accent: var(--md-sys-color-surface-container-high);
+        --accent-foreground: var(--md-sys-color-on-surface);
+        --destructive: var(--md-sys-color-error);
+        --destructive-foreground: var(--md-sys-color-on-error);
+        --border: var(--md-sys-color-outline-variant);
+        --outline: var(--md-sys-color-outline);
+        --outline-variant: var(--md-sys-color-outline-variant);
         --input: var(--md-sys-color-outline-variant);
         --ring: var(--md-sys-color-primary);
     }
@@ -142,6 +158,25 @@
     body {
         @apply bg-background text-foreground antialiased;
         font-feature-settings: "rlig" 1, "calt" 1;
+    }
+
+    /* Remove browser autofill, autocomplete & internal background boxes */
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover, 
+    input:-webkit-autofill:focus, 
+    input:-webkit-autofill:active {
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: currentColor !important;
+        background-color: transparent !important;
+        box-shadow: inset 0 0 20px 20px transparent !important;
+        transition: background-color 5000000s ease-in-out 0s !important;
+    }
+
+    input:-moz-autofill,
+    input:-moz-autofill:hover,
+    input:-moz-autofill:focus {
+        background-color: transparent !important;
+        color: currentColor !important;
     }
 }
 
