@@ -339,7 +339,7 @@ export function SearchForm() {
                         <div className="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-outline-variant/40 text-xs">
                             <div className="flex items-center space-x-5">
                                 <span className="text-muted-foreground font-medium">Search Scope:</span>
-                                <div className="flex items-center space-x-2">
+                                <div className="flex items-center space-x-2 gap-1.5">
                                     <Checkbox
                                         id="byExtensions"
                                         checked={byExtensions}
@@ -348,7 +348,7 @@ export function SearchForm() {
                                     />
                                     <Label htmlFor="byExtensions" className="cursor-pointer text-xs font-medium text-foreground">Extensions</Label>
                                 </div>
-                                <div className="flex items-center space-x-2">
+                                <div className="flex items-center space-x-2 gap-1.5">
                                     <Checkbox
                                         id="byManagers"
                                         checked={byManagers}
@@ -359,7 +359,7 @@ export function SearchForm() {
                                 </div>
                             </div>
 
-                            <div className="flex items-center space-x-2">
+                            <div className="flex items-center space-x-2 gap-1.5">
                                 <Checkbox
                                     id="hideUnassigned"
                                     checked={assignment === "assigned"}
