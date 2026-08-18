@@ -90,7 +90,7 @@ export default function Home() {
                     {/* Hero Section */}
                     <div className="space-y-4 text-center max-w-3xl mx-auto">
                         {/* M3 Assist Chip */}
-                        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-secondary text-secondary-foreground text-xs font-medium border border-outline-variant/40 shadow-xs transition-all duration-200 hover:shadow-elevation-1">
+                        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-secondary-container text-on-secondary-container text-xs font-medium border border-outline-variant/40 shadow-xs transition-all duration-200 hover:shadow-elevation-1">
                             <span className="h-2 w-2 rounded-full bg-primary animate-pulse" />
                             <span>
                                 <strong className="font-bold">{tlds.length}</strong> TLDs registered in the{" "}
