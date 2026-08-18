@@ -31,6 +31,7 @@ export async function queryRdap(domain: string): Promise<RdapResult> {
             "Accept": "application/rdap+json, application/json",
             "User-Agent": "tld-finder/1.0 (RDAP Client)"
         },
+        cache: "no-store",
         signal: AbortSignal.timeout(7000)
     });
 
