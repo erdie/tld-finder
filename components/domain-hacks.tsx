@@ -93,7 +93,7 @@ export function DomainHacks({ hacks, query, onSelectHack, isLoading = false }: D
                     <div>
                         <h3 className="text-lg font-bold tracking-tight text-foreground flex items-center gap-2">
                             Domain Hacks
-                            <Badge variant="secondary" className="bg-secondary text-secondary-foreground text-xs rounded-full px-2.5 py-0.5 font-mono border-none">
+                            <Badge variant="secondary" className="bg-secondary-container text-on-secondary-container text-xs rounded-full px-2.5 py-0.5 font-mono border-none">
                                 {hacks.length} {hacks.length === 1 ? 'hack' : 'hacks'}
                             </Badge>
                         </h3>
@@ -108,7 +108,7 @@ export function DomainHacks({ hacks, query, onSelectHack, isLoading = false }: D
                     <button
                         className={`text-xs px-3.5 py-1.5 rounded-full font-medium transition-all duration-200 ease-m3-standard active:scale-95 cursor-pointer ${
                             filterType === "all"
-                                ? "bg-secondary text-secondary-foreground shadow-xs font-semibold"
+                                ? "bg-secondary-container text-on-secondary-container shadow-xs font-semibold"
                                 : "bg-surface-container hover:bg-surface-container-high text-muted-foreground hover:text-foreground"
                         }`}
                         onClick={() => setFilterType("all")}
@@ -119,7 +119,7 @@ export function DomainHacks({ hacks, query, onSelectHack, isLoading = false }: D
                         <button
                             className={`text-xs px-3.5 py-1.5 rounded-full font-medium transition-all duration-200 ease-m3-standard active:scale-95 cursor-pointer ${
                                 filterType === "direct"
-                                ? "bg-secondary text-secondary-foreground shadow-xs font-semibold"
+                                ? "bg-secondary-container text-on-secondary-container shadow-xs font-semibold"
                                 : "bg-surface-container hover:bg-surface-container-high text-muted-foreground hover:text-foreground"
                             }`}
                             onClick={() => setFilterType("direct")}
@@ -131,7 +131,7 @@ export function DomainHacks({ hacks, query, onSelectHack, isLoading = false }: D
                         <button
                             className={`text-xs px-3.5 py-1.5 rounded-full font-medium transition-all duration-200 ease-m3-standard active:scale-95 cursor-pointer ${
                                 filterType === "path"
-                                ? "bg-secondary text-secondary-foreground shadow-xs font-semibold"
+                                ? "bg-secondary-container text-on-secondary-container shadow-xs font-semibold"
                                 : "bg-surface-container hover:bg-surface-container-high text-muted-foreground hover:text-foreground"
                             }`}
                             onClick={() => setFilterType("path")}
@@ -143,7 +143,7 @@ export function DomainHacks({ hacks, query, onSelectHack, isLoading = false }: D
                         <button
                             className={`text-xs px-3.5 py-1.5 rounded-full font-medium transition-all duration-200 ease-m3-standard active:scale-95 cursor-pointer ${
                                 filterType === "subdomain"
-                                ? "bg-secondary text-secondary-foreground shadow-xs font-semibold"
+                                ? "bg-secondary-container text-on-secondary-container shadow-xs font-semibold"
                                 : "bg-surface-container hover:bg-surface-container-high text-muted-foreground hover:text-foreground"
                             }`}
                             onClick={() => setFilterType("subdomain")}
@@ -187,7 +187,7 @@ export function DomainHacks({ hacks, query, onSelectHack, isLoading = false }: D
                                             isDirect
                                                 ? "bg-primary-container text-on-primary-container font-bold"
                                                 : isPath
-                                                ? "bg-secondary text-secondary-foreground"
+                                                ? "bg-secondary-container text-on-secondary-container"
                                                 : "bg-tertiary-container text-on-tertiary-container"
                                         }`}
                                     >
