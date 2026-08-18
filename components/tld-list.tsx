@@ -476,19 +476,17 @@ export function TldList({
     whoisResult = null,
     whoisError = null
 }: TldListProps) {
-    const INITIAL_COUNT = 10;
+    const BATCH_SIZE = 16;
     const [aiInfo, setAiInfo] = useState<{ [key: string]: { text: string, loading: boolean } }>({});
     const [pageCount, setPageCount] = useState(1);
-    const [isLoadingMore, setIsLoadingMore] = useState(false);
     const observer = useRef<IntersectionObserver | null>(null);
-    const loadMoreRef = useRef<HTMLDivElement>(null);
 
-    // Reset pagination to first page when results or query change
+    // Reset pagination to first page when results, query or whois mode change
     useEffect(() => {
         setPageCount(1);
-    }, [results, query]);
+    }, [results, query, isWhoisMode]);
 
-    const visibleTlds = results.slice(0, pageCount * INITIAL_COUNT);
+    const visibleTlds = results.slice(0, pageCount * BATCH_SIZE);
     const allItemsLoaded = visibleTlds.length >= results.length;
 
     const getBadgeStyles = (type: string) => {
@@ -529,41 +527,27 @@ export function TldList({
         }
     };
 
-    const loadMoreCallback = useCallback(() => {
-        if (allItemsLoaded || isLoadingMore) return;
-        setIsLoadingMore(true);
-        requestAnimationFrame(() => {
-            setPageCount(prev => prev + 1);
-            setIsLoadingMore(false);
-        });
-    }, [allItemsLoaded, isLoadingMore]);
-
-    useEffect(() => {
-        const options = {
-            root: null,
-            rootMargin: '200px',
-            threshold: 0.05
-        };
-
-        const handleIntersect = (entries: IntersectionObserverEntry[]) => {
-            const entry = entries[0];
-            if (entry.isIntersecting && !isLoadingMore && !allItemsLoaded) {
-                loadMoreCallback();
-            }
-        };
-
-        observer.current = new IntersectionObserver(handleIntersect, options);
-
-        if (loadMoreRef.current) {
-            observer.current.observe(loadMoreRef.current);
+    // Callback ref ensures observer is always bound whenever the sentinel mounts/remounts
+    const loadMoreRef = useCallback((node: HTMLDivElement | null) => {
+        if (observer.current) {
+            observer.current.disconnect();
+            observer.current = null;
         }
 
-        return () => {
-            if (loadMoreRef.current && observer.current) {
-                observer.current.unobserve(loadMoreRef.current);
-            }
-        };
-    }, [loadMoreCallback, isLoadingMore, allItemsLoaded]);
+        if (node && !allItemsLoaded) {
+            observer.current = new IntersectionObserver((entries) => {
+                const entry = entries[0];
+                if (entry.isIntersecting) {
+                    setPageCount(prev => prev + 1);
+                }
+            }, {
+                root: null,
+                rootMargin: '400px',
+                threshold: 0
+            });
+            observer.current.observe(node);
+        }
+    }, [allItemsLoaded]);
 
     if (isWhoisMode) {
         return (
@@ -672,7 +656,9 @@ export function TldList({
                     </div>
                 );
             })}
-            <div ref={loadMoreRef} className="col-span-1 md:col-span-2 h-4"></div>
+            {!allItemsLoaded && (
+                <div ref={loadMoreRef} className="col-span-1 md:col-span-2 h-8 w-full pointer-events-none" aria-hidden="true" />
+            )}
         </div>
     );
 }
