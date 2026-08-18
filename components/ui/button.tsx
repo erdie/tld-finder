@@ -26,28 +26,28 @@ const buttonVariants = cva(
                 filled:
                     "bg-primary text-primary-foreground shadow-elevation-1 hover:shadow-elevation-2 active:shadow-elevation-0 rounded-full",
                 tonal:
-                    "bg-secondary text-secondary-foreground hover:bg-secondary/80 rounded-full",
+                    "bg-secondary-container text-on-secondary-container hover:bg-secondary-container/80 rounded-full",
                 secondary:
-                    "bg-secondary text-secondary-foreground hover:bg-secondary/80 rounded-full",
+                    "bg-secondary-container text-on-secondary-container hover:bg-secondary-container/80 rounded-full",
                 destructive:
                     "bg-destructive text-destructive-foreground shadow-elevation-1 hover:shadow-elevation-2 rounded-full",
                 outline:
-                    "border border-outline/50 bg-transparent hover:bg-foreground/5 text-foreground rounded-full",
+                    "border border-outline/40 bg-transparent hover:bg-foreground/5 text-foreground rounded-full",
                 outlined:
-                    "border border-outline/50 bg-transparent hover:bg-foreground/5 text-foreground rounded-full",
+                    "border border-outline/40 bg-transparent hover:bg-foreground/5 text-foreground rounded-full",
                 ghost:
                     "hover:bg-foreground/8 text-foreground rounded-full",
                 text:
-                    "hover:bg-foreground/8 text-foreground rounded-full",
+                    "hover:bg-foreground/8 text-primary rounded-full px-3",
                 link:
                     "text-primary underline-offset-4 hover:underline p-0 h-auto",
                 elevated:
-                    "bg-surface-container-high text-primary shadow-elevation-1 hover:shadow-elevation-2 rounded-full",
+                    "bg-surface-container-low text-primary shadow-elevation-1 hover:shadow-elevation-2 active:shadow-elevation-0 rounded-full",
             },
             size: {
-                default: "h-11 px-6 py-2.5 rounded-full text-sm",
-                sm: "h-9 px-4 rounded-full text-xs font-medium",
-                lg: "h-13 px-8 rounded-full text-base",
+                default: "h-10 px-6 rounded-full text-sm font-medium",
+                sm: "h-8 px-4 rounded-full text-xs font-medium",
+                lg: "h-12 px-8 rounded-full text-base font-medium",
                 icon: "h-10 w-10 p-0 rounded-full",
                 "icon-sm": "h-8 w-8 p-0 rounded-full",
                 "icon-xs": "h-7 w-7 p-0 rounded-full",
