@@ -134,10 +134,8 @@ export function SearchForm() {
         const syncFromUrl = () => {
             if (typeof window !== "undefined") {
                 const params = new URLSearchParams(window.location.search);
-                const initialDomain = params.get("domain") || params.get("q") || "";
-                if (initialDomain) {
-                    setQuery(initialDomain);
-                }
+                const urlQuery = params.get("domain") || params.get("q") || "";
+                setQuery(urlQuery);
             }
         };
 
