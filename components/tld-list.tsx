@@ -496,11 +496,11 @@ export function TldList({
             case 'country-code':
                 return 'bg-m3-success-container text-m3-on-success-container border-m3-success/20';
             case 'generic':
-                return 'bg-secondary text-secondary-foreground border-outline-variant/40';
+                return 'bg-secondary-container text-on-secondary-container border-outline-variant/40';
             case 'sponsored':
                 return 'bg-m3-tertiary-container text-m3-on-tertiary-container border-m3-tertiary/20';
             default:
-                return 'bg-secondary text-secondary-foreground border-outline-variant/40';
+                return 'bg-secondary-container text-on-secondary-container border-outline-variant/40';
         }
     };
 
