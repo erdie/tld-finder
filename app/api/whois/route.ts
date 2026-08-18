@@ -2,6 +2,18 @@ import { whoisDomain, firstResult } from "whoiser";
 import { NextResponse } from "next/server";
 import { queryRdap } from "@/lib/rdap";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+const noCacheHeaders = {
+    "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0",
+    "Pragma": "no-cache",
+    "Expires": "0",
+    "CDN-Cache-Control": "no-store",
+    "Netlify-CDN-Cache-Control": "no-store",
+    "Vary": "Accept, Accept-Encoding",
+};
+
 export async function GET(request: Request) {
     try {
         const { searchParams } = new URL(request.url);
@@ -14,7 +26,7 @@ export async function GET(request: Request) {
         if (!domain) {
             return NextResponse.json(
                 { error: "Domain parameter is required" },
-                { status: 400 }
+                { status: 400, headers: noCacheHeaders }
             );
         }
         
@@ -23,7 +35,7 @@ export async function GET(request: Request) {
         if (parts.length < 2) {
             return NextResponse.json(
                 { error: "Invalid domain name format" },
-                { status: 400 }
+                { status: 400, headers: noCacheHeaders }
             );
         }
         
@@ -33,9 +45,7 @@ export async function GET(request: Request) {
                 console.log(`[RDAP] Querying RDAP for domain: ${domain}`);
                 const rdapResult = await queryRdap(domain);
                 return NextResponse.json(rdapResult, {
-                    headers: {
-                        "Cache-Control": "public, max-age=120, s-maxage=300, stale-while-revalidate=1800",
-                    },
+                    headers: noCacheHeaders,
                 });
             } catch (rdapErr: any) {
                 console.warn(`[RDAP] Failed or unavailable for ${domain}: ${rdapErr.message}`);
@@ -45,7 +55,7 @@ export async function GET(request: Request) {
                             error: `RDAP lookup failed for ${domain}`,
                             details: rdapErr.message || String(rdapErr)
                         },
-                        { status: 502 }
+                        { status: 502, headers: noCacheHeaders }
                     );
                 }
                 // If protocol was 'auto', gracefully fall through to WHOIS
@@ -128,9 +138,7 @@ export async function GET(request: Request) {
             },
             raw: rawText
         }, {
-            headers: {
-                "Cache-Control": "public, max-age=120, s-maxage=300, stale-while-revalidate=1800",
-            },
+            headers: noCacheHeaders,
         });
     } catch (error: any) {
         console.error("[WHOIS/RDAP API Error]:", error);
@@ -139,7 +147,7 @@ export async function GET(request: Request) {
                 error: "Failed to perform domain lookup",
                 details: error.message || String(error)
             },
-            { status: 500 }
+            { status: 500, headers: noCacheHeaders }
         );
     }
 }
