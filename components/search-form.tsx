@@ -322,7 +322,7 @@ export function SearchForm() {
 
                 {/* Domain Lookup Active M3 Notice Card */}
                 {isDomainQuery(query) && (
-                    <div className="flex flex-wrap items-center justify-between gap-3 bg-secondary text-secondary-foreground px-4 py-3 rounded-2xl animate-shared-axis-y text-xs shadow-xs transition-all duration-300 ease-m3-emphasized">
+                    <div className="flex flex-wrap items-center justify-between gap-3 bg-secondary-container text-on-secondary-container px-4 py-3 rounded-2xl animate-shared-axis-y text-xs shadow-xs transition-all duration-300 ease-m3-emphasized">
                         <div className="flex items-center gap-2.5 font-mono">
                             <span className="h-2.5 w-2.5 rounded-full bg-primary animate-pulse" />
                             <span className="font-medium">
