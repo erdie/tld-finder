@@ -260,6 +260,8 @@
     --m3-duration-medium4: 400ms;
     --m3-duration-long1: 450ms;
     --m3-duration-long2: 500ms;
+    --m3-duration-long3: 550ms;
+    --m3-duration-long4: 600ms;
 }
 
 /* Material Design 3 Interactive Elements (State Layers, Elevation & Press Feedback) */
