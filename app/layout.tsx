@@ -144,10 +144,9 @@ export default function RootLayout({
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
                 />
-                <script
-                    defer
-                    src="https://cloud.umami.is/script.js"
-                    data-website-id="178ec5fd-b50a-4068-9fd8-d89a08c59a71"
+                <script 
+                    defer src="https://labs.erdiawan.com/script.js"
+                    data-website-id="1b7cce0e-faef-4011-a230-252ccd29d739"
                 />
             </head>
             <body className="font-sans antialiased" suppressHydrationWarning>
