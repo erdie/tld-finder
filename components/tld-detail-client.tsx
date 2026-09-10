@@ -96,6 +96,10 @@ export function TldDetailClient({ domain, whoisServer, rdapServer }: TldDetailCl
         e.preventDefault();
         const target = subdomain.trim() ? (subdomain.includes('.') ? subdomain : `${subdomain}.${domain}`) : `example.${domain}`;
         
+        if (typeof window !== "undefined" && (window as any).umami?.track) {
+            (window as any).umami.track("Domain Search", { domain: target });
+        }
+
         setIsLoading(true);
         setError(null);
         setWhoisResult(null);
@@ -264,6 +268,8 @@ export function TldDetailClient({ domain, whoisServer, rdapServer }: TldDetailCl
                     <Button
                         type="submit"
                         disabled={isLoading}
+                        data-umami-event="Domain Search"
+                        data-umami-event-domain={subdomain.trim() ? (subdomain.includes('.') ? subdomain : `${subdomain}.${domain}`) : `example.${domain}`}
                         className="h-13 px-8 bg-primary text-primary-foreground font-medium rounded-full shadow-elevation-1 hover:shadow-elevation-2 active:shadow-elevation-0 transition-all duration-200 ease-m3-standard active:scale-95 flex-shrink-0 cursor-pointer"
                     >
 
