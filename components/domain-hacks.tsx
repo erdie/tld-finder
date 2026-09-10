@@ -208,6 +208,8 @@ export function DomainHacks({ hacks, query, onSelectHack, isLoading = false }: D
                             <div className="pt-3 mt-3 border-t border-surface-container-highest/60 flex items-center justify-between gap-2">
                                 <button
                                     className="text-xs h-7 text-primary hover:bg-primary/10 rounded-full gap-1.5 px-2.5 font-medium inline-flex items-center cursor-pointer transition-all duration-200 ease-m3-standard active:scale-95 no-underline"
+                                    data-umami-event="Domain Search"
+                                    data-umami-event-domain={hack.domain}
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         onSelectHack(hack.domain);
