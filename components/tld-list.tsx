@@ -620,6 +620,8 @@ export function TldList({
                             </div>
                             <Link
                                 href={`/tld/${cleanDomain}`}
+                                data-umami-event="Click Extension Details Button"
+                                data-umami-event-ext={tld.domain}
                                 className="inline-flex items-center gap-1 pl-2.5 pr-1.5 py-1 -mr-1 rounded-full text-xs font-semibold text-primary hover:bg-primary/10 transition-all duration-200 ease-m3-standard group/btn active:scale-95 no-underline flex-shrink-0"
                             >
                                 <span>Details</span>
