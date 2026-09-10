@@ -104,6 +104,7 @@ export function SearchForm() {
     const [isWhoisMode, setIsWhoisMode] = React.useState(false)
     const [whoisResult, setWhoisResult] = React.useState<any>(null)
     const [whoisError, setWhoisError] = React.useState<string | null>(null)
+    const lastTrackedDomainRef = React.useRef<string>("")
 
     const trimmedQuery = query.trim();
     const isDomainSearch = isDomainQuery(trimmedQuery);
@@ -175,6 +176,13 @@ export function SearchForm() {
             let isCancelled = false;
 
             const timer = setTimeout(async () => {
+                if (lastTrackedDomainRef.current !== targetDomain) {
+                    lastTrackedDomainRef.current = targetDomain;
+                    if (typeof window !== "undefined" && (window as any).umami?.track) {
+                        (window as any).umami.track("Domain Search", { domain: targetDomain });
+                    }
+                }
+
                 try {
                     const res = await fetch(
                         `/api/whois?domain=${encodeURIComponent(targetDomain)}&protocol=${protocol}`,
@@ -253,9 +261,22 @@ export function SearchForm() {
             <div className="flex flex-col gap-4">
                 {/* Material Design 3 Search Bar with WebMCP Form Annotations */}
                 <form
-                    onSubmit={(e) => e.preventDefault()}
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        if (isDomainQuery(trimmedQuery)) {
+                            const target = cleanDomainInput(trimmedQuery);
+                            if (lastTrackedDomainRef.current !== target) {
+                                lastTrackedDomainRef.current = target;
+                                if (typeof window !== "undefined" && (window as any).umami?.track) {
+                                    (window as any).umami.track("Domain Search", { domain: target });
+                                }
+                            }
+                        }
+                    }}
                     action="/"
                     method="GET"
+                    data-umami-event="Domain Search"
+                    data-umami-event-domain={isDomainQuery(trimmedQuery) ? cleanDomainInput(trimmedQuery) : undefined}
                     {...({
                         toolname: "search_tlds",
                         tooldescription: "Search 1,500+ IANA top-level domains by extension or registry manager, or perform live RDAP/WHOIS domain lookup"
