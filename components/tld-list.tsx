@@ -598,13 +598,18 @@ export function TldList({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {visibleTlds.map((tld) => {
                 const cleanDomain = tld.domain.toLowerCase().replace(/^\./, '');
+                const isRetired = tld.status?.toLowerCase() === 'retired';
                 return (
                     <div
                         key={tld.domain}
-                        className="m3-card-interactive bg-surface-container-low hover:bg-surface-container rounded-2xl p-5 space-y-3 group flex flex-col justify-between shadow-xs hover:shadow-elevation-1"
+                        className={`m3-card-interactive rounded-2xl p-5 space-y-3 group flex flex-col justify-between shadow-xs hover:shadow-elevation-1 transition-all duration-200 ${
+                            isRetired
+                                ? "bg-surface-container-low/50 hover:bg-surface-container/70 opacity-70 hover:opacity-95"
+                                : "bg-surface-container-low hover:bg-surface-container"
+                        }`}
                     >
                         <div className="flex items-center justify-between gap-3">
-                            <div className="flex items-center gap-3 flex-wrap">
+                            <div className="flex items-center gap-2 flex-wrap">
                                 <Link 
                                     href={`/tld/${cleanDomain}`}
                                     className="text-xl font-mono font-bold text-foreground hover:text-primary transition-colors duration-200 ease-m3-standard flex items-center gap-1"
@@ -617,6 +622,30 @@ export function TldList({
                                 >
                                     {tld.type}
                                 </Badge>
+                                {isRetired ? (
+                                    <Badge
+                                        variant="outline"
+                                        className="rounded-full px-2.5 py-0.5 text-xs font-medium border-none bg-surface-container-highest text-muted-foreground/80 inline-flex items-center gap-1"
+                                    >
+                                        <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground/60" />
+                                        <span>Retired</span>
+                                    </Badge>
+                                ) : tld.status && tld.status !== 'active' ? (
+                                    <Badge
+                                        variant="outline"
+                                        className="rounded-full px-2.5 py-0.5 text-xs font-medium border-none bg-surface-container-high text-muted-foreground inline-flex items-center gap-1 capitalize"
+                                    >
+                                        <span>{tld.status}</span>
+                                    </Badge>
+                                ) : (
+                                    <Badge
+                                        variant="outline"
+                                        className="rounded-full px-2.5 py-0.5 text-xs font-medium border-none bg-m3-success-container/70 text-m3-on-success-container inline-flex items-center gap-1"
+                                    >
+                                        <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                                        <span>Active</span>
+                                    </Badge>
+                                )}
                             </div>
                             <Link
                                 href={`/tld/${cleanDomain}`}

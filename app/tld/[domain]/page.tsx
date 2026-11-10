@@ -122,6 +122,7 @@ export default async function TldDetailPage({ params }: PageProps) {
     const domainUpper = cleanDomain.toUpperCase();
     const tldType = detail?.type || tldBasic?.type || 'Generic top-level domain';
     const managerName = detail?.sponsoringOrg?.split('\n')[0] || tldBasic?.tldManager || 'IANA Delegated Manager';
+    const isRetired = (detail?.status || tldBasic?.status)?.toLowerCase() === 'retired';
 
     // Parse Sponsoring Org lines
     const sponsoringLines = detail?.sponsoringOrg ? detail.sponsoringOrg.split('\n').filter(Boolean) : [managerName];
@@ -222,10 +223,17 @@ export default async function TldDetailPage({ params }: PageProps) {
                                     <Badge variant="secondary" className="h-7 text-xs uppercase px-3 rounded-full font-bold border-none inline-flex items-center justify-center">
                                         {tldType}
                                     </Badge>
-                                    <Badge variant="success" className="h-7 text-xs px-3 rounded-full inline-flex items-center justify-center gap-1.5 font-semibold">
-                                        <MaterialIcon name="check_circle" className="text-[16px]" />
-                                        <span>Delegated</span>
-                                    </Badge>
+                                    {isRetired ? (
+                                        <Badge variant="outline" className="h-7 text-xs px-3 rounded-full inline-flex items-center justify-center gap-1.5 font-semibold bg-surface-container-highest text-muted-foreground border-none">
+                                            <MaterialIcon name="block" className="text-[16px]" />
+                                            <span>Retired</span>
+                                        </Badge>
+                                    ) : (
+                                        <Badge variant="success" className="h-7 text-xs px-3 rounded-full inline-flex items-center justify-center gap-1.5 font-semibold">
+                                            <MaterialIcon name="check_circle" className="text-[16px]" />
+                                            <span>Active</span>
+                                        </Badge>
+                                    )}
                                 </div>
                                 <p className="text-base text-muted-foreground max-w-2xl leading-relaxed">
                                     Delegation Record for <strong className="text-foreground font-semibold">.{domainUpper}</strong> managed by <strong className="text-foreground font-semibold">{managerName}</strong>.

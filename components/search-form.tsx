@@ -37,6 +37,7 @@ function filterTlds(
     query: string,
     type: string,
     assignment: string,
+    statusFilter: string,
     byExtensions: boolean,
     byManagers: boolean
 ): TLD[] {
@@ -54,6 +55,9 @@ function filterTlds(
             matchesAssignment = isNotAssigned;
         }
 
+        const tldStatus = (tld.status || "active").toLowerCase();
+        const matchesStatus = statusFilter && statusFilter !== "all" ? tldStatus === statusFilter.toLowerCase() : true;
+
         let matchesQuery = true;
         if (trimmedQuery) {
             if (isExtensionOnly) {
@@ -67,7 +71,7 @@ function filterTlds(
             }
         }
 
-        return matchesType && matchesAssignment && matchesQuery;
+        return matchesType && matchesAssignment && matchesStatus && matchesQuery;
     });
 
     if (trimmedQuery) {
@@ -94,6 +98,7 @@ export function SearchForm() {
     const [query, setQuery] = React.useState("")
     const [type, setType] = React.useState("all")
     const [assignment, setAssignment] = React.useState("all")
+    const [statusFilter, setStatusFilter] = React.useState("all")
     const [protocol, setProtocol] = React.useState<"auto" | "rdap" | "whois">("auto")
     const [byExtensions, setByExtensions] = React.useState(false)
     const [byManagers, setByManagers] = React.useState(false)
@@ -111,8 +116,8 @@ export function SearchForm() {
     // Synchronous 0ms computed results & hacks on the exact same render frame
     const results = React.useMemo(() => {
         if (isDomainSearch) return [];
-        return filterTlds(tlds, trimmedQuery, type, assignment, byExtensions, byManagers);
-    }, [trimmedQuery, type, assignment, byExtensions, byManagers, isDomainSearch]);
+        return filterTlds(tlds, trimmedQuery, type, assignment, statusFilter, byExtensions, byManagers);
+    }, [trimmedQuery, type, assignment, statusFilter, byExtensions, byManagers, isDomainSearch]);
 
     const domainHacks = React.useMemo(() => {
         if (isDomainSearch || !trimmedQuery) return [];
@@ -126,8 +131,10 @@ export function SearchForm() {
     const sponsoredCount = React.useMemo(() => tlds.filter(t => t.type === 'sponsored').length, []);
     const assignedCount = React.useMemo(() => tlds.filter(t => t.tldManager.toLowerCase() !== 'not assigned').length, []);
     const unassignedCount = React.useMemo(() => tlds.filter(t => t.tldManager.toLowerCase() === 'not assigned').length, []);
+    const activeCount = React.useMemo(() => tlds.filter(t => (t.status || 'active').toLowerCase() === 'active').length, []);
+    const retiredCount = React.useMemo(() => tlds.filter(t => t.status?.toLowerCase() === 'retired').length, []);
 
-    const hasActiveFilters = type !== "all" || assignment !== "all" || protocol !== "auto" || byExtensions || byManagers;
+    const hasActiveFilters = type !== "all" || assignment !== "all" || statusFilter !== "all" || protocol !== "auto" || byExtensions || byManagers;
 
     // Read initial query string on mount & popstate
     React.useEffect(() => {
@@ -379,7 +386,7 @@ export function SearchForm() {
                         </div>
 
 
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                             <div>
                                 <Label className="text-xs font-medium text-muted-foreground mb-2 block">TLD Type Filter</Label>
                                 <Select value={type} onValueChange={setType}>
@@ -391,6 +398,20 @@ export function SearchForm() {
                                         <SelectItem value="generic" className="cursor-pointer">Generic ({genericCount})</SelectItem>
                                         <SelectItem value="country-code" className="cursor-pointer">Country Code ({countryCodeCount})</SelectItem>
                                         <SelectItem value="sponsored" className="cursor-pointer">Sponsored ({sponsoredCount})</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+
+                            <div>
+                                <Label className="text-xs font-medium text-muted-foreground mb-2 block">Status Filter</Label>
+                                <Select value={statusFilter} onValueChange={setStatusFilter}>
+                                    <SelectTrigger className="cursor-pointer w-full">
+                                        <SelectValue placeholder="Status" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="all" className="cursor-pointer">All Statuses ({totalTldsCount})</SelectItem>
+                                        <SelectItem value="active" className="cursor-pointer">Active Only ({activeCount})</SelectItem>
+                                        <SelectItem value="retired" className="cursor-pointer">Retired Only ({retiredCount})</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
@@ -476,6 +497,12 @@ export function SearchForm() {
                                         <button onClick={() => setType("all")} className="hover:text-foreground cursor-pointer ml-0.5 text-xs">✕</button>
                                     </span>
                                 )}
+                                {statusFilter !== "all" && (
+                                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary text-secondary-foreground text-xs font-sans font-medium border border-outline-variant/40 shadow-xs capitalize">
+                                        Status: {statusFilter}
+                                        <button onClick={() => setStatusFilter("all")} className="hover:text-foreground cursor-pointer ml-0.5 text-xs">✕</button>
+                                    </span>
+                                )}
                                 {assignment !== "all" && (
                                     <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary text-secondary-foreground text-xs font-sans font-medium border border-outline-variant/40 shadow-xs">
                                         Assignment: {assignment}
@@ -497,6 +524,7 @@ export function SearchForm() {
                                 <button
                                     onClick={() => {
                                         setType("all");
+                                        setStatusFilter("all");
                                         setAssignment("all");
                                         setProtocol("auto");
                                         setByExtensions(false);

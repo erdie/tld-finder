@@ -4,6 +4,7 @@ export interface TLD {
     domain: string;
     type: string;
     tldManager: string;
+    status?: string;
 }
 
 export interface NameServerInfo {
@@ -15,6 +16,7 @@ export interface TLDDetail {
     domain: string;
     title: string;
     type: string;
+    status?: string;
     sponsoringOrg: string;
     adminContact: string;
     techContact: string;
