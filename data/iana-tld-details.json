@@ -2308,6 +2308,21 @@
     "scrapedAt": "2026-08-05T09:40:39.689Z"
   },
   {
+    "domain": "alt",
+    "title": "Delegation Record for .ALT",
+    "type": "",
+    "sponsoringOrg": "",
+    "adminContact": "",
+    "techContact": "",
+    "nameServers": [],
+    "registryUrl": null,
+    "whoisServer": null,
+    "rdapServer": null,
+    "registrationDate": null,
+    "lastUpdated": null,
+    "scrapedAt": "2026-11-10T08:19:01.385Z"
+  },
+  {
     "domain": "am",
     "title": "Delegation Record for .AM",
     "type": "Country-code top-level domain",
@@ -20584,6 +20599,21 @@
     "scrapedAt": "2026-08-05T09:41:04.025Z"
   },
   {
+    "domain": "example",
+    "title": "Delegation Record for .EXAMPLE",
+    "type": "",
+    "sponsoringOrg": "",
+    "adminContact": "",
+    "techContact": "",
+    "nameServers": [],
+    "registryUrl": null,
+    "whoisServer": null,
+    "rdapServer": null,
+    "registrationDate": null,
+    "lastUpdated": null,
+    "scrapedAt": "2026-11-10T08:19:00.549Z"
+  },
+  {
     "domain": "exchange",
     "title": "Delegation Record for .EXCHANGE",
     "type": "Generic top-level domain",
@@ -31537,6 +31567,21 @@
     "scrapedAt": "2026-08-05T09:41:17.867Z"
   },
   {
+    "domain": "internal",
+    "title": "Delegation Record for .INTERNAL",
+    "type": "",
+    "sponsoringOrg": "",
+    "adminContact": "",
+    "techContact": "",
+    "nameServers": [],
+    "registryUrl": null,
+    "whoisServer": null,
+    "rdapServer": null,
+    "registrationDate": null,
+    "lastUpdated": null,
+    "scrapedAt": "2026-11-10T08:19:00.335Z"
+  },
+  {
     "domain": "international",
     "title": "Delegation Record for .INTERNATIONAL",
     "type": "Generic top-level domain",
@@ -31651,6 +31696,21 @@
     "registrationDate": "2016-06-09",
     "lastUpdated": "2024-05-11",
     "scrapedAt": "2026-08-05T09:41:18.194Z"
+  },
+  {
+    "domain": "invalid",
+    "title": "Delegation Record for .INVALID",
+    "type": "",
+    "sponsoringOrg": "",
+    "adminContact": "",
+    "techContact": "",
+    "nameServers": [],
+    "registryUrl": null,
+    "whoisServer": null,
+    "rdapServer": null,
+    "registrationDate": null,
+    "lastUpdated": null,
+    "scrapedAt": "2026-11-10T08:19:00.351Z"
   },
   {
     "domain": "investments",
@@ -37299,6 +37359,36 @@
     "registrationDate": "2014-05-08",
     "lastUpdated": "2025-10-07",
     "scrapedAt": "2026-08-05T09:41:26.107Z"
+  },
+  {
+    "domain": "local",
+    "title": "Delegation Record for .LOCAL",
+    "type": "",
+    "sponsoringOrg": "",
+    "adminContact": "",
+    "techContact": "",
+    "nameServers": [],
+    "registryUrl": null,
+    "whoisServer": null,
+    "rdapServer": null,
+    "registrationDate": null,
+    "lastUpdated": null,
+    "scrapedAt": "2026-11-10T08:19:00.116Z"
+  },
+  {
+    "domain": "localhost",
+    "title": "Delegation Record for .LOCALHOST",
+    "type": "",
+    "sponsoringOrg": "",
+    "adminContact": "",
+    "techContact": "",
+    "nameServers": [],
+    "registryUrl": null,
+    "whoisServer": null,
+    "rdapServer": null,
+    "registrationDate": null,
+    "lastUpdated": null,
+    "scrapedAt": "2026-11-10T08:19:01.258Z"
   },
   {
     "domain": "locker",
@@ -45830,6 +45920,21 @@
     "registrationDate": "2014-07-10",
     "lastUpdated": "2025-08-14",
     "scrapedAt": "2026-08-05T09:41:37.617Z"
+  },
+  {
+    "domain": "onion",
+    "title": "Delegation Record for .ONION",
+    "type": "",
+    "sponsoringOrg": "",
+    "adminContact": "",
+    "techContact": "",
+    "nameServers": [],
+    "registryUrl": null,
+    "whoisServer": null,
+    "rdapServer": null,
+    "registrationDate": null,
+    "lastUpdated": null,
+    "scrapedAt": "2026-11-10T08:19:00.597Z"
   },
   {
     "domain": "onl",
@@ -60943,6 +61048,21 @@
     "scrapedAt": "2026-08-05T09:41:56.942Z"
   },
   {
+    "domain": "test",
+    "title": "Delegation Record for .TEST",
+    "type": "",
+    "sponsoringOrg": "",
+    "adminContact": "",
+    "techContact": "",
+    "nameServers": [],
+    "registryUrl": null,
+    "whoisServer": null,
+    "rdapServer": null,
+    "registrationDate": null,
+    "lastUpdated": null,
+    "scrapedAt": "2026-11-10T08:19:01.489Z"
+  },
+  {
     "domain": "teva",
     "title": "Delegation Record for .TEVA",
     "type": "Generic top-level domain",
@@ -69342,6 +69462,21 @@
     "scrapedAt": "2026-08-05T09:43:36.095Z"
   },
   {
+    "domain": "yu",
+    "title": "Delegation Record for .YU",
+    "type": "",
+    "sponsoringOrg": "",
+    "adminContact": "",
+    "techContact": "",
+    "nameServers": [],
+    "registryUrl": null,
+    "whoisServer": null,
+    "rdapServer": null,
+    "registrationDate": null,
+    "lastUpdated": null,
+    "scrapedAt": "2026-11-10T08:19:01.882Z"
+  },
+  {
     "domain": "yun",
     "title": "Delegation Record for .YUN",
     "type": "Generic top-level domain",
@@ -69753,6 +69888,21 @@
     "registrationDate": "2014-01-09",
     "lastUpdated": "2025-10-07",
     "scrapedAt": "2026-08-05T09:43:36.603Z"
+  },
+  {
+    "domain": "zr",
+    "title": "Delegation Record for .ZR",
+    "type": "",
+    "sponsoringOrg": "",
+    "adminContact": "",
+    "techContact": "",
+    "nameServers": [],
+    "registryUrl": null,
+    "whoisServer": null,
+    "rdapServer": null,
+    "registrationDate": null,
+    "lastUpdated": null,
+    "scrapedAt": "2026-11-10T08:19:02.587Z"
   },
   {
     "domain": "zuerich",

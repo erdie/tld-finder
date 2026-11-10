@@ -245,6 +245,11 @@
     "tldManager": "ALSTOM"
   },
   {
+    "domain": ".alt",
+    "type": "special-use",
+    "tldManager": "Used for alternative naming systems outside the global Domain Name System (DNS)."
+  },
+  {
     "domain": ".am",
     "type": "country-code",
     "tldManager": "\"Internet Society\" Non-governmental Organization"
@@ -802,7 +807,7 @@
   {
     "domain": ".bo",
     "type": "country-code",
-    "tldManager": "Agencia para el Desarrollo de la Información de la Sociedad en Bolivia"
+    "tldManager": "Agencia de Gobierno Electrónico y Tecnologías de Información y Comunicación"
   },
   {
     "domain": ".boats",
@@ -1412,7 +1417,7 @@
   {
     "domain": ".cologne",
     "type": "generic",
-    "tldManager": "dotKoeln GmbH"
+    "tldManager": "domainworx Service & Management GmbH"
   },
   {
     "domain": ".com",
@@ -1985,11 +1990,6 @@
     "tldManager": "Merck KGaA"
   },
   {
-    "domain": ".emerson",
-    "type": "generic",
-    "tldManager": "Not assigned"
-  },
-  {
     "domain": ".energy",
     "type": "generic",
     "tldManager": "Binky Moon, LLC"
@@ -2093,6 +2093,11 @@
     "domain": ".everbank",
     "type": "generic",
     "tldManager": "Not assigned"
+  },
+  {
+    "domain": ".example",
+    "type": "special-use",
+    "tldManager": "Reserved for use in documentation and examples."
   },
   {
     "domain": ".exchange",
@@ -2272,7 +2277,7 @@
   {
     "domain": ".fj",
     "type": "country-code",
-    "tldManager": "The University of the South Pacific\nIT Services"
+    "tldManager": "The University of the South Pacific IT Services"
   },
   {
     "domain": ".fk",
@@ -2867,7 +2872,7 @@
   {
     "domain": ".helsinki",
     "type": "generic",
-    "tldManager": "City of Helsinki"
+    "tldManager": "Not assigned"
   },
   {
     "domain": ".here",
@@ -3200,6 +3205,11 @@
     "tldManager": "Not assigned"
   },
   {
+    "domain": ".internal",
+    "type": "special-use",
+    "tldManager": "Used within private networks not intended for the global Internet"
+  },
+  {
     "domain": ".international",
     "type": "generic",
     "tldManager": "Binky Moon, LLC"
@@ -3208,6 +3218,11 @@
     "domain": ".intuit",
     "type": "generic",
     "tldManager": "Intuit Administrative Services, Inc."
+  },
+  {
+    "domain": ".invalid",
+    "type": "special-use",
+    "tldManager": "Used for clearly invalid domain names."
   },
   {
     "domain": ".investments",
@@ -3407,7 +3422,7 @@
   {
     "domain": ".juniper",
     "type": "generic",
-    "tldManager": "JUNIPER NETWORKS, INC."
+    "tldManager": "Not assigned"
   },
   {
     "domain": ".kaufen",
@@ -3507,7 +3522,7 @@
   {
     "domain": ".koeln",
     "type": "generic",
-    "tldManager": "dotKoeln GmbH"
+    "tldManager": "domainworx Service & Management GmbH"
   },
   {
     "domain": ".komatsu",
@@ -3802,7 +3817,7 @@
   {
     "domain": ".lk",
     "type": "country-code",
-    "tldManager": "Council for Information Technology\nLK Domain Registrar"
+    "tldManager": "Council for Information Technology LK Domain Registrar"
   },
   {
     "domain": ".llc",
@@ -3823,6 +3838,16 @@
     "domain": ".loans",
     "type": "generic",
     "tldManager": "Binky Moon, LLC"
+  },
+  {
+    "domain": ".local",
+    "type": "special-use",
+    "tldManager": "Used by Multicast DNS (mDNS) to allow devices to find each other on local networks"
+  },
+  {
+    "domain": ".localhost",
+    "type": "special-use",
+    "tldManager": "Refers to the same device"
   },
   {
     "domain": ".locker",
@@ -4387,7 +4412,7 @@
   {
     "domain": ".mx",
     "type": "country-code",
-    "tldManager": "NIC-Mexico\nITESM - Campus Monterrey"
+    "tldManager": "NIC-Mexico ITESM - Campus Monterrey"
   },
   {
     "domain": ".my",
@@ -4452,7 +4477,7 @@
   {
     "domain": ".ne",
     "type": "country-code",
-    "tldManager": "SONITEL"
+    "tldManager": "Niger Télécoms SA (NIGERTELECOMS)"
   },
   {
     "domain": ".nec",
@@ -4718,6 +4743,11 @@
     "domain": ".ong",
     "type": "generic",
     "tldManager": "Public Interest Registry"
+  },
+  {
+    "domain": ".onion",
+    "type": "special-use",
+    "tldManager": "Used to access devices over the Tor network"
   },
   {
     "domain": ".onl",
@@ -5432,7 +5462,7 @@
   {
     "domain": ".rw",
     "type": "country-code",
-    "tldManager": "Rwanda Internet Community and Technology  Alliance (RICTA) Ltd"
+    "tldManager": "Rwanda Internet Community and Technology Alliance (RICTA) Ltd"
   },
   {
     "domain": ".rwe",
@@ -6137,7 +6167,7 @@
   {
     "domain": ".sz",
     "type": "country-code",
-    "tldManager": "University of Swaziland\nDepartment of Computer Science"
+    "tldManager": "University of Swaziland Department of Computer Science"
   },
   {
     "domain": ".tab",
@@ -6248,6 +6278,11 @@
     "domain": ".tennis",
     "type": "generic",
     "tldManager": "Binky Moon, LLC"
+  },
+  {
+    "domain": ".test",
+    "type": "special-use",
+    "tldManager": "For testing purposes"
   },
   {
     "domain": ".teva",
@@ -6512,7 +6547,7 @@
   {
     "domain": ".tvs",
     "type": "generic",
-    "tldManager": "T V SUNDRAM IYENGAR  & SONS PRIVATE LIMITED"
+    "tldManager": "T V SUNDRAM IYENGAR & SONS PRIVATE LIMITED"
   },
   {
     "domain": ".tw",
@@ -7085,21 +7120,6 @@
     "tldManager": "Zodiac Gemini Ltd"
   },
   {
-    "domain": ".ישראל",
-    "type": "country-code",
-    "tldManager": "The Israel Internet Association (RA)"
-  },
-  {
-    "domain": ".موقع",
-    "type": "generic",
-    "tldManager": "Helium TLDs Ltd"
-  },
-  {
-    "domain": ".一号店",
-    "type": "generic",
-    "tldManager": "Not assigned"
-  },
-  {
     "domain": ".বাংলা",
     "type": "country-code",
     "tldManager": "Posts and Telecommunications Division"
@@ -7122,7 +7142,7 @@
   {
     "domain": ".网站",
     "type": "generic",
-    "tldManager": "Global Website TLD Asia Limited"
+    "tldManager": "Jolly Host, LLC"
   },
   {
     "domain": ".移动",
@@ -7183,11 +7203,6 @@
     "domain": ".бел",
     "type": "country-code",
     "tldManager": "Belarusian Cloud Technologies LLC"
-  },
-  {
-    "domain": ".קום",
-    "type": "generic",
-    "tldManager": "VeriSign Sarl"
   },
   {
     "domain": ".时尚",
@@ -7270,11 +7285,6 @@
     "tldManager": "Macedonian Academic Research Network Skopje"
   },
   {
-    "domain": ".טעסט",
-    "type": "test",
-    "tldManager": "Not assigned"
-  },
-  {
     "domain": ".ею",
     "type": "country-code",
     "tldManager": "EURid vzw"
@@ -7298,11 +7308,6 @@
     "domain": ".家電",
     "type": "generic",
     "tldManager": "Amazon Registry Services, Inc."
-  },
-  {
-    "domain": ".كوم",
-    "type": "generic",
-    "tldManager": "VeriSign Sarl"
   },
   {
     "domain": ".中文网",
@@ -7390,11 +7395,6 @@
     "tldManager": "National Internet eXchange of India"
   },
   {
-    "domain": ".آزمایشی",
-    "type": "test",
-    "tldManager": "Not assigned"
-  },
-  {
     "domain": ".பரிட்சை",
     "type": "test",
     "tldManager": "Not assigned"
@@ -7460,11 +7460,6 @@
     "tldManager": "Koninklijke Philips N.V."
   },
   {
-    "domain": ".إختبار",
-    "type": "test",
-    "tldManager": "Not assigned"
-  },
-  {
     "domain": ".台湾",
     "type": "country-code",
     "tldManager": "Taiwan Network Information Center (TWNIC)"
@@ -7490,126 +7485,6 @@
     "tldManager": "Datacom Co.,Ltd"
   },
   {
-    "domain": ".الجزائر",
-    "type": "country-code",
-    "tldManager": "CERIST"
-  },
-  {
-    "domain": ".عمان",
-    "type": "country-code",
-    "tldManager": "Telecommunications Regulatory Authority (TRA)"
-  },
-  {
-    "domain": ".ارامكو",
-    "type": "generic",
-    "tldManager": "Aramco Services Company"
-  },
-  {
-    "domain": ".ایران",
-    "type": "country-code",
-    "tldManager": "Institute for Research in Fundamental Sciences (IPM)"
-  },
-  {
-    "domain": ".العليان",
-    "type": "generic",
-    "tldManager": "Competrol (Luxembourg) Sarl"
-  },
-  {
-    "domain": ".اتصالات",
-    "type": "generic",
-    "tldManager": "Not assigned"
-  },
-  {
-    "domain": ".امارات",
-    "type": "country-code",
-    "tldManager": "Telecommunications and Digital Government Regulatory Authority (TDRA)"
-  },
-  {
-    "domain": ".بازار",
-    "type": "generic",
-    "tldManager": "CORE Association"
-  },
-  {
-    "domain": ".موريتانيا",
-    "type": "country-code",
-    "tldManager": "Université de Nouakchott Al Aasriya"
-  },
-  {
-    "domain": ".پاکستان",
-    "type": "country-code",
-    "tldManager": "National Telecommunication Corporation"
-  },
-  {
-    "domain": ".الاردن",
-    "type": "country-code",
-    "tldManager": "Ministry of Digital Economy and Entrepreneurship (MoDEE)"
-  },
-  {
-    "domain": ".موبايلي",
-    "type": "generic",
-    "tldManager": "Not assigned"
-  },
-  {
-    "domain": ".بارت",
-    "type": "country-code",
-    "tldManager": "National Internet eXchange of India"
-  },
-  {
-    "domain": ".بھارت",
-    "type": "country-code",
-    "tldManager": "National Internet Exchange of India"
-  },
-  {
-    "domain": ".المغرب",
-    "type": "country-code",
-    "tldManager": "Agence Nationale de Réglementation des Télécommunications (ANRT)"
-  },
-  {
-    "domain": ".ابوظبي",
-    "type": "generic",
-    "tldManager": "Abu Dhabi Systems and Information Centre"
-  },
-  {
-    "domain": ".البحرين",
-    "type": "country-code",
-    "tldManager": "Telecommunications Regulatory Authority (TRA)"
-  },
-  {
-    "domain": ".السعودية",
-    "type": "country-code",
-    "tldManager": "Communications, Space and Technology Commission"
-  },
-  {
-    "domain": ".ڀارت",
-    "type": "country-code",
-    "tldManager": "National Internet eXchange of India"
-  },
-  {
-    "domain": ".كاثوليك",
-    "type": "generic",
-    "tldManager": "Pontificium Consilium de Comunicationibus Socialibus (PCCS) (Pontifical Council for Social Communication)"
-  },
-  {
-    "domain": ".سودان",
-    "type": "country-code",
-    "tldManager": "Sudan Internet Society"
-  },
-  {
-    "domain": ".همراه",
-    "type": "generic",
-    "tldManager": "Emergency Back-End Registry Operator Program - ICANN"
-  },
-  {
-    "domain": ".عراق",
-    "type": "country-code",
-    "tldManager": "Communications and Media Commission (CMC)"
-  },
-  {
-    "domain": ".مليسيا",
-    "type": "country-code",
-    "tldManager": "MYNIC Berhad"
-  },
-  {
     "domain": ".澳門",
     "type": "country-code",
     "tldManager": "Macao Post and Telecommunications Bureau (CTT)"
@@ -7623,21 +7498,6 @@
     "domain": ".政府",
     "type": "generic",
     "tldManager": "Net-Chinese Co., Ltd."
-  },
-  {
-    "domain": ".شبكة",
-    "type": "generic",
-    "tldManager": "International Domain Registry Pty. Ltd."
-  },
-  {
-    "domain": ".بيتك",
-    "type": "generic",
-    "tldManager": "Kuwait Finance House"
-  },
-  {
-    "domain": ".عرب",
-    "type": "generic",
-    "tldManager": "League of Arab States"
   },
   {
     "domain": ".გე",
@@ -7665,11 +7525,6 @@
     "tldManager": "Thai Network Information Center Foundation"
   },
   {
-    "domain": ".سورية",
-    "type": "country-code",
-    "tldManager": "National Authority for Information Technology Services (NAITS)"
-  },
-  {
     "domain": ".招聘",
     "type": "generic",
     "tldManager": "Jiang Yu Liang Cai Technology Company Limited"
@@ -7688,11 +7543,6 @@
     "domain": ".珠宝",
     "type": "generic",
     "tldManager": "Not assigned"
-  },
-  {
-    "domain": ".تونس",
-    "type": "country-code",
-    "tldManager": "Agence Tunisienne d'Internet"
   },
   {
     "domain": ".大拿",
@@ -7800,16 +7650,6 @@
     "tldManager": "Kerry Trading Co. Limited"
   },
   {
-    "domain": ".مصر",
-    "type": "country-code",
-    "tldManager": "National Telecommunication Regulatory Authority - NTRA"
-  },
-  {
-    "domain": ".قطر",
-    "type": "country-code",
-    "tldManager": "Communications Regulatory Authority"
-  },
-  {
     "domain": ".广东",
     "type": "generic",
     "tldManager": "Guangzhou YU Wei Information Technology Co., Ltd."
@@ -7833,11 +7673,6 @@
     "domain": ".新加坡",
     "type": "country-code",
     "tldManager": "Singapore Network Information Centre (SGNIC) Pte Ltd"
-  },
-  {
-    "domain": ".فلسطين",
-    "type": "country-code",
-    "tldManager": "Ministry of Telecom & Information Technology (MTIT)"
   },
   {
     "domain": ".テスト",
@@ -7920,6 +7755,11 @@
     "tldManager": "Association Française pour le Nommage Internet en Coopération (A.F.N.I.C.)"
   },
   {
+    "domain": ".yu",
+    "type": "country-code",
+    "tldManager": "Not assigned"
+  },
+  {
     "domain": ".yun",
     "type": "generic",
     "tldManager": "Beijing Qihu Keji Co., Ltd."
@@ -7963,6 +7803,11 @@
     "domain": ".zone",
     "type": "generic",
     "tldManager": "Binky Moon, LLC"
+  },
+  {
+    "domain": ".zr",
+    "type": "country-code",
+    "tldManager": "Not assigned"
   },
   {
     "domain": ".zuerich",
