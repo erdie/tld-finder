@@ -144,10 +144,6 @@ export default function RootLayout({
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
                 />
-                <script 
-                    defer src="https://labs.erdiawan.com/script.js"
-                    data-website-id="1b7cce0e-faef-4011-a230-252ccd29d739"
-                />
             </head>
             <body className="font-sans antialiased" suppressHydrationWarning>
                 <ThemeProvider
