@@ -36,7 +36,6 @@ function filterTlds(
     allTlds: TLD[],
     query: string,
     type: string,
-    assignment: string,
     statusFilter: string,
     byExtensions: boolean,
     byManagers: boolean
@@ -46,14 +45,6 @@ function filterTlds(
 
     const filtered = allTlds.filter((tld) => {
         const matchesType = type && type !== "all" ? tld.type.toLowerCase() === type.toLowerCase() : true;
-
-        let matchesAssignment = true;
-        const isNotAssigned = tld.tldManager.toLowerCase() === "not assigned";
-        if (assignment === "assigned") {
-            matchesAssignment = !isNotAssigned;
-        } else if (assignment === "unassigned") {
-            matchesAssignment = isNotAssigned;
-        }
 
         const tldStatus = (tld.status || "active").toLowerCase();
         const matchesStatus = statusFilter && statusFilter !== "all" ? tldStatus === statusFilter.toLowerCase() : true;
@@ -71,7 +62,7 @@ function filterTlds(
             }
         }
 
-        return matchesType && matchesAssignment && matchesStatus && matchesQuery;
+        return matchesType && matchesStatus && matchesQuery;
     });
 
     if (trimmedQuery) {
@@ -97,7 +88,6 @@ function filterTlds(
 export function SearchForm() {
     const [query, setQuery] = React.useState("")
     const [type, setType] = React.useState("all")
-    const [assignment, setAssignment] = React.useState("all")
     const [statusFilter, setStatusFilter] = React.useState("all")
     const [protocol, setProtocol] = React.useState<"auto" | "rdap" | "whois">("auto")
     const [byExtensions, setByExtensions] = React.useState(false)
@@ -116,8 +106,8 @@ export function SearchForm() {
     // Synchronous 0ms computed results & hacks on the exact same render frame
     const results = React.useMemo(() => {
         if (isDomainSearch) return [];
-        return filterTlds(tlds, trimmedQuery, type, assignment, statusFilter, byExtensions, byManagers);
-    }, [trimmedQuery, type, assignment, statusFilter, byExtensions, byManagers, isDomainSearch]);
+        return filterTlds(tlds, trimmedQuery, type, statusFilter, byExtensions, byManagers);
+    }, [trimmedQuery, type, statusFilter, byExtensions, byManagers, isDomainSearch]);
 
     const domainHacks = React.useMemo(() => {
         if (isDomainSearch || !trimmedQuery) return [];
@@ -129,12 +119,10 @@ export function SearchForm() {
     const genericCount = React.useMemo(() => tlds.filter(t => t.type === 'generic').length, []);
     const countryCodeCount = React.useMemo(() => tlds.filter(t => t.type === 'country-code').length, []);
     const sponsoredCount = React.useMemo(() => tlds.filter(t => t.type === 'sponsored').length, []);
-    const assignedCount = React.useMemo(() => tlds.filter(t => t.tldManager.toLowerCase() !== 'not assigned').length, []);
-    const unassignedCount = React.useMemo(() => tlds.filter(t => t.tldManager.toLowerCase() === 'not assigned').length, []);
     const activeCount = React.useMemo(() => tlds.filter(t => (t.status || 'active').toLowerCase() === 'active').length, []);
     const retiredCount = React.useMemo(() => tlds.filter(t => t.status?.toLowerCase() === 'retired').length, []);
 
-    const hasActiveFilters = type !== "all" || assignment !== "all" || statusFilter !== "all" || protocol !== "auto" || byExtensions || byManagers;
+    const hasActiveFilters = type !== "all" || statusFilter !== "all" || protocol !== "auto" || byExtensions || byManagers;
 
     // Read initial query string on mount & popstate
     React.useEffect(() => {
@@ -386,7 +374,7 @@ export function SearchForm() {
                         </div>
 
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             <div>
                                 <Label className="text-xs font-medium text-muted-foreground mb-2 block">TLD Type Filter</Label>
                                 <Select value={type} onValueChange={setType}>
@@ -412,20 +400,6 @@ export function SearchForm() {
                                         <SelectItem value="all" className="cursor-pointer">All Statuses ({totalTldsCount})</SelectItem>
                                         <SelectItem value="active" className="cursor-pointer">Active Only ({activeCount})</SelectItem>
                                         <SelectItem value="retired" className="cursor-pointer">Retired Only ({retiredCount})</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            </div>
-
-                            <div>
-                                <Label className="text-xs font-medium text-muted-foreground mb-2 block">Assignment Filter</Label>
-                                <Select value={assignment} onValueChange={setAssignment}>
-                                    <SelectTrigger className="cursor-pointer w-full">
-                                        <SelectValue placeholder="Assignment Status" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="all" className="cursor-pointer">All TLDs ({totalTldsCount})</SelectItem>
-                                        <SelectItem value="assigned" className="cursor-pointer">Assigned Only ({assignedCount})</SelectItem>
-                                        <SelectItem value="unassigned" className="cursor-pointer">Not Assigned Only ({unassignedCount})</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
@@ -467,18 +441,6 @@ export function SearchForm() {
                                     <Label htmlFor="byManagers" className="cursor-pointer text-xs font-medium text-foreground">Managers</Label>
                                 </div>
                             </div>
-
-                            <div className="flex items-center space-x-2 gap-1.5">
-                                <Checkbox
-                                    id="hideUnassigned"
-                                    checked={assignment === "assigned"}
-                                    onCheckedChange={(checked) => setAssignment(checked ? "assigned" : "all")}
-                                    className="cursor-pointer"
-                                />
-                                <Label htmlFor="hideUnassigned" className="cursor-pointer text-xs font-medium text-foreground">
-                                    Hide "Not assigned" TLDs
-                                </Label>
-                            </div>
                         </div>
                     </div>
                 )}
@@ -503,12 +465,6 @@ export function SearchForm() {
                                         <button onClick={() => setStatusFilter("all")} className="hover:text-foreground cursor-pointer ml-0.5 text-xs">✕</button>
                                     </span>
                                 )}
-                                {assignment !== "all" && (
-                                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary text-secondary-foreground text-xs font-sans font-medium border border-outline-variant/40 shadow-xs">
-                                        Assignment: {assignment}
-                                        <button onClick={() => setAssignment("all")} className="hover:text-foreground cursor-pointer ml-0.5 text-xs">✕</button>
-                                    </span>
-                                )}
                                 {byExtensions && (
                                     <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary text-secondary-foreground text-xs font-sans font-medium border border-outline-variant/40 shadow-xs">
                                         Scope: Extensions
@@ -525,7 +481,6 @@ export function SearchForm() {
                                     onClick={() => {
                                         setType("all");
                                         setStatusFilter("all");
-                                        setAssignment("all");
                                         setProtocol("auto");
                                         setByExtensions(false);
                                         setByManagers(false);
